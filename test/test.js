@@ -181,18 +181,16 @@ describe("Передача параметров из Model в View", function ()
     });
     it("Веритикальное или горизонтальное положение слайдеров", function () {
         model.setVertical(true)
+        view.vertical(model.getVertical())
         if(model.getVertical()){
             assert.equal(view.sliderOne.classList.contains('slider-vertical'), true) 
             assert.equal(view.sliderTwo.classList.contains('slider-vertical'), true) 
-            assert.equal(view.numOne.classList.contains('slider-vertical'), true)
-            assert.equal(view.numTwo.classList.contains('slider-vertical'), true) 
-        }
+        }  
         model.setVertical(false)
+        view.vertical(model.getVertical())
         if(!model.getVertical()){
             assert.equal(view.sliderOne.classList.contains('slider-gorizont'), true) 
             assert.equal(view.sliderTwo.classList.contains('slider-gorizont'), true) 
-            assert.equal(view.numOne.classList.contains('slider-gorizont'), true)
-            assert.equal(view.numTwo.classList.contains('slider-gorizont'), true) 
         }
     });
 });

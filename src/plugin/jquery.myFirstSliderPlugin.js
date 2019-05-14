@@ -99,6 +99,18 @@
                 this.numOne.style.visibility  = this.numTwo.style.visibility = this.sliderTwo.style.visibility ='hidden';
             }
         }
+        vertical(value){
+            if(value){
+                $('.sliderOne').addClass('slider-vertical').removeClass('slider-gorizont');
+                $('.sliderTwo').addClass('slider-vertical').removeClass('slider-gorizont');
+                $('.range-slider').css({'width':'90px','height':'100%'});
+                $('.numOne').css({'left':'65px'});  
+            }else{
+                $('.sliderOne').addClass('slider-gorizont').removeClass('slider-vertical');
+                $('.sliderTwo').addClass('slider-gorizont').removeClass('slider-vertical');
+                $('.range-slider').css({'width':'100%','height':'70px'});
+            }
+        }
     }
     class Controller{
         transferAttr(model, view){
@@ -110,6 +122,7 @@
             view.numOne.innerHTML = model.getValueOne();
             view.numTwo.innerHTML = model.getValueTwo();
             view.toolteapAndSlider(model.getToolteap(), model.getSlider2());
+            view.vertical(model.getVertical());
         } 
     }
     $.fn.myFirstSliderPlugin = function(options) {
