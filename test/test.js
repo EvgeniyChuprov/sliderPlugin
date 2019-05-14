@@ -133,11 +133,11 @@ describe("Передача параметров из Model в View", function ()
         assert.equal(view.sliderTwo.step, model.getStep())
         assert.equal(view.sliderOne.step, view.sliderTwo.step)
     });
-    it("view.sliderOne.valueOne == model.valueOne", function () {
-        assert.equal(view.sliderOne.valueOne, model.getValueOne())
+    it("view.sliderOne.value == model.valueOne", function () {
+        assert.equal(view.sliderOne.value, model.getValueOne())
     });
-    it("view.sliderTwo.valueTwo == model.valueTwo", function () {
-        assert.equal(view.sliderTwo.valueTwo, model.getValueTwo())
+    it("view.sliderTwo.value == model.valueTwo", function () {
+        assert.equal(view.sliderTwo.value, model.getValueTwo())
     });
     it("view.numOne.innerHTML = model.valueOne", function () {
         assert.equal(view.numOne.innerHTML, model.getValueOne())

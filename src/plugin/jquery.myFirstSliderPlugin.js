@@ -92,8 +92,10 @@
             view.sliderOne.min = view.sliderTwo.min = model.getMin();
             view.sliderOne.max = view.sliderTwo.max = model.getMax();
             view.sliderOne.step = view.sliderTwo.step = model.getStep();
-            view.sliderOne.valueOne = model.getValueOne();
-            view.sliderTwo.valueTwo = model.getValueTwo();
+            view.sliderOne.value = model.getValueOne();
+            view.sliderTwo.value = model.getValueTwo();
+            view.numOne.innerHTML = model.getValueOne();
+            view.numTwo.innerHTML = model.getValueTwo();
         } 
     }
     $.fn.myFirstSliderPlugin = function(options) {
