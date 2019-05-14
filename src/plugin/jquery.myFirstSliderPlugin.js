@@ -1,5 +1,5 @@
 ;(function($, window, undefined){
-    module.exports.model = class Model{
+    class Model{
         constructor(){
             this.min = 0;
             this.max = 100;
@@ -75,14 +75,33 @@
             return this.vertical;
         }
     }
-    module.exports.view = class View{}
-    module.exports.controller = class Controller{}
+    
+    class View{
+        constructor(){
+            this.numOne; 
+            this.numTwo; 
+            this.sliderOne;
+            this.sliderTwo;
+        }
+        createBlock(blockId){
+            $(blockId).append('<section class="range-slider"><div  class="numOne"/><div  class="numTwo"/><input type="range" class="sliderOne slider-gorizont"/><input  type="range" class="sliderTwo slider-gorizont"/></section>');
+        }
+    }
+    class Controller{}
     $.fn.myFirstSliderPlugin = function(options) {
-        const model = new Model();
+        const blockId ='#'+ this[0].id;
+        const model = new  Model();
         const view = new View();
         const controller = new Controller();
         return this.each(function(){ 
-
+            view.createBlock(blockId)
+            view.sliderOne = document.querySelector(`${blockId} .sliderOne`);
+            view.sliderTwo = document.querySelector(`${blockId} .sliderTwo`);
+            view.numOne = document.querySelector(`${blockId} .numOne`);
+            view.numTwo = document.querySelector(`${blockId} .numTwo`);
        });
     }
+    module.exports.model = Model;
+    module.exports.view = View;
+    module.exports.controller = Controller;
 })(jQuery, window);
