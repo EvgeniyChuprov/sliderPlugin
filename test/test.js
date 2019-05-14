@@ -15,7 +15,6 @@ describe("Доступ к параметрам класса Model", function () 
         model.setSlider2(true)
         model.setVertical(false)
     it("model setMin getMin", function () {
-        console.log($)
         assert.equal(model.getMin(), 1)
     });
     it("model setMax getMax", function () { 

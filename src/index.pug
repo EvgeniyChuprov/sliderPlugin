@@ -1,0 +1,29 @@
+mixin slider(value)
+
+    .block  
+        .header#firstBlock
+            p
+                span tooltip:
+                input(type="checkbox" class="tooltip" checked= value.tooltip) 
+                span two slider:
+                input(type="checkbox" class="twoSlider" checked= value.twoSlider)
+                span vertical:
+                input(type="checkbox" class="vert-goriz" checked= value.vertical)
+            p  
+                span min:
+                input(type="text" class="input min" value="0" )
+                span max:
+                input(type="text" class="input max" value="100")
+                span step:
+                input(type="text" class="input step" value="1")
+                span value one:
+                input(type="text" class="input value1" value="0")
+                span value two:
+                input(type="text" class="input value2" value="100")
+        .body
+            div(id= value.id class="slider-range")
+
++slider({id:'sliderBlockOne', class:'slider-range', tooltip: false, twoSlider:false, vertical:false})
++slider({id:'sliderBlockTwo', class:'slider-range', tooltip: true, twoSlider:false, vertical:false})
++slider({id:'sliderBlockThree', class:'slider-range', tooltip: true, twoSlider:true, vertical:false})
++slider({id:'sliderBlockFourth', class:'slider-range', tooltip: true, twoSlider:true, vertical:true})
