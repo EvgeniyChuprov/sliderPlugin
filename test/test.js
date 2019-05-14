@@ -4,6 +4,7 @@ const assert = require("assert");
 
 const a = require('../src/plugin/jquery.myFirstSliderPlugin')
 const Model = a.model
+const View = a.view
 describe("Доступ к параметрам класса Model", function () {
     let model = new Model()
         model.setMin(1)
@@ -41,65 +42,91 @@ describe("Доступ к параметрам класса Model", function () 
   });
 
   describe("Проверка валидности set класса Model", function () {
-        let model2 = new Model()
-        let max = model2.getMax()
-        let min = model2.getMin()
-        let step = model2.getStep()
-        let valueOne = model2.getValueOne()
-        let valueTwo = model2.getValueTwo()
-        let toolteap = model2.getToolteap();
-        let slider2 = model2.getSlider2();
-        let vertical = model2.getVertical();
+        let model = new Model()
+        let max = model.getMax()
+        let min = model.getMin()
+        let step = model.getStep()
+        let valueOne = model.getValueOne()
+        let valueTwo = model.getValueTwo()
+        let toolteap = model.getToolteap();
+        let slider2 = model.getSlider2();
+        let vertical = model.getVertical();
     it("Если setMax меньше getMin - max не изменяется", function () {
-        model2.setMax(-10)
-        assert.equal(model2.getMax(), max)
+        model.setMax(-10)
+        assert.equal(model.getMax(), max)
     });
     it("Если setMax не число - max не изменяется", function () {
-        model2.setMax("")
-        assert.equal(model2.getMax(), max)
+        model.setMax("")
+        assert.equal(model.getMax(), max)
     });
     it("Если setMin больше getMax - min не изменяется", function () {
-        model2.setMin(10000)
-        assert.equal(model2.getMin(), min)
+        model.setMin(10000)
+        assert.equal(model.getMin(), min)
     });
     it("Если setMin не число - min не изменяется", function () {
-        model2.setMin("")
-        assert.equal(model2.getMin(), min)
+        model.setMin("")
+        assert.equal(model.getMin(), min)
     });
     it("Если setStep не число - step не изменяется", function () {
-        model2.setStep("")
-        assert.equal(model2.getStep(), step)
+        model.setStep("")
+        assert.equal(model.getStep(), step)
     });
     it("Если setStep больше model.max - step не изменяется", function () {
-        model2.setStep(10000)
-        assert.equal(model2.getStep(), step)
+        model.setStep(10000)
+        assert.equal(model.getStep(), step)
     });
     it("Если setStep меньше нуля - step не изменяется", function () {
-        model2.setStep(-1)
-        assert.equal(model2.getStep(), step)
+        model.setStep(-1)
+        assert.equal(model.getStep(), step)
     });
     it("Если setValueOne меньше model.min или больше model.max - step не изменяется", function () {
-        model2.setValueOne(-10000)
-        assert.equal(model2.getValueOne(), valueOne)
-        model2.setValueOne(10000)
-        assert.equal(model2.getValueOne(), valueOne)
+        model.setValueOne(-10000)
+        assert.equal(model.getValueOne(), valueOne)
+        model.setValueOne(10000)
+        assert.equal(model.getValueOne(), valueOne)
     });
     it("Если setValueTwo меньше model.min или больше model.max - step не изменяется", function () {
-        model2.setValueTwo(-10000)
-        assert.equal(model2.getValueTwo(), valueTwo)
-        model2.setValueTwo(10000)
-        assert.equal(model2.getValueTwo(), valueTwo)
+        model.setValueTwo(-10000)
+        assert.equal(model.getValueTwo(), valueTwo)
+        model.setValueTwo(10000)
+        assert.equal(model.getValueTwo(), valueTwo)
     });
     it("Если setToolteap не boolean - model.toolteap не изменяется", function () {
-        model2.setToolteap(1)
-        assert.equal(model2.getToolteap(), toolteap)
+        model.setToolteap(1)
+        assert.equal(model.getToolteap(), toolteap)
     });
     it("Если setSlider2 не boolean - model.slider2 не изменяется", function () {
-        model2.setSlider2(1)
-        assert.equal(model2.getSlider2(), slider2)
+        model.setSlider2(1)
+        assert.equal(model.getSlider2(), slider2)
     });
     it("Если setSlider2 не boolean - model.vertical не изменяется", function () {
-        model2.setVertical(1)
-        assert.equal(model2.getVertical(), vertical)
+        model.setVertical(1)
+        assert.equal(model.getVertical(), vertical)
     });
+});
+
+describe("Передача параметров из Model в View", function () {
+    let model = new Model()
+    let view = new View()
+    it("view.sliderOne.min == view.sliderTwo.min == model.min", function () {
+        assert.equal(view.sliderOne.min, model.getMin())
+        assert.equal(view.sliderTwo.min, model.getMin())
+        assert.equal(view.sliderOne.min, view.sliderTwo.min)
+    });
+    it("view.sliderOne.max == view.sliderTwo.max == model.max", function () {
+        assert.equal(view.sliderOne.max, model.getMax())
+        assert.equal(view.sliderTwo.max, model.getMax())
+        assert.equal(view.sliderOne.max, view.sliderTwo.max)
+    });
+    it("view.sliderOne.step == view.sliderTwo.step == model.step", function () {
+        assert.equal(view.sliderOne.step, model.getStep())
+        assert.equal(view.sliderTwo.step, model.getStep())
+        assert.equal(view.sliderOne.step, view.sliderTwo.step)
+    });
+    it("view.sliderOne.valueOne == model.valueOne", function () {
+        assert.equal(view.sliderOne.valueOne, model.getValueOne())
+    });
+    it("view.sliderTwo.valueTwo == model.valueOne", function () {
+        assert.equal(view.sliderTwo.valueTwo, model.getValueTwo())
+    }); 
 });
