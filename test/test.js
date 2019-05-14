@@ -179,4 +179,20 @@ describe("Передача параметров из Model в View", function ()
             assert.equal(view.sliderTwo.style.visibility, 'hidden')  
         }
     });
+    it("Веритикальное или горизонтальное положение слайдеров", function () {
+        model.setVertical(true)
+        if(model.getVertical()){
+            assert.equal(view.sliderOne.classList.contains('slider-vertical'), true) 
+            assert.equal(view.sliderTwo.classList.contains('slider-vertical'), true) 
+            assert.equal(view.numOne.classList.contains('slider-vertical'), true)
+            assert.equal(view.numTwo.classList.contains('slider-vertical'), true) 
+        }
+        model.setVertical(false)
+        if(!model.getVertical()){
+            assert.equal(view.sliderOne.classList.contains('slider-gorizont'), true) 
+            assert.equal(view.sliderTwo.classList.contains('slider-gorizont'), true) 
+            assert.equal(view.numOne.classList.contains('slider-gorizont'), true)
+            assert.equal(view.numTwo.classList.contains('slider-gorizont'), true) 
+        }
+    });
 });
