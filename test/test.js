@@ -113,7 +113,10 @@ describe("Передача параметров из Model в View", function ()
     view.createBlock('body')
     view.sliderOne = document.querySelector('.sliderOne');
     view.sliderTwo = document.querySelector('.sliderTwo');
+    view.numOne = document.querySelector('.numOne');
+    view.numTwo = document.querySelector('.numTwo');
     view.sliderOne.style.visibility = view.sliderTwo.style.visibility ='hidden'
+    view.numOne.style.visibility = view.numTwo.style.visibility = 'hidden'
     controller.transferAttr(model, view)
     it("view.sliderOne.min == view.sliderTwo.min == model.min", function () {
         assert.equal(view.sliderOne.min, model.getMin())
@@ -135,5 +138,11 @@ describe("Передача параметров из Model в View", function ()
     });
     it("view.sliderTwo.valueTwo == model.valueTwo", function () {
         assert.equal(view.sliderTwo.valueTwo, model.getValueTwo())
+    });
+    it("view.numOne.innerHTML = model.valueOne", function () {
+        assert.equal(view.numOne.innerHTML, model.getValueOne())
+    }); 
+    it("iew.numTwo.innerHTML = model.valueTwo", function () {
+        assert.equal(view.numTwo.innerHTML, model.getValueTwo())
     }); 
 });
