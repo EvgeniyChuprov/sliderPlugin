@@ -5,6 +5,7 @@ const assert = require("assert");
 const a = require('../src/plugin/jquery.myFirstSliderPlugin')
 const Model = a.model
 const View = a.view
+const Controller = a.controller
 describe("Доступ к параметрам класса Model", function () {
     let model = new Model()
         model.setMin(1)
@@ -108,6 +109,12 @@ describe("Доступ к параметрам класса Model", function () 
 describe("Передача параметров из Model в View", function () {
     let model = new Model()
     let view = new View()
+    let controller = new Controller()
+    view.createBlock('body')
+    view.sliderOne = document.querySelector('.sliderOne');
+    view.sliderTwo = document.querySelector('.sliderTwo');
+    view.sliderOne.style.visibility = view.sliderTwo.style.visibility ='hidden'
+    controller.transferAttr(model, view)
     it("view.sliderOne.min == view.sliderTwo.min == model.min", function () {
         assert.equal(view.sliderOne.min, model.getMin())
         assert.equal(view.sliderTwo.min, model.getMin())
@@ -126,7 +133,7 @@ describe("Передача параметров из Model в View", function ()
     it("view.sliderOne.valueOne == model.valueOne", function () {
         assert.equal(view.sliderOne.valueOne, model.getValueOne())
     });
-    it("view.sliderTwo.valueTwo == model.valueOne", function () {
+    it("view.sliderTwo.valueTwo == model.valueTwo", function () {
         assert.equal(view.sliderTwo.valueTwo, model.getValueTwo())
     }); 
 });

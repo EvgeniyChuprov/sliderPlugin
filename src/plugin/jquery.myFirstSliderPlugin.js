@@ -87,7 +87,15 @@
             $(blockId).append('<section class="range-slider"><div  class="numOne"/><div  class="numTwo"/><input type="range" class="sliderOne slider-gorizont"/><input  type="range" class="sliderTwo slider-gorizont"/></section>');
         }
     }
-    class Controller{}
+    class Controller{
+        transferAttr(model, view){
+            view.sliderOne.min = view.sliderTwo.min = model.getMin();
+            view.sliderOne.max = view.sliderTwo.max = model.getMax();
+            view.sliderOne.step = view.sliderTwo.step = model.getStep();
+            view.sliderOne.valueOne = model.getValueOne();
+            view.sliderTwo.valueTwo = model.getValueTwo();
+        } 
+    }
     $.fn.myFirstSliderPlugin = function(options) {
         const blockId ='#'+ this[0].id;
         const model = new  Model();
@@ -99,6 +107,7 @@
             view.sliderTwo = document.querySelector(`${blockId} .sliderTwo`);
             view.numOne = document.querySelector(`${blockId} .numOne`);
             view.numTwo = document.querySelector(`${blockId} .numTwo`);
+            controller.transferAttr(model, view)
        });
     }
     module.exports.model = Model;
