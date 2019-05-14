@@ -115,8 +115,8 @@ describe("Передача параметров из Model в View", function ()
     view.sliderTwo = document.querySelector('.sliderTwo');
     view.numOne = document.querySelector('.numOne');
     view.numTwo = document.querySelector('.numTwo');
-    view.sliderOne.style.visibility = view.sliderTwo.style.visibility ='hidden'
-    view.numOne.style.visibility = view.numTwo.style.visibility = 'hidden'
+    view.sliderOne.style.margin = view.sliderTwo.style.margin ='-10000px'
+    view.numOne.style.margin = view.numTwo.style.margin = '-10000px'
     controller.transferAttr(model, view)
     it("view.sliderOne.min == view.sliderTwo.min == model.min", function () {
         assert.equal(view.sliderOne.min, model.getMin())
@@ -142,7 +142,37 @@ describe("Передача параметров из Model в View", function ()
     it("view.numOne.innerHTML = model.valueOne", function () {
         assert.equal(view.numOne.innerHTML, model.getValueOne())
     }); 
-    it("iew.numTwo.innerHTML = model.valueTwo", function () {
+    it("view.numTwo.innerHTML = model.valueTwo", function () {
         assert.equal(view.numTwo.innerHTML, model.getValueTwo())
     }); 
+    it("Отображение тултипов и 2 слайдера", function () {
+        model.setToolteap(true)
+        model.setSlider2(true)
+        if(model.getToolteap() && model.getSlider2()){
+            assert.equal(view.numOne.style.visibility, 'visible') 
+            assert.equal(view.numTwo.style.visibility, 'visible') 
+            assert.equal(view.sliderTwo.style.visibility, 'visible')  
+        }
+        model.setToolteap(false)
+        model.setSlider2(true)
+        if(!model.getToolteap() && model.getSlider2()){
+            assert.equal(view.numOne.style.visibility, 'hidden') 
+            assert.equal(view.numTwo.style.visibility, 'hidden') 
+            assert.equal(view.sliderTwo.style.visibility, 'visible')  
+        }
+        model.setToolteap(true)
+        model.setSlider2(false)
+        if(model.getToolteap() && !model.getSlider2()){
+            assert.equal(view.numOne.style.visibility, 'hidden') 
+            assert.equal(view.numTwo.style.visibility, 'hidden') 
+            assert.equal(view.sliderTwo.style.visibility, 'hidden')  
+        }
+        model.setToolteap(false)
+        model.setSlider2(false)
+        if(!model.getToolteap() && !model.getSlider2()){
+            assert.equal(view.numOne.style.visibility, 'hidden') 
+            assert.equal(view.numTwo.style.visibility, 'hidden') 
+            assert.equal(view.sliderTwo.style.visibility, 'hidden')  
+        }
+    });
 });
