@@ -86,6 +86,19 @@
         createBlock(blockId){
             $(blockId).append('<section class="range-slider"><div  class="numOne"/><div  class="numTwo"/><input type="range" class="sliderOne slider-gorizont"/><input  type="range" class="sliderTwo slider-gorizont"/></section>');
         }
+        toolteapAndSlider(toolteap, slider2){
+            if(toolteap && slider2){
+                this.numOne.style.visibility  = this.numTwo.style.visibility = this.sliderTwo.style.visibility ='visible';
+            }else if(toolteap && !slider2){
+                this.numOne.style.visibility ='visible';
+                this.numTwo.style.visibility = this.sliderTwo.style.visibility ='hidden';
+            }else if(!toolteap && slider2){
+                this.numOne.style.visibility  = this.numTwo.style.visibility = 'hidden';
+                this.sliderTwo.style.visibility ='visible';
+            }else{
+                this.numOne.style.visibility  = this.numTwo.style.visibility = this.sliderTwo.style.visibility ='hidden';
+            }
+        }
     }
     class Controller{
         transferAttr(model, view){
@@ -96,6 +109,7 @@
             view.sliderTwo.value = model.getValueTwo();
             view.numOne.innerHTML = model.getValueOne();
             view.numTwo.innerHTML = model.getValueTwo();
+            view.toolteapAndSlider(model.getToolteap(), model.getSlider2());
         } 
     }
     $.fn.myFirstSliderPlugin = function(options) {

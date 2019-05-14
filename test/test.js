@@ -148,6 +148,7 @@ describe("Передача параметров из Model в View", function ()
     it("Отображение тултипов и 2 слайдера", function () {
         model.setToolteap(true)
         model.setSlider2(true)
+        view.toolteapAndSlider(model.getToolteap(), model.getSlider2());
         if(model.getToolteap() && model.getSlider2()){
             assert.equal(view.numOne.style.visibility, 'visible') 
             assert.equal(view.numTwo.style.visibility, 'visible') 
@@ -155,6 +156,7 @@ describe("Передача параметров из Model в View", function ()
         }
         model.setToolteap(false)
         model.setSlider2(true)
+        view.toolteapAndSlider(model.getToolteap(), model.getSlider2());
         if(!model.getToolteap() && model.getSlider2()){
             assert.equal(view.numOne.style.visibility, 'hidden') 
             assert.equal(view.numTwo.style.visibility, 'hidden') 
@@ -162,13 +164,15 @@ describe("Передача параметров из Model в View", function ()
         }
         model.setToolteap(true)
         model.setSlider2(false)
+        view.toolteapAndSlider(model.getToolteap(), model.getSlider2());
         if(model.getToolteap() && !model.getSlider2()){
-            assert.equal(view.numOne.style.visibility, 'hidden') 
+            assert.equal(view.numOne.style.visibility, 'visible') 
             assert.equal(view.numTwo.style.visibility, 'hidden') 
             assert.equal(view.sliderTwo.style.visibility, 'hidden')  
         }
         model.setToolteap(false)
         model.setSlider2(false)
+        view.toolteapAndSlider(model.getToolteap(), model.getSlider2());
         if(!model.getToolteap() && !model.getSlider2()){
             assert.equal(view.numOne.style.visibility, 'hidden') 
             assert.equal(view.numTwo.style.visibility, 'hidden') 
