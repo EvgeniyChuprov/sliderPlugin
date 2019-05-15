@@ -194,3 +194,29 @@ describe("Передача параметров из Model в View", function ()
         }
     });
 });
+describe("Установка пользовательских настроек плагина", function () {
+    let model = new Model()
+    model.setMin(1)
+    model.setMax(10)
+    let min = model.getMin()
+    let max = model.getMax()
+    it("Если настроек не задано", function () {
+        let options = undefined
+        model.setting(options)
+        assert.equal(model.getMax(), min)
+        assert.equal(model.getMax(), max)
+    });
+    it("Если настройки заданы полностью", function () {
+        let options = {min: 5, max: 20}
+        model.setting(options)
+        assert.equal(model.getMin(), 5)
+        assert.equal(model.getMax(), 10)
+    });
+    it("Если настройки заданы не полностью", function () {
+        let options = {min: 3}
+        model.setting(options)
+        assert.equal(model.getMin(), 3)
+        assert.equal(model.getMax(), max)
+    });
+
+});
