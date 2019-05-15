@@ -181,13 +181,13 @@ describe("Передача параметров из Model в View", function ()
     });
     it("Веритикальное или горизонтальное положение слайдеров", function () {
         model.setVertical(true)
-        view.vertical(model.getVertical())
+        view.vertical(model.getVertical(), 'body')
         if(model.getVertical()){
             assert.equal(view.sliderOne.classList.contains('slider-vertical'), true) 
             assert.equal(view.sliderTwo.classList.contains('slider-vertical'), true) 
         }  
         model.setVertical(false)
-        view.vertical(model.getVertical())
+        view.vertical(model.getVertical(), 'body')
         if(!model.getVertical()){
             assert.equal(view.sliderOne.classList.contains('slider-gorizont'), true) 
             assert.equal(view.sliderTwo.classList.contains('slider-gorizont'), true) 
@@ -203,20 +203,27 @@ describe("Установка пользовательских настроек �
     it("Если настроек не задано", function () {
         let options = undefined
         model.setting(options)
-        assert.equal(model.getMax(), min)
+        assert.equal(model.getMin(), min)
         assert.equal(model.getMax(), max)
     });
     it("Если настройки заданы полностью", function () {
-        let options = {min: 5, max: 20}
+        let options = {min: 5, max: 20, step: 3, valueOne: 7,valueTwo:18,
+            toolteap: true, slider2: true, vertical: false}
         model.setting(options)
         assert.equal(model.getMin(), 5)
-        assert.equal(model.getMax(), 10)
+        assert.equal(model.getMax(), 20)
+        assert.equal(model.getStep(), 3)
+        assert.equal(model.getValueOne(), 7)
+        assert.equal(model.getValueTwo(), 18)
+        assert.equal(model.getToolteap(), true)
+        assert.equal(model.getSlider2(), true)
+        assert.equal(model.getVertical(), false)
     });
     it("Если настройки заданы не полностью", function () {
         let options = {min: 3}
+        model.setMax(10)
         model.setting(options)
         assert.equal(model.getMin(), 3)
         assert.equal(model.getMax(), max)
     });
-
 });

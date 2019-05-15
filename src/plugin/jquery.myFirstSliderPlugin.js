@@ -74,6 +74,18 @@
         getVertical(){
             return this.vertical;
         }
+        setting(options){
+            if(options !== undefined){
+                if(options.min !== undefined){this.setMin(options.min)};
+                if(options.max !== undefined){this.setMax(options.max)};
+                if(options.step !== undefined){this.setStep(options.step)};
+                if(options.valueOne !== undefined){this.setValueOne(options.valueOne)};
+                if(options.valueTwo !== undefined){this.setValueTwo(options.valueTwo)};
+                if(options.toolteap !== undefined){this.setToolteap(options.toolteap)};
+                if(options.slider2 !== undefined){this.setSlider2(options.slider2)};
+                if(options.vertical !== undefined){this.setVertical(options.vertical)};
+            }
+        }
     }
     
     class View{
@@ -99,21 +111,21 @@
                 this.numOne.style.visibility  = this.numTwo.style.visibility = this.sliderTwo.style.visibility ='hidden';
             }
         }
-        vertical(value){
+        vertical(value, blockId){
             if(value){
-                $('.sliderOne').addClass('slider-vertical').removeClass('slider-gorizont');
-                $('.sliderTwo').addClass('slider-vertical').removeClass('slider-gorizont');
-                $('.range-slider').css({'width':'90px','height':'100%'});
-                $('.numOne').css({'left':'65px'});  
+                $(`${blockId} .sliderOne`).addClass('slider-vertical').removeClass('slider-gorizont');
+                $(`${blockId} .sliderTwo`).addClass('slider-vertical').removeClass('slider-gorizont');
+                $(`${blockId} .range-slider`).css({'width':'90px','height':'100%'});
+                $(`${blockId} .numOne`).css({'left':'65px'});  
             }else{
-                $('.sliderOne').addClass('slider-gorizont').removeClass('slider-vertical');
-                $('.sliderTwo').addClass('slider-gorizont').removeClass('slider-vertical');
-                $('.range-slider').css({'width':'100%','height':'70px'});
+                $(`${blockId} .sliderOne`).addClass('slider-gorizont').removeClass('slider-vertical');
+                $(`${blockId} .sliderTwo`).addClass('slider-gorizont').removeClass('slider-vertical');
+                $(`${blockId} .range-slider`).css({'width':'100%','height':'70px'});
             }
         }
     }
     class Controller{
-        transferAttr(model, view){
+        transferAttr(model, view, blockId){
             view.sliderOne.min = view.sliderTwo.min = model.getMin();
             view.sliderOne.max = view.sliderTwo.max = model.getMax();
             view.sliderOne.step = view.sliderTwo.step = model.getStep();
@@ -122,7 +134,7 @@
             view.numOne.innerHTML = model.getValueOne();
             view.numTwo.innerHTML = model.getValueTwo();
             view.toolteapAndSlider(model.getToolteap(), model.getSlider2());
-            view.vertical(model.getVertical());
+            view.vertical(model.getVertical(), blockId);
         } 
     }
     $.fn.myFirstSliderPlugin = function(options) {
@@ -136,7 +148,8 @@
             view.sliderTwo = document.querySelector(`${blockId} .sliderTwo`);
             view.numOne = document.querySelector(`${blockId} .numOne`);
             view.numTwo = document.querySelector(`${blockId} .numTwo`);
-            controller.transferAttr(model, view)
+            model.setting(options)
+            controller.transferAttr(model, view, blockId)  
        });
     }
     module.exports.model = Model;
