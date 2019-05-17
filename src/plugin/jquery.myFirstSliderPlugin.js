@@ -123,6 +123,10 @@
                 $(`${blockId} .range-slider`).css({'width':'100%','height':'70px'});
             }
         }
+        gorizontTool(value){
+        }
+        verticalTool(value){
+        }
     }
     class Controller{
         transferAttr(model, view, blockId){

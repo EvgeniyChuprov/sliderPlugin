@@ -227,3 +227,35 @@ describe("Установка пользовательских настроек �
         assert.equal(model.getMax(), max)
     });
 });
+describe("Высчитывает % смещения ползунка слайдера по горизонтали  и передает это значение тултипу", function () {
+    let model = new Model()
+    
+    let min = model.getMin()
+    let max = model.getMax()
+    it("Если min = 0  max = 100 value = 40 фенкция должна вернуть 40%", function () {
+        model.setMin(0)
+        model.setMax(100)
+        model.setValueOne(100)
+        assert.equal(model.gorizontTool(model.getValueOne()), '40%')
+    });
+    it("Если min = -10  max = 10 value = 0 фенкция должна вернуть 50%", function () {
+        model.setMin(-10)
+        model.setMax(10)
+        model.setValueTwo(0)
+        assert.equal(model.gorizontTool(model.getValueTwo()), '50%')
+    });
+});
+describe("Высчитывает % смещения ползунка слайдера по вертикали и передает это значение тултипу", function () {
+    it("Если min = 0  max = 100 value = 60 фенкция должна вернуть 60%", function () {
+        model.setMin(0)
+        model.setMax(100)
+        model.setValueOne(60)
+        assert.equal(model.verticalTool(model.getValueOne()), '60%')
+    });
+    it("Если min = -10  max = 10 value = 0 фенкция должна вернуть 50%", function () {
+        model.setMin(-10)
+        model.setMax(10)
+        model.setValueTwo(0)
+        assert.equal(model.verticalTool(model.getValueTwo()), '50%')
+    });
+});
