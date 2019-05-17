@@ -86,6 +86,12 @@
                 if(options.vertical !== undefined){this.setVertical(options.vertical)};
             }
         }
+        gorizontTool(value){
+            return  Math.round((value - this.getMin()) * 100 / Math.round(this.getMax()- this.getMin())) -2.5 + '%';
+        }
+        verticalTool(value){
+            return 100 - Math.round((value - this.getMin()) * 100 / Math.round(this.getMax() - this.getMin())) - 3 + '%';
+        }
     }
     
     class View{
@@ -123,10 +129,6 @@
                 $(`${blockId} .range-slider`).css({'width':'100%','height':'70px'});
             }
         }
-        gorizontTool(value){
-        }
-        verticalTool(value){
-        }
     }
     class Controller{
         transferAttr(model, view, blockId){
@@ -139,6 +141,13 @@
             view.numTwo.innerHTML = model.getValueTwo();
             view.toolteapAndSlider(model.getToolteap(), model.getSlider2());
             view.vertical(model.getVertical(), blockId);
+            if(model.getVertical()){ 
+                view.numOne.style.top = model.verticalTool(model.getValueOne());
+                view.numTwo.style.top = model.verticalTool(model.getValueTwo());
+            }else{
+                view.numOne.style.left = model.gorizontTool(model.getValueOne())
+                view.numTwo.style.left = model.gorizontTool(model.getValueTwo());
+            }
         } 
     }
     $.fn.myFirstSliderPlugin = function(options) {
