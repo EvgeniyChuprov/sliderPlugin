@@ -9,6 +9,14 @@
             this.toolteap = true;
             this.slider2 = true;
             this.vertical = false;
+            this.changeTooltip = $(''),
+            this.changeSlider2 = $(''),
+            this.changeVertical = $(''),
+            this.changeMin = $(''),
+            this.changeMax = $(''),
+            this.changeStep = $(''),
+            this.changeValue1 = $(''),
+            this.schangeValue2 = $('')
         }
         setMin(value){
             if(value < this.max && !isNaN(value)){
@@ -93,7 +101,6 @@
             return 100 - Math.round((value - this.getMin()) * 100 / Math.round(this.getMax() - this.getMin())) - 3 + '%';
         }
     }
-    
     class View{
         constructor(){
             this.numOne; 
@@ -130,7 +137,7 @@
             }
         }
     }
-    class Controller{
+    class Controller{    
         transferAttr(model, view, blockId){
             view.sliderOne.min = view.sliderTwo.min = model.getMin();
             view.sliderOne.max = view.sliderTwo.max = model.getMax();
@@ -162,7 +169,7 @@
             view.numOne = document.querySelector(`${blockId} .numOne`);
             view.numTwo = document.querySelector(`${blockId} .numTwo`);
             model.setting(options)
-            controller.transferAttr(model, view, blockId)  
+            controller.transferAttr(model, view, blockId) 
        });
     }
     module.exports.model = Model;

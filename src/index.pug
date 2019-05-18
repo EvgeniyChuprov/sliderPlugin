@@ -1,7 +1,7 @@
 mixin slider(value)
 
     .block  
-        .header#firstBlock
+        div(id= value.idTable class="header")
             p
                 span tooltip:
                 input(type="checkbox" class="tooltip" checked= value.tooltip) 
@@ -21,9 +21,9 @@ mixin slider(value)
                 span value two:
                 input(type="text" class="input value2" value="100")
         .body
-            div(id= value.id class="slider-range")
+            div(id= value.idSlider class="slider-range")
 
-+slider({id:'sliderBlockOne', class:'slider-range', tooltip: false, twoSlider:false, vertical:false})
-+slider({id:'sliderBlockTwo', class:'slider-range', tooltip: true, twoSlider:false, vertical:false})
-+slider({id:'sliderBlockThree', class:'slider-range', tooltip: true, twoSlider:true, vertical:false})
-+slider({id:'sliderBlockFourth', class:'slider-range', tooltip: true, twoSlider:true, vertical:true})
++slider({idSlider:'sliderBlockOne', idTable:'firstBlock', class:'slider-range', tooltip: false, twoSlider:false, vertical:false})
++slider({idSlider:'sliderBlockTwo',idTable:'secondBlock', class:'slider-range', tooltip: true, twoSlider:false, vertical:false})
++slider({idSlider:'sliderBlockThree',idTable:'thirdBlock', class:'slider-range', tooltip: true, twoSlider:true, vertical:false})
++slider({idSlider:'sliderBlockFourth',idTable:'fourthBlock', class:'slider-range', tooltip: true, twoSlider:true, vertical:true})

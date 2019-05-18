@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">86.54% </span>
+        <span class="strong">86.67% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>90/104</span>
+        <span class='fraction'>91/105</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">96.83% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>26/28</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">85.42% </span>
+        <span class="strong">85.57% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>82/96</span>
+        <span class='fraction'>83/97</span>
       </div>
     </div>
     <p class="quiet">
@@ -217,7 +217,13 @@
 <a name='L169'></a><a href='#L169'>169</a>
 <a name='L170'></a><a href='#L170'>170</a>
 <a name='L171'></a><a href='#L171'>171</a>
-<a name='L172'></a><a href='#L172'>172</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L172'></a><a href='#L172'>172</a>
+<a name='L173'></a><a href='#L173'>173</a>
+<a name='L174'></a><a href='#L174'>174</a>
+<a name='L175'></a><a href='#L175'>175</a>
+<a name='L176'></a><a href='#L176'>176</a>
+<a name='L177'></a><a href='#L177'>177</a>
+<a name='L178'></a><a href='#L178'>178</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
@@ -228,6 +234,14 @@
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">10x</span>
@@ -314,7 +328,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -387,7 +400,6 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">;(function($, window, undefined){
     class Model{
         constructor(){
@@ -399,6 +411,14 @@
             this.toolteap = true;
             this.slider2 = true;
             this.vertical = false;
+            this.changeTooltip = $(''),
+            this.changeSlider2 = $(''),
+            this.changeVertical = $(''),
+            this.changeMin = $(''),
+            this.changeMax = $(''),
+            this.changeStep = $(''),
+            this.changeValue1 = $(''),
+            this.schangeValue2 = $('')
         }
         setMin(value){
             if(value &lt; this.max &amp;&amp; !isNaN(value)){
@@ -483,7 +503,6 @@
             return 100 - Math.round((value - this.getMin()) * 100 / Math.round(this.getMax() - this.getMin())) - 3 + '%';
         }
     }
-    
     class View{
         constructor(){
             this.numOne; 
@@ -520,7 +539,7 @@
             }
         }
     }
-    class Controller{
+    class Controller{    
         transferAttr(model, view, blockId){
             view.sliderOne.min = view.sliderTwo.min = model.getMin();
             view.sliderOne.max = view.sliderTwo.max = model.getMax();
@@ -552,20 +571,19 @@
 <span class="cstat-no" title="statement not covered" >            view.numOne = document.querySelector(`${blockId} .numOne`);</span>
 <span class="cstat-no" title="statement not covered" >            view.numTwo = document.querySelector(`${blockId} .numTwo`);</span>
 <span class="cstat-no" title="statement not covered" >            model.setting(options)</span>
-<span class="cstat-no" title="statement not covered" >            controller.transferAttr(model, view, blockId)  </span>
+<span class="cstat-no" title="statement not covered" >            controller.transferAttr(model, view, blockId) </span>
        });
     }
     module.exports.model = Model;
     module.exports.view = View;
     module.exports.controller = Controller;
-})(jQuery, window);
-&nbsp;</pre></td></tr>
+})(jQuery, window);</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri May 17 2019 13:01:48 GMT+0300 (GMT+03:00)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sat May 18 2019 14:29:36 GMT+0300 (GMT+03:00)
 </div>
 </div>
 <script src="prettify.js"></script>

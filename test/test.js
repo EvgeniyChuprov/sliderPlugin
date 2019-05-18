@@ -117,7 +117,7 @@ describe("Передача параметров из Model в View", function ()
     view.numTwo = document.querySelector('.numTwo');
     view.sliderOne.style.margin = view.sliderTwo.style.margin ='-10000px'
     view.numOne.style.margin = view.numTwo.style.margin = '-10000px'
-    controller.transferAttr(model, view)
+    controller.transferAttr(model, view, 'body')
     it("view.sliderOne.min == view.sliderTwo.min == model.min", function () {
         assert.equal(view.sliderOne.min, model.getMin())
         assert.equal(view.sliderTwo.min, model.getMin())
@@ -229,14 +229,14 @@ describe("Установка пользовательских настроек �
 });
 describe("Высчитывает % смещения ползунка слайдера по горизонтали  и передает это значение тултипу", function () {
     let model = new Model()
-    it("Если min = 0  max = 100 value = 40 фенкция должна вернуть 40%", function () {
+    it("Если min = 0  max = 100 value = 40 функция должна вернуть 40%", function () {
         let num = 40 - 2.5 +"%"
         model.setMin(0)
         model.setMax(100)
         model.setValueOne(40)
         assert.equal(model.gorizontTool(model.getValueOne()), num)
     });
-    it("Если min = -10  max = 10 value = 0 фенкция должна вернуть 50%", function () {
+    it("Если min = -10  max = 10 value = 0 фуенкция должна вернуть 50%", function () {
         let num = 50 - 2.5 +"%"
         model.setMin(-10)
         model.setMax(10)
@@ -246,14 +246,14 @@ describe("Высчитывает % смещения ползунка слайд�
 });
 describe("Высчитывает % смещения ползунка слайдера по вертикали и передает это значение тултипу", function () {
     let model = new Model()
-    it("Если min = 0  max = 100 value = 60 фенкция должна вернуть 60%", function () {
+    it("Если min = 0  max = 100 value = 60 функция должна вернуть 60%", function () {
         let num =100 - 60 - 3 +"%"
         model.setMin(0)
         model.setMax(100)
         model.setValueOne(60)
         assert.equal(model.verticalTool(model.getValueOne()), num)
     });
-    it("Если min = -10  max = 10 value = 0 фенкция должна вернуть 50%", function () {
+    it("Если min = -10  max = 10 value = 0 функция должна вернуть 50%", function () {
         let num =100 - 50 - 3 +"%"
         model.setMin(-10)
         model.setMax(10)
