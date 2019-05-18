@@ -92,6 +92,14 @@
                 if(options.toolteap !== undefined){this.setToolteap(options.toolteap)};
                 if(options.slider2 !== undefined){this.setSlider2(options.slider2)};
                 if(options.vertical !== undefined){this.setVertical(options.vertical)};
+                if(options.changeTooltip !== undefined){ this.changeTooltip = options.changeTooltip};
+                if(options.changeSlider2 !== undefined){ this.changeSlider2 = options.changeSlider2};
+                if(options.changeVertical !== undefined){ this.changeVertical = options.changeVertical};
+                if(options.changeMin !== undefined){ this.changeMin = options.changeMin};
+                if(options.changeMax !== undefined){ this.changeMax = options.changeMax};
+                if(options.changeStep !== undefined){ this.changeStep = options.changeStep};
+                if(options.changeValue1 !== undefined){ this.changeValue1 = options.changeValue1};
+                if(options.changeValue2 !== undefined){ this.changeValue2 = options.changeValue2};
             }
         }
         gorizontTool(value){
@@ -155,6 +163,14 @@
                 view.numOne.style.left = model.gorizontTool(model.getValueOne());
                 view.numTwo.style.left = model.gorizontTool(model.getValueTwo());
             }
+            model.changeMin.val(model.getMin());
+            model.changeMax.val(model.getMax());
+            model.changeStep.val(model.getStep());
+            model.changeValue1.val(model.getValueOne());
+            model.changeValue2.val(model.getValueTwo());
+            model.changeTooltip.prop('checked', model.getToolteap());
+            model.changeSlider2.prop('checked', model.getSlider2());
+            model.changeVertical.prop('checked', model.getVertical());
         } 
     }
     $.fn.myFirstSliderPlugin = function(options) {
