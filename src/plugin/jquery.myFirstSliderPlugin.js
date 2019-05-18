@@ -9,14 +9,14 @@
             this.toolteap = true;
             this.slider2 = true;
             this.vertical = false;
-            this.changeTooltip = $(''),
-            this.changeSlider2 = $(''),
-            this.changeVertical = $(''),
-            this.changeMin = $(''),
-            this.changeMax = $(''),
-            this.changeStep = $(''),
-            this.changeValue1 = $(''),
-            this.schangeValue2 = $('')
+            this.changeTooltip = $('');
+            this.changeSlider2 = $('');
+            this.changeVertical = $('');
+            this.changeMin = $('');
+            this.changeMax = $('');
+            this.changeStep = $('');
+            this.changeValue1 = $('');
+            this.changeValue2 = $('');
         }
         setMin(value){
             if(value < this.max && !isNaN(value)){
@@ -152,7 +152,7 @@
                 view.numOne.style.top = model.verticalTool(model.getValueOne());
                 view.numTwo.style.top = model.verticalTool(model.getValueTwo());
             }else{
-                view.numOne.style.left = model.gorizontTool(model.getValueOne())
+                view.numOne.style.left = model.gorizontTool(model.getValueOne());
                 view.numTwo.style.left = model.gorizontTool(model.getValueTwo());
             }
         } 
@@ -163,13 +163,13 @@
         const view = new View();
         const controller = new Controller();
         return this.each(function(){ 
-            view.createBlock(blockId)
+            view.createBlock(blockId);
             view.sliderOne = document.querySelector(`${blockId} .sliderOne`);
             view.sliderTwo = document.querySelector(`${blockId} .sliderTwo`);
             view.numOne = document.querySelector(`${blockId} .numOne`);
             view.numTwo = document.querySelector(`${blockId} .numTwo`);
-            model.setting(options)
-            controller.transferAttr(model, view, blockId) 
+            model.setting(options);
+            controller.transferAttr(model, view, blockId);
        });
     }
     module.exports.model = Model;

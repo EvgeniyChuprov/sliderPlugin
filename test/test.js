@@ -261,3 +261,36 @@ describe("Высчитывает % смещения ползунка слайд�
         assert.equal(model.verticalTool(model.getValueTwo()), num)
     });
 });
+describe("Проверка передачи внешних элементов управления в model", function () {
+    let model = new Model()
+    model.changeTooltip = $('');
+    model.changeSlider2 = $('');
+    model.changeVertical = $('');
+    model.changeMin = $('');
+    model.changeMax = $('');
+    model.changeStep = $('');
+    model.changeValue1 = $('');
+    model.changeValue2 = $('');
+    
+    let options = {
+        changeTooltip : $('body'),
+        changeSlider2 : $('body'),
+        changeVertical : $('body'),
+        changeMin : $('body'),
+        changeMax : $('body'),
+        changeStep : $('body'),
+        changeValue1 : $('body'),
+        changeValue2 : $('body')
+    }
+    model.setting(options)
+    it("setting передаст внешние элементы в model", function () {
+        assert.equal(model.changeTooltip, options.changeTooltip)
+        assert.equal(model.changeSlider2, options.changeSlider2)
+        assert.equal(model.changeVertical, options.changeVertical)
+        assert.equal(model.changeMin, options.changeMin)
+        assert.equal(model.changeMax, options.changeMax)
+        assert.equal(model.changeStep, options.changeStep)
+        assert.equal(model.changeValue1, options.changeValue1)
+        assert.equal(model.changeValue2, options.changeValue2)
+    });
+});
