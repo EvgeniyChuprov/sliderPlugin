@@ -175,7 +175,7 @@
             model.changeSlider2.prop('checked', model.getSlider2());
             model.changeVertical.prop('checked', model.getVertical());
         } 
-        externalСhanges(model, view, blockId ){
+        externalChanges(model, view, blockId ){
             var thas = this;
             model.changeMin.change(function() {
                 model.setMin(model.changeMin.val());
@@ -264,7 +264,7 @@
             view.numTwo = document.querySelector(`${blockId} .numTwo`);
             model.setting(options);
             controller.transferAttr(model, view, blockId);
-            controller.externalСhanges(model, view, blockId )
+            controller.externalChanges(model, view, blockId )
             controller.move(model, view, blockId) 
        });
     }

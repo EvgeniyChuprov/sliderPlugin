@@ -1,6 +1,7 @@
-import "./style.scss";
 import "./plugin/jquery.myFirstSliderPlugin.js";
+import "./style.scss";
 
+require('./plugin/jquery.myFirstSliderPlugin.js');
 $('#sliderBlockOne').myFirstSliderPlugin({
   changeTooltip:$('#firstBlock .tooltip'),
   changeSlider2:$('#firstBlock .twoSlider'),
