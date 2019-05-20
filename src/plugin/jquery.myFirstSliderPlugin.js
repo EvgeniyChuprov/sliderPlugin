@@ -138,10 +138,13 @@
                 $(`${blockId} .sliderTwo`).addClass('slider-vertical').removeClass('slider-gorizont');
                 $(`${blockId} .range-slider`).css({'width':'90px','height':'100%'});
                 $(`${blockId} .numOne`).css({'left':'65px'});  
+                $(`${blockId} .numTwo`).css({'left':'65px'}); 
             }else{
                 $(`${blockId} .sliderOne`).addClass('slider-gorizont').removeClass('slider-vertical');
                 $(`${blockId} .sliderTwo`).addClass('slider-gorizont').removeClass('slider-vertical');
                 $(`${blockId} .range-slider`).css({'width':'100%','height':'70px'});
+                $(`${blockId} .numOne`).css({'top':'0'});  
+                $(`${blockId} .numTwo`).css({'top':'0'}); 
             }
         }
     }
@@ -172,6 +175,81 @@
             model.changeSlider2.prop('checked', model.getSlider2());
             model.changeVertical.prop('checked', model.getVertical());
         } 
+        externalСhanges(model, view, blockId ){
+            var thas = this;
+            model.changeMin.change(function() {
+                model.setMin(model.changeMin.val());
+                thas.transferAttr(model, view, blockId)
+            })
+            model.changeMin.change(function() {
+                model.setMin(model.changeMin.val());
+                thas.transferAttr(model, view, blockId)
+            });
+            model.changeMax.change(function() {
+                model.setMax(model.changeMax.val());
+                thas.transferAttr(model, view, blockId)
+            });
+            model.changeStep.change(function() {
+                model.setStep(model.changeStep.val());
+                thas.transferAttr(model, view, blockId)
+            });
+            model.changeValue1.change(function() {
+                model.setValueOne(model.changeValue1.val());
+                thas.transferAttr(model, view, blockId)
+            });
+            model.changeValue2.change(function() {
+                model.setValueTwo(model.changeValue2.val());
+                thas.transferAttr(model, view, blockId)
+            });
+            model.changeTooltip.change(function() {
+                if(model.changeTooltip.is(':checked')){
+                    model.setToolteap(true)
+                    view.toolteapAndSlider(model.getToolteap(), model.getSlider2());
+                }else{
+                    model.setToolteap(false) 
+                    view.toolteapAndSlider(model.getToolteap(), model.getSlider2());
+                }
+            });
+            model.changeSlider2.change(function() {
+                if(model.changeSlider2.is(':checked')){
+                    model.setSlider2(true)
+                    view.toolteapAndSlider(model.getToolteap(), model.getSlider2());
+                }else{
+                    model.setSlider2(false) 
+                    view.toolteapAndSlider(model.getToolteap(), model.getSlider2());
+                }
+            });
+            model.changeVertical.change(function() {
+                if(model.changeVertical.is(':checked')){
+                    model.setVertical(true)
+                    thas.transferAttr(model, view, blockId)
+                }else{
+                    model.setVertical(false) 
+                    thas.transferAttr(model, view, blockId)
+                }
+            });
+        }
+        move(model, view, blockId){
+            var thas = this
+            view.sliderOne.oninput = function() {
+                if(model.getVertical()){
+                    model.setValueOne(view.sliderOne.value);
+                    thas.transferAttr(model, view, blockId)
+                }else{
+                    model.setValueOne(view.sliderOne.value);
+                    thas.transferAttr(model, view, blockId) 
+                }
+            };
+            view.sliderTwo.oninput = function() {
+                if(model.getVertical()){
+                    model.setValueTwo(view.sliderTwo.value);
+                    thas.transferAttr(model, view, blockId)
+                }else{
+                    model.setValueTwo(view.sliderTwo.value);
+                    thas.transferAttr(model, view, blockId) 
+                }
+            };
+        }
     }
     $.fn.myFirstSliderPlugin = function(options) {
         const blockId ='#'+ this[0].id;
@@ -186,6 +264,8 @@
             view.numTwo = document.querySelector(`${blockId} .numTwo`);
             model.setting(options);
             controller.transferAttr(model, view, blockId);
+            controller.externalСhanges(model, view, blockId )
+            controller.move(model, view, blockId) 
        });
     }
     module.exports.model = Model;
