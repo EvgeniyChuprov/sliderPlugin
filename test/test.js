@@ -196,20 +196,21 @@ describe("Передача параметров из Model в View", function ()
 });
 describe("Установка пользовательских настроек плагина", function () {
     let model = new Model()
+    let controller = new Controller()
     model.setMin(1)
     model.setMax(10)
     let min = model.getMin()
     let max = model.getMax()
     it("Если настроек не задано", function () {
         let options = undefined
-        model.setting(options)
+        controller.setting(options, model)
         assert.equal(model.getMin(), min)
         assert.equal(model.getMax(), max)
     });
     it("Если настройки заданы полностью", function () {
         let options = {min: 5, max: 20, step: 3, valueOne: 7,valueTwo:18,
             toolteap: true, slider2: true, vertical: false}
-        model.setting(options)
+        controller.setting(options, model)
         assert.equal(model.getMin(), 5)
         assert.equal(model.getMax(), 20)
         assert.equal(model.getStep(), 3)
@@ -222,7 +223,7 @@ describe("Установка пользовательских настроек �
     it("Если настройки заданы не полностью", function () {
         let options = {min: 3}
         model.setMax(10)
-        model.setting(options)
+        controller.setting(options, model)
         assert.equal(model.getMin(), 3)
         assert.equal(model.getMax(), max)
     });
@@ -263,14 +264,15 @@ describe("Высчитывает % смещения ползунка слайд�
 });
 describe("Проверка передачи внешних элементов управления в model", function () {
     let model = new Model()
-    model.changeTooltip = $('');
-    model.changeSlider2 = $('');
-    model.changeVertical = $('');
-    model.changeMin = $('');
-    model.changeMax = $('');
-    model.changeStep = $('');
-    model.changeValue1 = $('');
-    model.changeValue2 = $('');
+    let controller = new Controller()
+    model.setChangeTooltip($(''));
+    model.setChangeSlider2($(''));
+    model.setChangeVertical($(''));
+    model.setChangeMin($(''));
+    model.setChangeMax($(''));
+    model.setChangeStep($(''));
+    model.setChangeValue1($(''));
+    model.setChangeValue2($(''));
     
     let options = {
         changeTooltip : $('body'),
@@ -282,15 +284,15 @@ describe("Проверка передачи внешних элементов у
         changeValue1 : $('body'),
         changeValue2 : $('body')
     }
-    model.setting(options)
+    controller.setting(options, model)
     it("setting передаст внешние элементы в model", function () {
-        assert.equal(model.changeTooltip, options.changeTooltip)
-        assert.equal(model.changeSlider2, options.changeSlider2)
-        assert.equal(model.changeVertical, options.changeVertical)
-        assert.equal(model.changeMin, options.changeMin)
-        assert.equal(model.changeMax, options.changeMax)
-        assert.equal(model.changeStep, options.changeStep)
-        assert.equal(model.changeValue1, options.changeValue1)
-        assert.equal(model.changeValue2, options.changeValue2)
+        assert.equal(model.getChangeTooltip(), options.changeTooltip)
+        assert.equal(model.getChangeSlider2(), options.changeSlider2)
+        assert.equal(model.getChangeVertical(), options.changeVertical)
+        assert.equal(model.getChangeMin(), options.changeMin)
+        assert.equal(model.getChangeMax(), options.changeMax)
+        assert.equal(model.getChangeStep(), options.changeStep)
+        assert.equal(model.getChangeValue1(), options.changeValue1)
+        assert.equal(model.getChangeValue2(), options.changeValue2)
     });
 });

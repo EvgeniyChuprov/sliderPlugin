@@ -82,25 +82,53 @@
         getVertical(){
             return this.vertical;
         }
-        setting(options){
-            if(options !== undefined){
-                if(options.min !== undefined){this.setMin(options.min)};
-                if(options.max !== undefined){this.setMax(options.max)};
-                if(options.step !== undefined){this.setStep(options.step)};
-                if(options.valueOne !== undefined){this.setValueOne(options.valueOne)};
-                if(options.valueTwo !== undefined){this.setValueTwo(options.valueTwo)};
-                if(options.toolteap !== undefined){this.setToolteap(options.toolteap)};
-                if(options.slider2 !== undefined){this.setSlider2(options.slider2)};
-                if(options.vertical !== undefined){this.setVertical(options.vertical)};
-                if(options.changeTooltip !== undefined){ this.changeTooltip = options.changeTooltip};
-                if(options.changeSlider2 !== undefined){ this.changeSlider2 = options.changeSlider2};
-                if(options.changeVertical !== undefined){ this.changeVertical = options.changeVertical};
-                if(options.changeMin !== undefined){ this.changeMin = options.changeMin};
-                if(options.changeMax !== undefined){ this.changeMax = options.changeMax};
-                if(options.changeStep !== undefined){ this.changeStep = options.changeStep};
-                if(options.changeValue1 !== undefined){ this.changeValue1 = options.changeValue1};
-                if(options.changeValue2 !== undefined){ this.changeValue2 = options.changeValue2};
-            }
+        setChangeTooltip(value){
+            this.changeTooltip = value;
+        }
+        getChangeTooltip(){
+            return this.changeTooltip;
+        }
+        setChangeSlider2(value){
+            this.changeSlider2 = value;
+        }
+        getChangeSlider2(){
+            return this.changeSlider2;
+        }
+        setChangeVertical(value){
+            this.changeVertical = value;
+        }
+        getChangeVertical(){
+            return this.changeVertical;
+        }
+        setChangeMin(value){
+            this.changeMin = value;
+        }
+        getChangeMin(){
+            return this.changeMin;
+        }
+        setChangeMax(value){
+            this.changeMax = value;
+        }
+        getChangeMax(){
+            return this.changeMax;
+        }
+        setChangeStep(value){
+            this.changeStep = value;
+        }
+        getChangeStep(){
+            return this.changeStep;
+        }
+        setChangeValue1(value){
+            this.changeValue1 = value;
+        }
+        getChangeValue1(){
+            return this.changeValue1;
+        }
+        setChangeValue2(value){
+            this.changeValue2 = value;
+        }
+        getChangeValue2(){
+            return this.changeValue2;
         }
         gorizontTool(value){
             return  Math.round((value - this.getMin()) * 100 / Math.round(this.getMax()- this.getMin())) -2.5 + '%';
@@ -149,6 +177,26 @@
         }
     }
     class Controller{    
+        setting(options, model){
+            if(options !== undefined){
+                if(options.min !== undefined){model.setMin(options.min)};
+                if(options.max !== undefined){model.setMax(options.max)};
+                if(options.step !== undefined){model.setStep(options.step)};
+                if(options.valueOne !== undefined){model.setValueOne(options.valueOne)};
+                if(options.valueTwo !== undefined){model.setValueTwo(options.valueTwo)};
+                if(options.toolteap !== undefined){model.setToolteap(options.toolteap)};
+                if(options.slider2 !== undefined){model.setSlider2(options.slider2)};
+                if(options.vertical !== undefined){model.setVertical(options.vertical)};
+                if(options.changeTooltip !== undefined){model.setChangeTooltip(options.changeTooltip)};
+                if(options.changeSlider2 !== undefined){model.setChangeSlider2(options.changeSlider2)};
+                if(options.changeVertical !== undefined){model.setChangeVertical(options.changeVertical)};
+                if(options.changeMin !== undefined){model.setChangeMin(options.changeMin)};
+                if(options.changeMax !== undefined){model.setChangeMax(options.changeMax)};
+                if(options.changeStep !== undefined){model.setChangeStep(options.changeStep)};
+                if(options.changeValue1 !== undefined){model.setChangeValue1(options.changeValue1)};
+                if(options.changeValue2 !== undefined){model.setChangeValue2(options.changeValue2)};
+            }
+        }
         transferAttr(model, view, blockId){
             view.sliderOne.min = view.sliderTwo.min = model.getMin();
             view.sliderOne.max = view.sliderTwo.max = model.getMax();
@@ -177,32 +225,32 @@
         } 
         externalChanges(model, view, blockId ){
             var thas = this;
-            model.changeMin.change(function() {
-                model.setMin(model.changeMin.val());
+            model.getChangeMin().change(function() {
+                model.setMin(model.getChangeMin().val());
                 thas.transferAttr(model, view, blockId)
             })
-            model.changeMin.change(function() {
-                model.setMin(model.changeMin.val());
+            model.getChangeMin().change(function() {
+                model.setMin(model.getChangeMin().val());
                 thas.transferAttr(model, view, blockId)
             });
-            model.changeMax.change(function() {
-                model.setMax(model.changeMax.val());
+            model.getChangeMax().change(function() {
+                model.setMax(model.getChangeMax().val());
                 thas.transferAttr(model, view, blockId)
             });
-            model.changeStep.change(function() {
-                model.setStep(model.changeStep.val());
+            model.getChangeStep().change(function() {
+                model.setStep(model.getChangeStep().val());
                 thas.transferAttr(model, view, blockId)
             });
-            model.changeValue1.change(function() {
-                model.setValueOne(model.changeValue1.val());
+            model.getChangeValue1().change(function() {
+                model.setValueOne(model.getChangeValue1().val());
                 thas.transferAttr(model, view, blockId)
             });
-            model.changeValue2.change(function() {
-                model.setValueTwo(model.changeValue2.val());
+            model.getChangeValue2().change(function() {
+                model.setValueTwo(model.getChangeValue2().val());
                 thas.transferAttr(model, view, blockId)
             });
-            model.changeTooltip.change(function() {
-                if(model.changeTooltip.is(':checked')){
+            model.getChangeTooltip().change(function() {
+                if(model.getChangeTooltip().is(':checked')){
                     model.setToolteap(true)
                     view.toolteapAndSlider(model.getToolteap(), model.getSlider2());
                 }else{
@@ -210,8 +258,8 @@
                     view.toolteapAndSlider(model.getToolteap(), model.getSlider2());
                 }
             });
-            model.changeSlider2.change(function() {
-                if(model.changeSlider2.is(':checked')){
+            model.getChangeSlider2().change(function() {
+                if(model.getChangeSlider2().is(':checked')){
                     model.setSlider2(true)
                     view.toolteapAndSlider(model.getToolteap(), model.getSlider2());
                 }else{
@@ -219,8 +267,8 @@
                     view.toolteapAndSlider(model.getToolteap(), model.getSlider2());
                 }
             });
-            model.changeVertical.change(function() {
-                if(model.changeVertical.is(':checked')){
+            model.getChangeVertical().change(function() {
+                if(model.getChangeVertical().is(':checked')){
                     model.setVertical(true)
                     thas.transferAttr(model, view, blockId)
                 }else{
@@ -262,7 +310,7 @@
             view.sliderTwo = document.querySelector(`${blockId} .sliderTwo`);
             view.numOne = document.querySelector(`${blockId} .numOne`);
             view.numTwo = document.querySelector(`${blockId} .numTwo`);
-            model.setting(options);
+            controller.setting(options, model);
             controller.transferAttr(model, view, blockId);
             controller.externalChanges(model, view, blockId )
             controller.move(model, view, blockId) 
