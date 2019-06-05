@@ -1,29 +1,43 @@
 mixin slider(value)
 
-    .block  
-        div(id= value.idTable class="header")
-            p
-                span tooltip:
-                input(type="checkbox" class="tooltip" checked= value.tooltip) 
-                span two slider:
-                input(type="checkbox" class="twoSlider" checked= value.twoSlider)
-                span vertical:
-                input(type="checkbox" class="vert-goriz" checked= value.vertical)
-            p  
-                span min:
-                input(type="text" class="input min" value="0" )
-                span max:
-                input(type="text" class="input max" value="100")
-                span step:
-                input(type="text" class="input step" value="1")
-                span value one:
-                input(type="text" class="input value1" value="0")
-                span value two:
-                input(type="text" class="input value2" value="100")
-        .body
-            div(id= value.idSlider class="slider-range")
+  .block  
+    div(id= value.idTable class="header")
+      p
+        span tooltip:
+        input(type="checkbox" class="tooltip" checked= value.tooltip) 
+        span two slider:
+        input(type="checkbox" class="twoSlider" checked= value.twoSlider)
+        span vertical:
+        input(type="checkbox" class="vert-goriz" checked= value.vertical)
+      p  
+        span min:
+        input(type="text" class="input min" value="0" )
+        span max:
+        input(type="text" class="input max" value="100")
+        span step:
+        input(type="text" class="input step" value="1")
+        span value one:
+        input(type="text" class="input value1" value="0")
+        span value two:
+        input(type="text" class="input value2" value="100")
+    .body
+      div(id= value.idSlider class="slider-range")
 
-+slider({idSlider:'sliderBlockOne', idTable:'firstBlock', class:'slider-range', tooltip: false, twoSlider:false, vertical:false})
-+slider({idSlider:'sliderBlockTwo',idTable:'secondBlock', class:'slider-range', tooltip: true, twoSlider:false, vertical:false})
-+slider({idSlider:'sliderBlockThree',idTable:'thirdBlock', class:'slider-range', tooltip: true, twoSlider:true, vertical:false})
-+slider({idSlider:'sliderBlockFourth',idTable:'fourthBlock', class:'slider-range', tooltip: true, twoSlider:true, vertical:true})
+doctype html
+html
+    head
+      meta(charset = 'utf-8')
+      meta(name='viewport', content="initial-scale=1.0, width=device-width, shrink-to-fit=no")
+      link( rel="apple-touch-icon" sizes="180x180" href=require('./favicons/apple-touch-icon.png'))
+      link( rel="icon" type="image/png" sizes="32x32" href=require('./favicons/favicon-32x32.png'))
+      link( rel="icon" type="image/png" sizes="16x16" href=require('./favicons/favicon-16x16.png'))
+      link( rel="manifest" href="favicons/site.webmanifest")
+      link( rel="mask-icon" href=require('./favicons/safari-pinned-tab.svg') color="#5bbad5")
+      meta( name="msapplication-TileColor" content="#2d89ef")
+      meta( name="theme-color" content="#ffffff")
+      title slider
+    body
+      +slider({idSlider:'sliderBlockOne', idTable:'firstBlock', class:'slider-range', tooltip: false, twoSlider:false, vertical:false})
+      +slider({idSlider:'sliderBlockTwo',idTable:'secondBlock', class:'slider-range', tooltip: true, twoSlider:false, vertical:false})
+      +slider({idSlider:'sliderBlockThree',idTable:'thirdBlock', class:'slider-range', tooltip: true, twoSlider:true, vertical:false})
+      +slider({idSlider:'sliderBlockFourth',idTable:'fourthBlock', class:'slider-range', tooltip: true, twoSlider:true, vertical:true})

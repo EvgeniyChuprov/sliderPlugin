@@ -1,5 +1,6 @@
 import "./plugin/jquery.myFirstSliderPlugin.js";
 import "./style.scss";
+import './favicons/favicons.js';
 
 require('./plugin/jquery.myFirstSliderPlugin.js');
 $('#sliderBlockOne').myFirstSliderPlugin({
