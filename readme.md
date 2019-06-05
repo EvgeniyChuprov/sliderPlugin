@@ -3,8 +3,8 @@
 2. npm run start запуск webpack-dev-server
 3. npm run webpack создаст готовые файлы в папке dist
 
-[Github Pages site](https://evgeniychuprov.github.io/slider/dist/)  
-[Github Pages test](https://evgeniychuprov.github.io/slider/coverage/html) 
+[Github Pages site](https://evgeniychuprov.github.io/sliderPlugin/dist/)  
+[Github Pages test](https://evgeniychuprov.github.io/sliderPlugin/coverage/html/) 
 
 # myFirstSliderPlugin
 ## Плагин построен по архитектуре MVC.
