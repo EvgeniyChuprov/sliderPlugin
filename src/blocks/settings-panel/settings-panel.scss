@@ -34,6 +34,12 @@
 
   &__plugin {
     background: white;
+    height: 200px;
+    width: 450px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
   }
 }
 

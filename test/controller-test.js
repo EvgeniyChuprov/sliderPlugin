@@ -6,9 +6,8 @@ describe('Доступ к параметрам класса Controller', () => {
   const domEl = '<div></div>';
   const controller = new Controller(domEl, options);
   it ('controller входящие параметры', () => {
-    assert.equal(controller.domEl, '<div></div>');
+    assert.equal(controller.$domEl, '<div></div>');
     assert.equal(controller.options.min, 10);
     assert.equal(controller.options.max, 90);
   });
-
 });

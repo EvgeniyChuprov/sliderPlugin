@@ -4,7 +4,7 @@ const Model = require('../src/plugin/classes/Model');
 describe('Доступ к параметрам класса Model', () => {
   const options = { min: 10, max: 90 };
   const model = new Model(options);
-  it ('model', () => {
+  it ('model входящие параметры', () => {
     assert.equal(model.options.min, 10);
     assert.equal(model.options.max, 90);
   });
