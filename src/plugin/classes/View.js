@@ -13,5 +13,9 @@ class View {
     this.$toolMin = this.$domEl.find('.slider-range__tool-min');
     this.$toolMax = this.$domEl.find('.slider-range__tool-max');
   }
+
+  startingPositions() {
+
+  }
 }
 module.exports = View;
