@@ -1,0 +1,26 @@
+
+mixin settings-panel(options)
+  -let { idSlider='', tooltip= false, twoSlider= false, vertical= false} = options;
+
+  .slider
+    .slider__wrapper
+      .slider__block.slider__block_top
+        span.slider__text Tooltip:
+        input.slider__tooltip(type="checkbox" checked= tooltip) 
+        span.slider__text Two slider:
+        input.slider__twoSlider(type="checkbox" checked= twoSlider)
+        span.slider__text Vertical:
+        input.slider__vertically-horizontally(type="checkbox" checked= vertical)
+      .slider__block.slider__block_bottom 
+        span.slider__text Min:
+        input.slider__input.slider__input_min(type="text" value="0" )
+        span.slider__text Max:
+        input.slider__input.slider__input_max(type="text" value="100")
+        span.slider__text Step:
+        input.slider__input.slider__input_step(type="text" value="1")
+        span.slider__text Value one:
+        input.slider__input.slider__input_value1(type="text" value="0")
+        span.slider__text Value two:
+        input.slider__input.slider__input_value2(type="text" value="100")
+      .slider__plugin
+        .slider-range(id= idSlider)

@@ -1,0 +1,45 @@
+.slider {
+  padding: 1%;
+  &__wrapper {
+    width: 500px;
+    margin: auto;
+    background: gray;
+    border-radius: 5px;
+    padding: 1%;
+  }
+
+  &__block {
+    margin: auto;
+    padding: 3% 0;
+
+    &_top {
+      width: 60%;
+    }
+
+    &_bottom {
+      width: 92%;
+    }
+  }
+
+  &__text {
+    color: white;
+  }
+
+  &__input {
+    width: 30px;
+    height: 25px;
+    text-align: center;
+    margin: 0 5px 0 2px;
+  }
+
+  &__plugin {
+    background: white;
+  }
+}
+
+.settings-panel {
+  &__menu {
+    margin: 0 auto;
+    width: 60%;
+  }
+}

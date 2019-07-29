@@ -1,4 +1,4 @@
-@import "plugin/jquery.myFirstSliderPlugin";
+//@import "plugin/jquery.myFirstSliderPlugin";
 
 $border: 1px solid black;
 .block {
@@ -30,11 +30,12 @@ $border: 1px solid black;
     margin-bottom: 5px;
   }
 }
-.slider-range {
+.slider__plugin {
   height: 200px;
   width: 450px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: auto;
+  padding: 5%;
 }

@@ -13,80 +13,80 @@
     <title>slider</title>
   <link href="main.css" rel="stylesheet"></head>
   <body>
-    <div class="block"> 
-      <div class="header" id="firstBlock">
-        <p><span>tooltip:</span>
-          <input class="tooltip" type="checkbox"><span>two slider:</span>
-          <input class="twoSlider" type="checkbox"><span>vertical:</span>
-          <input class="vert-goriz" type="checkbox">
-        </p>
-        <p> <span>min:</span>
-          <input class="input min" type="text" value="0"><span>max:</span>
-          <input class="input max" type="text" value="100"><span>step:</span>
-          <input class="input step" type="text" value="1"><span>value one:</span>
-          <input class="input value1" type="text" value="0"><span>value two:</span>
-          <input class="input value2" type="text" value="100">
-        </p>
-      </div>
-      <div class="body">
-        <div class="slider-range" id="sliderBlockOne"></div>
-      </div>
-    </div>
-    <div class="block"> 
-      <div class="header" id="secondBlock">
-        <p><span>tooltip:</span>
-          <input class="tooltip" type="checkbox" checked><span>two slider:</span>
-          <input class="twoSlider" type="checkbox"><span>vertical:</span>
-          <input class="vert-goriz" type="checkbox">
-        </p>
-        <p> <span>min:</span>
-          <input class="input min" type="text" value="0"><span>max:</span>
-          <input class="input max" type="text" value="100"><span>step:</span>
-          <input class="input step" type="text" value="1"><span>value one:</span>
-          <input class="input value1" type="text" value="0"><span>value two:</span>
-          <input class="input value2" type="text" value="100">
-        </p>
-      </div>
-      <div class="body">
-        <div class="slider-range" id="sliderBlockTwo"></div>
+    <div class="slider">
+      <div class="slider__wrapper">
+        <div class="slider__block slider__block_top"><span class="slider__text">Tooltip:</span>
+          <input class="slider__tooltip" type="checkbox"><span class="slider__text">Two slider:</span>
+          <input class="slider__twoSlider" type="checkbox"><span class="slider__text">Vertical:</span>
+          <input class="slider__vertically-horizontally" type="checkbox">
+        </div>
+        <div class="slider__block slider__block_bottom"> <span class="slider__text">Min:</span>
+          <input class="slider__input slider__input_min" type="text" value="0"><span class="slider__text">Max:</span>
+          <input class="slider__input slider__input_max" type="text" value="100"><span class="slider__text">Step:</span>
+          <input class="slider__input slider__input_step" type="text" value="1"><span class="slider__text">Value one:</span>
+          <input class="slider__input slider__input_value1" type="text" value="0"><span class="slider__text">Value two:</span>
+          <input class="slider__input slider__input_value2" type="text" value="100">
+        </div>
+        <div class="slider__plugin">
+          <div class="slider-range" id="firstSlider"></div>
+        </div>
       </div>
     </div>
-    <div class="block"> 
-      <div class="header" id="thirdBlock">
-        <p><span>tooltip:</span>
-          <input class="tooltip" type="checkbox" checked><span>two slider:</span>
-          <input class="twoSlider" type="checkbox" checked><span>vertical:</span>
-          <input class="vert-goriz" type="checkbox">
-        </p>
-        <p> <span>min:</span>
-          <input class="input min" type="text" value="0"><span>max:</span>
-          <input class="input max" type="text" value="100"><span>step:</span>
-          <input class="input step" type="text" value="1"><span>value one:</span>
-          <input class="input value1" type="text" value="0"><span>value two:</span>
-          <input class="input value2" type="text" value="100">
-        </p>
-      </div>
-      <div class="body">
-        <div class="slider-range" id="sliderBlockThree"></div>
+    <div class="slider">
+      <div class="slider__wrapper">
+        <div class="slider__block slider__block_top"><span class="slider__text">Tooltip:</span>
+          <input class="slider__tooltip" type="checkbox" checked><span class="slider__text">Two slider:</span>
+          <input class="slider__twoSlider" type="checkbox"><span class="slider__text">Vertical:</span>
+          <input class="slider__vertically-horizontally" type="checkbox">
+        </div>
+        <div class="slider__block slider__block_bottom"> <span class="slider__text">Min:</span>
+          <input class="slider__input slider__input_min" type="text" value="0"><span class="slider__text">Max:</span>
+          <input class="slider__input slider__input_max" type="text" value="100"><span class="slider__text">Step:</span>
+          <input class="slider__input slider__input_step" type="text" value="1"><span class="slider__text">Value one:</span>
+          <input class="slider__input slider__input_value1" type="text" value="0"><span class="slider__text">Value two:</span>
+          <input class="slider__input slider__input_value2" type="text" value="100">
+        </div>
+        <div class="slider__plugin">
+          <div class="slider-range" id="secondSlider"></div>
+        </div>
       </div>
     </div>
-    <div class="block"> 
-      <div class="header" id="fourthBlock">
-        <p><span>tooltip:</span>
-          <input class="tooltip" type="checkbox" checked><span>two slider:</span>
-          <input class="twoSlider" type="checkbox" checked><span>vertical:</span>
-          <input class="vert-goriz" type="checkbox" checked>
-        </p>
-        <p> <span>min:</span>
-          <input class="input min" type="text" value="0"><span>max:</span>
-          <input class="input max" type="text" value="100"><span>step:</span>
-          <input class="input step" type="text" value="1"><span>value one:</span>
-          <input class="input value1" type="text" value="0"><span>value two:</span>
-          <input class="input value2" type="text" value="100">
-        </p>
+    <div class="slider">
+      <div class="slider__wrapper">
+        <div class="slider__block slider__block_top"><span class="slider__text">Tooltip:</span>
+          <input class="slider__tooltip" type="checkbox" checked><span class="slider__text">Two slider:</span>
+          <input class="slider__twoSlider" type="checkbox" checked><span class="slider__text">Vertical:</span>
+          <input class="slider__vertically-horizontally" type="checkbox">
+        </div>
+        <div class="slider__block slider__block_bottom"> <span class="slider__text">Min:</span>
+          <input class="slider__input slider__input_min" type="text" value="0"><span class="slider__text">Max:</span>
+          <input class="slider__input slider__input_max" type="text" value="100"><span class="slider__text">Step:</span>
+          <input class="slider__input slider__input_step" type="text" value="1"><span class="slider__text">Value one:</span>
+          <input class="slider__input slider__input_value1" type="text" value="0"><span class="slider__text">Value two:</span>
+          <input class="slider__input slider__input_value2" type="text" value="100">
+        </div>
+        <div class="slider__plugin">
+          <div class="slider-range" id="thirdSlider"></div>
+        </div>
       </div>
-      <div class="body">
-        <div class="slider-range" id="sliderBlockFourth"></div>
+    </div>
+    <div class="slider">
+      <div class="slider__wrapper">
+        <div class="slider__block slider__block_top"><span class="slider__text">Tooltip:</span>
+          <input class="slider__tooltip" type="checkbox" checked><span class="slider__text">Two slider:</span>
+          <input class="slider__twoSlider" type="checkbox" checked><span class="slider__text">Vertical:</span>
+          <input class="slider__vertically-horizontally" type="checkbox" checked>
+        </div>
+        <div class="slider__block slider__block_bottom"> <span class="slider__text">Min:</span>
+          <input class="slider__input slider__input_min" type="text" value="0"><span class="slider__text">Max:</span>
+          <input class="slider__input slider__input_max" type="text" value="100"><span class="slider__text">Step:</span>
+          <input class="slider__input slider__input_step" type="text" value="1"><span class="slider__text">Value one:</span>
+          <input class="slider__input slider__input_value1" type="text" value="0"><span class="slider__text">Value two:</span>
+          <input class="slider__input slider__input_value2" type="text" value="100">
+        </div>
+        <div class="slider__plugin">
+          <div class="slider-range" id="fourthSlider"></div>
+        </div>
       </div>
     </div>
   <script type="text/javascript" src="main.js"></script></body>
