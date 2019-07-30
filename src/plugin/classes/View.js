@@ -56,48 +56,33 @@ class View {
 
   _movieVertical() {
     const sliderCoords = this.$domEl.offset().top;
-    const minCoords = this.$valueMin.offset().top;
-    const maxCoords = this.$valueMax.offset().top;
 
-    this.$valueMin.mousedown((e) => {
-      const shiftY = e.pageY - minCoords;
-
-      $(document).mousemove((event) => {
-        const newTop = event.pageY - shiftY - sliderCoords;
+    this.$valueMin.mousedown(() => {
+      $(document).mousemove((e) => {
+        const newTop = e.pageY - sliderCoords;
         const shiftPercentage = (newTop * 100) / this.$domEl.height();
         this.options.valueMin = this.options.step
         * Math.round(shiftPercentage / this._constants().step)
         + this.options.min;
-        // console.log('event.pageY ' + event.pageY)
-        // console.log('shiftY ' + shiftY)
-        // console.log('sliderCoords ' + sliderCoords)
-        // console.log('newTop ' + newTop)
-        console.log(this.options.valueMin)
-        if (
-          this.options.valueMin >= this.options.min
-          && this.options.valueMin <= this.options.valueMax
-        ) {
+
+        if (this.options.valueMin >= this.options.min
+          && this.options.valueMin <= this.options.valueMax) {
           this.$valueMin.css('top', `${this._constants().minPoint}%`);
           this.$toolMin.html(this.options.valueMin);
         }
       });
     });
 
-    this.$valueMax.mousedown((e) => {
-      const shiftY = e.pageY - maxCoords;
-
-      $(document).mousemove((event) => {
-        const newTop = event.pageY - shiftY - sliderCoords;
+    this.$valueMax.mousedown(() => {
+      $(document).mousemove((e) => {
+        const newTop = e.pageY - sliderCoords;
         const shiftPercentage = (newTop * 100) / this.$domEl.height();
         this.options.valueMax = this.options.step
         * Math.round(shiftPercentage / this._constants().step)
-        + this.options.max;
-        console.log(this.$domEl.height())
-        console.log(this.$domEl.outerHeight())
-        if (
-          this.options.valueMax <= this.options.max
-          && this.options.valueMax >= this.options.valueMin
-        ) {
+        + this.options.min;
+
+        if (this.options.valueMax <= this.options.max
+          && this.options.valueMax >= this.options.valueMin) {
           this.$valueMax.css('top', `${this._constants().maxPoint}%`);
           this.$toolMax.html(this.options.valueMax);
         }
@@ -155,7 +140,7 @@ class View {
     this.$valueMax.mousedown(() => {
       $(document).mousemove((event) => {
         const newLeft = event.pageX - sliderCoords;
-        const shiftPercentage = (newLeft * 100) / this.$domEl.outerWidth();
+        const shiftPercentage = (newLeft * 100) / this.$domEl.width();
         this.options.valueMax = this.options.step * Math.round(shiftPercentage
         / this._constants().step) + this.options.min;
 
@@ -172,7 +157,7 @@ class View {
 
     this.$domEl.on('click', (e) => {
       const newLeft = e.pageX - sliderCoords;
-      const shiftPercentage = (newLeft * 100) / this.$domEl.outerWidth();
+      const shiftPercentage = (newLeft * 100) / this.$domEl.width();
       const positionSlider = this.options.step
       * Math.round(shiftPercentage / this._constants().step)
       + this.options.min;

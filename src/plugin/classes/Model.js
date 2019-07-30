@@ -15,8 +15,9 @@ class Model {
       twoSliders: true,
     };
 
+    this.options = this.options !== undefined ? this.options : {};
     Object.keys(options).forEach(e => this.options.hasOwnProperty(e) ? options[e]
-    = this.options[e] : options[e] = options[e]);
+    = this.options[e] : options[e]);
 
     return options;
   }
