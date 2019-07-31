@@ -14,11 +14,10 @@ class View {
   }
 
   _constants() {
-    const correction = 5;
     const minPoint = ((this.options.valueMin - this.options.min) * 100)
-    / (this.options.max - this.options.min) - correction;
+    / (this.options.max - this.options.min);
     const maxPoint = ((this.options.valueMax - this.options.min) * 100)
-    / (this.options.max - this.options.min) - correction;
+    / (this.options.max - this.options.min);
     const sliderTopCoords = this.$domEl.offset().top - pageYOffset;
     const step = 100 / ((this.options.max - this.options.min)
     / this.options.step);
@@ -65,10 +64,12 @@ class View {
         * Math.round(shiftPercentage / this._constants().step)
         + this.options.min;
 
-        if (this.options.valueMin >= this.options.min
-          && this.options.valueMin <= this.options.valueMax) {
-          this.$valueMin.css('top', `${this._constants().minPoint}%`);
-          this.$toolMin.html(this.options.valueMin);
+        if (this.options.valueMin <= this.options.max) {
+          if (this.options.valueMin >= this.options.min
+            && this.options.valueMin <= this.options.valueMax) {
+            this.$valueMin.css('top', `${this._constants().minPoint}%`);
+            this.$toolMin.html(this.options.valueMin);
+          }
         }
       });
     });
@@ -81,10 +82,12 @@ class View {
         * Math.round(shiftPercentage / this._constants().step)
         + this.options.min;
 
-        if (this.options.valueMax <= this.options.max
-          && this.options.valueMax >= this.options.valueMin) {
-          this.$valueMax.css('top', `${this._constants().maxPoint}%`);
-          this.$toolMax.html(this.options.valueMax);
+        if (this.options.valueMax >= this.options.min) {
+          if (this.options.valueMax <= this.options.max
+            && this.options.valueMax >= this.options.valueMin) {
+            this.$valueMax.css('top', `${this._constants().maxPoint}%`);
+            this.$toolMax.html(this.options.valueMax);
+          }
         }
       });
     });
@@ -120,6 +123,7 @@ class View {
 
   _movieHorizon() {
     const sliderCoords = this.$domEl.offset().left - pageXOffset;
+
     this.$valueMin.mousedown(() => {
       $(document).mousemove((event) => {
         const newLeft = event.pageX - sliderCoords;
@@ -128,11 +132,13 @@ class View {
          * Math.round(shiftPercentage / this._constants().step)
          + this.options.min;
 
-        if (
-          this.options.valueMin >= this.options.min
-          && this.options.valueMin <= this.options.valueMax) {
-          this.$valueMin.css('left', `${this._constants().minPoint}%`);
-          this.$toolMin.html(this.options.valueMin);
+        if (this.options.valueMin <= this.options.max) {
+          if (
+            this.options.valueMin >= this.options.min
+            && this.options.valueMin <= this.options.valueMax) {
+            this.$valueMin.css('left', `${this._constants().minPoint}%`);
+            this.$toolMin.html(this.options.valueMin);
+          }
         }
       });
     });
@@ -144,10 +150,12 @@ class View {
         this.options.valueMax = this.options.step * Math.round(shiftPercentage
         / this._constants().step) + this.options.min;
 
-        if (this.options.valueMax <= this.options.max
-          && this.options.valueMax >= this.options.valueMin) {
-          this.$valueMax.css('left', `${this._constants().maxPoint}%`);
-          this.$toolMax.html(this.options.valueMax);
+        if (this.options.valueMax >= this.options.min) {
+          if (this.options.valueMax <= this.options.max
+            && this.options.valueMax >= this.options.valueMin) {
+            this.$valueMax.css('left', `${this._constants().maxPoint}%`);
+            this.$toolMax.html(this.options.valueMax);
+          }
         }
       });
     });
