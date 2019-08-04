@@ -15,17 +15,39 @@ class Model {
       vertical: false,
       tooltip: true,
       twoSliders: true,
-      inputMin: $(''),
-      inputMax: $(''),
-      inputStep: $(''),
-      inputValueMin: $(''),
-      inputValueMax: $(''),
-      inputVertical: $(''),
-      inputTooltip: $(''),
-      inputTwoSliders: $(''),
     };
 
     options = $.extend( {}, options, this.options);
+
+    if (options.step < 1) {
+      options.step = 1;
+    }
+
+    if (options.min >= options.max) {
+      options.min = options.max - options.step;
+    }
+
+    if (options.valueMin < options.min) {
+      options.valueMin = options.min;
+    }
+
+    if (options.twoSliders) {
+      if (options.valueMin > options.max) {
+        options.valueMin = options.valueMax;
+      }
+    } else if (!options.twoSliders) {
+      if (options.valueMin > options.max) {
+        options.valueMin = options.max;
+      }
+    }
+
+
+    if (options.valueMin > options.valueMax) {
+      options.valueMin = options.valueMax;
+    }
+    if (options.valueMax > options.max) {
+      options.valueMax = options.max;
+    }
 
     return options;
   }

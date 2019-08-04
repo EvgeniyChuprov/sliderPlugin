@@ -13,11 +13,11 @@
     <title>slider</title>
   <link href="main.css" rel="stylesheet"></head>
   <body>
-    <div class="slider" id="firstBlock">
+    <div class="slider js-slider" id="firstBlock">
       <div class="slider__wrapper">
         <div class="slider__block slider__block_top"><span class="slider__text">Tooltip:</span>
           <input class="slider__tooltip" type="checkbox"><span class="slider__text">Two slider:</span>
-          <input class="slider__twoSlider" type="checkbox"><span class="slider__text">Vertical:</span>
+          <input class="slider__twoSlider" type="checkbox" checked><span class="slider__text">Vertical:</span>
           <input class="slider__vertically-horizontally" type="checkbox">
         </div>
         <div class="slider__block slider__block_bottom"> <span class="slider__text">Min:</span>
@@ -28,30 +28,11 @@
           <input class="slider__input slider__input_value-max" type="number" value="100">
         </div>
         <div class="slider__plugin">
-          <div class="slider-range" id="firstSlider"></div>
+          <div class="slider-range js-slider-range" id="firstSlider"></div>
         </div>
       </div>
     </div>
-    <div class="slider" id="secondBlock">
-      <div class="slider__wrapper">
-        <div class="slider__block slider__block_top"><span class="slider__text">Tooltip:</span>
-          <input class="slider__tooltip" type="checkbox" checked><span class="slider__text">Two slider:</span>
-          <input class="slider__twoSlider" type="checkbox"><span class="slider__text">Vertical:</span>
-          <input class="slider__vertically-horizontally" type="checkbox">
-        </div>
-        <div class="slider__block slider__block_bottom"> <span class="slider__text">Min:</span>
-          <input class="slider__input slider__input_min" type="number" value="0"><span class="slider__text">Max:</span>
-          <input class="slider__input slider__input_max" type="number" value="100"><span class="slider__text">Step:</span>
-          <input class="slider__input slider__input_step" type="number" value="1"><span class="slider__text">Value min:</span>
-          <input class="slider__input slider__input_value-min" type="number" value="0"><span class="slider__text">Value max:</span>
-          <input class="slider__input slider__input_value-max" type="number" value="100">
-        </div>
-        <div class="slider__plugin">
-          <div class="slider-range" id="secondSlider"></div>
-        </div>
-      </div>
-    </div>
-    <div class="slider" id="thirdBlock">
+    <div class="slider js-slider" id="secondBlock">
       <div class="slider__wrapper">
         <div class="slider__block slider__block_top"><span class="slider__text">Tooltip:</span>
           <input class="slider__tooltip" type="checkbox" checked><span class="slider__text">Two slider:</span>
@@ -66,11 +47,30 @@
           <input class="slider__input slider__input_value-max" type="number" value="100">
         </div>
         <div class="slider__plugin">
-          <div class="slider-range" id="thirdSlider"></div>
+          <div class="slider-range js-slider-range" id="secondSlider"></div>
         </div>
       </div>
     </div>
-    <div class="slider" id="fourthBlock">
+    <div class="slider js-slider" id="thirdBlock">
+      <div class="slider__wrapper">
+        <div class="slider__block slider__block_top"><span class="slider__text">Tooltip:</span>
+          <input class="slider__tooltip" type="checkbox" checked><span class="slider__text">Two slider:</span>
+          <input class="slider__twoSlider" type="checkbox"><span class="slider__text">Vertical:</span>
+          <input class="slider__vertically-horizontally" type="checkbox">
+        </div>
+        <div class="slider__block slider__block_bottom"> <span class="slider__text">Min:</span>
+          <input class="slider__input slider__input_min" type="number" value="0"><span class="slider__text">Max:</span>
+          <input class="slider__input slider__input_max" type="number" value="100"><span class="slider__text">Step:</span>
+          <input class="slider__input slider__input_step" type="number" value="1"><span class="slider__text">Value min:</span>
+          <input class="slider__input slider__input_value-min" type="number" value="0"><span class="slider__text">Value max:</span>
+          <input class="slider__input slider__input_value-max" type="number" value="100">
+        </div>
+        <div class="slider__plugin">
+          <div class="slider-range js-slider-range" id="thirdSlider"></div>
+        </div>
+      </div>
+    </div>
+    <div class="slider js-slider" id="fourthBlock">
       <div class="slider__wrapper">
         <div class="slider__block slider__block_top"><span class="slider__text">Tooltip:</span>
           <input class="slider__tooltip" type="checkbox" checked><span class="slider__text">Two slider:</span>
@@ -85,7 +85,7 @@
           <input class="slider__input slider__input_value-max" type="number" value="100">
         </div>
         <div class="slider__plugin">
-          <div class="slider-range" id="fourthSlider"></div>
+          <div class="slider-range js-slider-range" id="fourthSlider"></div>
         </div>
       </div>
     </div>

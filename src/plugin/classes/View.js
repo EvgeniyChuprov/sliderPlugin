@@ -1,17 +1,18 @@
 /* eslint no-underscore-dangle: ["error", { "allowAfterThis": true }] */
+
 class View {
   constructor($domEl, options) {
     this.$domEl = $domEl;
     this.options = options;
   }
 
-  // initialization() {
-  //   //this._createSlider();
-  // //  this._vertical();
-  // //  this._startingPositions();
-  // //  this._twoSliders();
-  //  // this._tool();
-  // }
+  initialization() {
+    this._createSlider();
+    this._vertical();
+    this._twoSliders();
+    this._tool();
+    this._startingPositions();
+  }
 
   _constants() {
     const minPoint = ((this.options.valueMin - this.options.min) * 100)
@@ -30,28 +31,34 @@ class View {
     };
   }
 
-  createSlider() {
-    const create = $(`<div class="slider-range__value-min" ><div class = "slider-range__tool-min" ></div></div>
-        <div class="slider-range__value-max" ><div class = "slider-range__tool-max" ></div></div>`);
-    this.$domEl.append(create);
+  _createSlider() {
     this.$valueMin = this.$domEl.find('.slider-range__value-min');
     this.$valueMax = this.$domEl.find('.slider-range__value-max');
     this.$toolMin = this.$domEl.find('.slider-range__tool-min');
     this.$toolMax = this.$domEl.find('.slider-range__tool-max');
+
+    this.$domEl.attr('data-min', this.options.min);
+    this.$domEl.attr('data-max', this.options.max);
+    this.$domEl.attr('data-valueMin', this.options.valueMin);
+    this.$domEl.attr('data-valueMax', this.options.valueMax);
+    this.$domEl.attr('data-step', this.options.step);
+    this.$domEl.attr('data-tooltip', this.options.tooltip);
+    this.$domEl.attr('data-vertical', this.options.vertical);
+    this.$domEl.attr('data-twoSliders', this.options.twoSliders);
   }
 
-  // _startingPositions() {
-  //   this.$toolMin.html(this.options.valueMin);
-  //   this.$toolMax.html(this.options.valueMax);
+  _startingPositions() {
+    this.$toolMin.html(this.options.valueMin);
+    this.$toolMax.html(this.options.valueMax);
 
-  //   if (this.options.vertical) {
-  //     this.$valueMin.css('top', `${this._constants().minPoint}%`);
-  //     this.$valueMax.css('top', `${this._constants().maxPoint}%`);
-  //   } else {
-  //     this.$valueMin.css('left', `${this._constants().minPoint}%`);
-  //     this.$valueMax.css('left', `${this._constants().maxPoint}%`);
-  //   }
-  // }
+    if (this.options.vertical) {
+      this.$valueMin.css('top', `${this._constants().minPoint}%`);
+      this.$valueMax.css('top', `${this._constants().maxPoint}%`);
+    } else {
+      this.$valueMin.css('left', `${this._constants().minPoint}%`);
+      this.$valueMax.css('left', `${this._constants().maxPoint}%`);
+    }
+  }
 
   _movieVertical() {
     const sliderCoords = this.$domEl.offset().top;
@@ -69,6 +76,7 @@ class View {
             && this.options.valueMin <= this.options.valueMax) {
             this.$valueMin.css('top', `${this._constants().minPoint}%`);
             this.$toolMin.html(this.options.valueMin);
+            this.$domEl.attr('data-valueMin', this.options.valueMin)
           }
         }
       });
@@ -87,6 +95,7 @@ class View {
             && this.options.valueMax >= this.options.valueMin) {
             this.$valueMax.css('top', `${this._constants().maxPoint}%`);
             this.$toolMax.html(this.options.valueMax);
+            this.$domEl.attr('data-valueMax', this.options.valueMax)
           }
         }
       });
@@ -108,15 +117,22 @@ class View {
           this.options.valueMin = positionSlider;
           this.$toolMin.html(this.options.valueMin);
           this.$valueMin.css('top', `${this._constants().minPoint}%`);
+
+          this.$domEl.attr('data-valueMin', this.options.valueMin)
+
         } else if (e.pageY > sliderCoords + this.$domEl.height() / 2) {
           this.options.valueMax = positionSlider;
           this.$toolMax.html(this.options.valueMax);
           this.$valueMax.css('top', `${this._constants().maxPoint}%`);
+
+          this.$domEl.attr('data-valueMax', this.options.valueMax)
         }
       } else {
         this.options.valueMin = positionSlider;
         this.$toolMin.html(this.options.valueMin);
         this.$valueMin.css('top', `${this._constants().minPoint}%`);
+
+        this.$domEl.attr('data-valueMin', this.options.valueMin)
       }
     });
   }
@@ -138,7 +154,7 @@ class View {
             && this.options.valueMin <= this.options.valueMax) {
             this.$valueMin.css('left', `${this._constants().minPoint}%`);
             this.$toolMin.html(this.options.valueMin);
-        
+            this.$domEl.attr('data-valueMin', this.options.valueMin)
           }
         }
       });
@@ -156,6 +172,7 @@ class View {
             && this.options.valueMax >= this.options.valueMin) {
             this.$valueMax.css('left', `${this._constants().maxPoint}%`);
             this.$toolMax.html(this.options.valueMax);
+            this.$domEl.attr('data-valueMax', this.options.valueMax)
           }
         }
       });
@@ -176,21 +193,27 @@ class View {
           this.options.valueMin = positionSlider;
           this.$toolMin.html(this.options.valueMin);
           this.$valueMin.css('left', `${this._constants().minPoint}%`);
+
+          this.$domEl.attr('data-valueMin', this.options.valueMin)
         } else if (e.pageX > sliderCoords + this.$domEl.width() / 2) {
           this.options.valueMax = positionSlider;
           this.$toolMax.html(this.options.valueMax);
           this.$valueMax.css('left', `${this._constants().maxPoint}%`);
+
+          this.$domEl.attr('data-valueMax', this.options.valueMax)
         }
       } else {
         this.options.valueMin = positionSlider;
         this.$toolMin.html(this.options.valueMin);
         this.$valueMin.css('left', `${this._constants().minPoint}%`);
+
+        this.$domEl.attr('data-valueMin', this.options.valueMin)
       }
     });
   }
 
-  tool(tooltip) {
-    if (tooltip) {
+  _tool() {
+    if (this.options.tooltip) {
       this.$toolMin.css('visibility', 'visible');
       this.$toolMax.css('visibility', 'visible');
     } else {
@@ -199,16 +222,16 @@ class View {
     }
   }
 
-  position(vertical) {
-    if (vertical) {
+  _vertical() {
+    if (this.options.vertical) {
       this.$domEl
         .addClass('slider-range_vertical')
         .removeClass('slider-range_horizon');
       this.$valueMin
-        .addClass('slider-range__value-min_vertical')
+        .addClass('slider-range__value-min_vertical').css('left', '-10px')
         .removeClass('slider-range__value-min_horizon');
       this.$valueMax
-        .addClass('slider-range__value-max_vertical')
+        .addClass('slider-range__value-max_vertical').css('left', '-10px')
         .removeClass('slider-range__value-max_horizon');
       this.$toolMin
         .addClass('slider-range__tool-min_vertical')
@@ -222,10 +245,10 @@ class View {
         .addClass('slider-range_horizon')
         .removeClass('slider-range_vertical');
       this.$valueMin
-        .addClass('slider-range__value-min_horizon')
+        .addClass('slider-range__value-min_horizon').css('top', '-10px')
         .removeClass('slider-range__value-min_vertical');
       this.$valueMax
-        .addClass('slider-range__value-max_horizon')
+        .addClass('slider-range__value-max_horizon').css('top', '-10px')
         .removeClass('slider-range__value-max_vertical');
       this.$toolMin
         .addClass('slider-range__tool-min_horizon')
@@ -237,13 +260,14 @@ class View {
     }
   }
 
-  twoSliders(twoSliders) {
-    if (twoSliders) {
+  _twoSliders() {
+    if (this.options.twoSliders) {
       this.$valueMax.css('display', 'block');
       this.$toolMax.css('display', 'block');
     } else {
       this.$valueMax.css('display', 'none');
       this.$toolMax.css('display', 'none');
+      this.options.valueMax = this.options.max;
     }
   }
 }

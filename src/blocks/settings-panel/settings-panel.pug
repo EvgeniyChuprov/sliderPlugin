@@ -2,7 +2,7 @@
 mixin settings-panel(options)
   -let { idTable= '', idSlider='', tooltip= false, twoSlider= false, vertical= false} = options;
 
-  .slider(id= idTable)
+  .slider.js-slider(id= idTable)
     .slider__wrapper
       .slider__block.slider__block_top
         span.slider__text Tooltip:
@@ -23,4 +23,4 @@ mixin settings-panel(options)
         span.slider__text Value max:
         input.slider__input.slider__input_value-max(type="number" value="100")
       .slider__plugin
-        .slider-range(id= idSlider)
+        .slider-range.js-slider-range(id= idSlider)
