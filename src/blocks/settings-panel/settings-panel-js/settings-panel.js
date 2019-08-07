@@ -18,31 +18,32 @@ class sliderInterface {
     this.tooltip = this.$sliderInterface.find('.slider__tooltip');
     this.twoSliders = this.$sliderInterface.find('.slider__twoSlider');
     this.plugin = this.$sliderInterface.find('.js-slider-range');
+    this.options = this.plugin.myFirstSliderPlugin('get');
   }
 
   _changeInput() {
     this.min.change(() => {
-      this.options.min = this.min.val();
+      this.options.min = +this.min.val();
       this.plugin.myFirstSliderPlugin('set', this.options);
     });
 
     this.max.change(() => {
-      this.options.max = this.max.val();
+      this.options.max = +this.max.val();
       this.plugin.myFirstSliderPlugin('set', this.options);
     });
 
     this.step.change(() => {
-      this.options.step = this.step.val();
+      this.options.step = +this.step.val();
       this.plugin.myFirstSliderPlugin('set', this.options);
     });
 
     this.valueMin.change(() => {
-      this.options.valueMin = this.valueMin.val();
+      this.options.valueMin = +this.valueMin.val();
       this.plugin.myFirstSliderPlugin('set', this.options);
     });
 
     this.valueMax.change(() => {
-      this.options.valueMax = this.valueMax.val();
+      this.options.valueMax = +this.valueMax.val();
       this.plugin.myFirstSliderPlugin('set', this.options);
     });
 
@@ -63,35 +64,28 @@ class sliderInterface {
   }
 
   _changeOutput() {
-    this.options = {
-      min: this.plugin.data().min,
-      max: this.plugin.data().max,
-      step: this.plugin.data().step,
-      valueMin: this.plugin.data().valuemin,
-      valueMax: this.plugin.data().valuemax,
-      vertical: this.plugin.data().vertical,
-      tooltip: this.plugin.data().tooltip,
-      twoSliders: this.plugin.data().twoSliders,
-    };
-    this.min.val(this.plugin.data().min);
-    this.max.val(this.plugin.data().max);
-    this.step.val(this.plugin.data().step);
-    this.valueMin.val(this.plugin.data().valuemin);
-    this.valueMax.val(this.plugin.data().valuemax);
-    this.tooltip.prop('checked', this.plugin.data().tooltip);
-    this.vertical.prop('checked', this.plugin.data().vertical);
-    this.twoSliders.prop('checked', this.plugin.data().twosliders);
+    let min = this.options.valueMin;
+    let max = this.options.valueMax;
 
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        this.valueMin[0].value = mutation.target.dataset.valuemin;
-        this.options.valueMin = mutation.target.dataset.valuemin;
-        this.valueMax[0].value = mutation.target.dataset.valuemax;
-        this.options.valueMax = mutation.target.dataset.valuemax;
-      });
-    });
-    const config = { attributes: true, childList: false, characterData: false };
-    observer.observe(this.plugin[0], config);
+    setInterval(() => {
+      if (this.options.valueMin !== min) {
+        min = this.options.valueMin;
+        this.valueMin.val(min);
+      }
+      if (this.options.valueMax !== max) {
+        max = this.options.valueMax;
+        this.valueMax.val(max);
+      }
+    }, 400);
+
+    this.min.val(this.options.min);
+    this.max.val(this.options.max);
+    this.step.val(this.options.step);
+    this.valueMin.val(this.options.valueMin);
+    this.valueMax.val(this.options.valueMax);
+    this.tooltip.prop('checked', this.options.tooltip);
+    this.vertical.prop('checked', this.options.vertical);
+    this.twoSliders.prop('checked', this.options.twosliders);
   }
 }
 
