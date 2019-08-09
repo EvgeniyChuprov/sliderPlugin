@@ -28,9 +28,18 @@ $('#thirdSlider').myFirstSliderPlugin({
   step: 1,
   valueMin: 15,
   valueMax: 75,
-  vertical: true,
+  vertical: false,
   tooltip: true,
-  twoSliders: false,
+  twoSliders: true,
 });
 
-$('#fourthSlider').myFirstSliderPlugin();
+$('#fourthSlider').myFirstSliderPlugin({
+  min: 2,
+  max: 8,
+  step: 1,
+  valueMin: 5,
+  valueMax: 7,
+  vertical: false,
+  tooltip: true,
+  twoSliders: true,
+});

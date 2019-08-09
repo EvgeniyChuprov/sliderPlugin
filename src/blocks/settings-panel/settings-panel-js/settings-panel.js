@@ -76,7 +76,7 @@ class sliderInterface {
         max = this.options.valueMax;
         this.valueMax.val(max);
       }
-    }, 400);
+    }, 100);
 
     this.min.val(this.options.min);
     this.max.val(this.options.max);
@@ -85,7 +85,7 @@ class sliderInterface {
     this.valueMax.val(this.options.valueMax);
     this.tooltip.prop('checked', this.options.tooltip);
     this.vertical.prop('checked', this.options.vertical);
-    this.twoSliders.prop('checked', this.options.twosliders);
+    this.twoSliders.prop('checked', this.options.twoSliders);
   }
 }
 

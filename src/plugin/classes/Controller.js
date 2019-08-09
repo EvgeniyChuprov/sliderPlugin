@@ -8,10 +8,17 @@ class Controller {
     this.options = options;
   }
 
-  setting() {
-    this.model = new Model(this.$domEl, this.options);
+  init() {
+    this.model = new Model(this.options);
     this.view = new View(this.$domEl, this.model.setting);
     this.view.initialization();
+    this.view.setting();
+  }
+
+  setting() {
+    this.view.setting();
+    console.log(this.$domEl);
+    console.log(this.view.options);
   }
 }
 module.exports = Controller;

@@ -1,6 +1,6 @@
 
 mixin settings-panel(options)
-  -let { idTable= '', idSlider='', tooltip= false, twoSlider= false, vertical= false} = options;
+  -let { idSlider='', tooltip= false, twoSlider= false, vertical= false} = options;
 
   .slider.js-slider(id= idTable)
     .slider__wrapper
@@ -13,14 +13,14 @@ mixin settings-panel(options)
         input.slider__vertically-horizontally(type="checkbox" checked= vertical)
       .slider__block.slider__block_bottom 
         span.slider__text Min:
-        input.slider__input.slider__input_min(type="number" value="0" )
+        input.slider__input.slider__input_min(type="number" value="" )
         span.slider__text Max:
-        input.slider__input.slider__input_max(type="number" value="100")
+        input.slider__input.slider__input_max(type="number" value="")
         span.slider__text Step:
-        input.slider__input.slider__input_step(type="number" value="1")
+        input.slider__input.slider__input_step(type="number" value="")
         span.slider__text Value min:
-        input.slider__input.slider__input_value-min(type="number" value="0")
+        input.slider__input.slider__input_value-min(type="number" value="")
         span.slider__text Value max:
-        input.slider__input.slider__input_value-max(type="number" value="100")
+        input.slider__input.slider__input_value-max(type="number" value="")
       .slider__plugin
         .slider-range.js-slider-range(id= idSlider)

@@ -8,6 +8,9 @@ class View {
 
   initialization() {
     this._createSlider();
+  }
+
+  setting() {
     this._vertical();
     this._twoSliders();
     this._tool();
@@ -58,13 +61,12 @@ class View {
       $(document).mousemove((e) => {
         const newTop = e.pageY - sliderCoords;
         const shiftPercentage = (newTop * 100) / this.$domEl.height();
-        this.options.valueMin = this.options.step
-        * Math.round(shiftPercentage / this._constants().step)
-        + this.options.min;
+        const value = this.options.step * Math.round(shiftPercentage
+        / this._constants().step) + this.options.min;
 
-        if (this.options.valueMin <= this.options.max) {
-          if (this.options.valueMin >= this.options.min
-            && this.options.valueMin <= this.options.valueMax) {
+        if (value <= this.options.max) {
+          if (value >= this.options.min && value <= this.options.valueMax) {
+            this.options.valueMin = value;
             this.$valueMin.css('top', `${this._constants().minPoint}%`);
             this.$toolMin.html(this.options.valueMin);
           }
@@ -76,13 +78,12 @@ class View {
       $(document).mousemove((e) => {
         const newTop = e.pageY - sliderCoords;
         const shiftPercentage = (newTop * 100) / this.$domEl.height();
-        this.options.valueMax = this.options.step
-        * Math.round(shiftPercentage / this._constants().step)
-        + this.options.min;
+        const value = this.options.step * Math.round(shiftPercentage
+        / this._constants().step) + this.options.min;
 
-        if (this.options.valueMax >= this.options.min) {
-          if (this.options.valueMax <= this.options.max
-            && this.options.valueMax >= this.options.valueMin) {
+        if (value >= this.options.min) {
+          if (value <= this.options.max && value >= this.options.valueMin) {
+            this.options.valueMax = value;
             this.$valueMax.css('top', `${this._constants().maxPoint}%`);
             this.$toolMax.html(this.options.valueMax); 
           }
@@ -97,9 +98,8 @@ class View {
     this.$domEl.on('click', (e) => {
       const newTop = e.pageY - sliderCoords;
       const shiftPercentage = (newTop * 100) / this.$domEl.height();
-      const positionSlider = this.options.step
-      * Math.round(shiftPercentage / this._constants().step)
-      + this.options.min;
+      const positionSlider = this.options.step * Math.round(shiftPercentage
+      / this._constants().step) + this.options.min;
 
       if (this.options.twoSliders) {
         if (e.pageY < sliderCoords + this.$domEl.height() / 2) {
@@ -126,14 +126,12 @@ class View {
       $(document).mousemove((event) => {
         const newLeft = event.pageX - sliderCoords;
         const shiftPercentage = (newLeft * 100) / this.$domEl.width();
-        this.options.valueMin = this.options.step
-         * Math.round(shiftPercentage / this._constants().step)
-         + this.options.min;
+        const value = this.options.step * Math.round(shiftPercentage
+        / this._constants().step) + this.options.min;
 
-        if (this.options.valueMin <= this.options.max) {
-          if (
-            this.options.valueMin >= this.options.min
-            && this.options.valueMin <= this.options.valueMax) {
+        if (value <= this.options.max) {
+          if (value >= this.options.min && value <= this.options.valueMax) {
+            this.options.valueMin = value;
             this.$valueMin.css('left', `${this._constants().minPoint}%`);
             this.$toolMin.html(this.options.valueMin);
           }
@@ -145,14 +143,14 @@ class View {
       $(document).mousemove((event) => {
         const newLeft = event.pageX - sliderCoords;
         const shiftPercentage = (newLeft * 100) / this.$domEl.width();
-        this.options.valueMax = this.options.step * Math.round(shiftPercentage
+        const value = this.options.step * Math.round(shiftPercentage
         / this._constants().step) + this.options.min;
 
-        if (this.options.valueMax >= this.options.min) {
-          if (this.options.valueMax <= this.options.max
-            && this.options.valueMax >= this.options.valueMin) {
+        if (value >= this.options.min) {
+          if (value <= this.options.max && value >= this.options.valueMin) {
+            this.options.valueMax = value;
             this.$valueMax.css('left', `${this._constants().maxPoint}%`);
-            this.$toolMax.html(this.options.valueMax);  
+            this.$toolMax.html(this.options.valueMax);
           }
         }
       });
@@ -172,7 +170,7 @@ class View {
         if (e.pageX < sliderCoords + this.$domEl.width() / 2) {
           this.options.valueMin = positionSlider;
           this.$toolMin.html(this.options.valueMin);
-          this.$valueMin.css('left', `${this._constants().minPoint}%`);     
+          this.$valueMin.css('left', `${this._constants().minPoint}%`);
         } else if (e.pageX > sliderCoords + this.$domEl.width() / 2) {
           this.options.valueMax = positionSlider;
           this.$toolMax.html(this.options.valueMax);
@@ -202,10 +200,10 @@ class View {
         .addClass('slider-range_vertical')
         .removeClass('slider-range_horizon');
       this.$valueMin
-        .addClass('slider-range__value-min_vertical').css('left', '-10px')
+        .addClass('slider-range__value-min_vertical').css('left', `${-10}px`)
         .removeClass('slider-range__value-min_horizon');
       this.$valueMax
-        .addClass('slider-range__value-max_vertical').css('left', '-10px')
+        .addClass('slider-range__value-max_vertical').css('left', `${-10}px`)
         .removeClass('slider-range__value-max_horizon');
       this.$toolMin
         .addClass('slider-range__tool-min_vertical')
@@ -219,10 +217,10 @@ class View {
         .addClass('slider-range_horizon')
         .removeClass('slider-range_vertical');
       this.$valueMin
-        .addClass('slider-range__value-min_horizon').css('top', '-10px')
+        .addClass('slider-range__value-min_horizon').css('top', `${-10}px`)
         .removeClass('slider-range__value-min_vertical');
       this.$valueMax
-        .addClass('slider-range__value-max_horizon').css('top', '-10px')
+        .addClass('slider-range__value-max_horizon').css('top', `${-10}px`)
         .removeClass('slider-range__value-max_vertical');
       this.$toolMin
         .addClass('slider-range__tool-min_horizon')

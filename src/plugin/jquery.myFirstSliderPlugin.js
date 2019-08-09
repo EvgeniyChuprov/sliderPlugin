@@ -5,26 +5,25 @@ const Controller = require('./classes/Controller');
   const methods = {
     init(options) {
       return this.each(() => {
-        const $this = $(this);
-        controller.$domEl = $this;
+        controller.$domEl = this;
         const create = $(`<div class="slider-range__value-min" ><div class = "slider-range__tool-min" ></div></div>
         <div class="slider-range__value-max" ><div class = "slider-range__tool-max" ></div></div>`);
-        $this.append(create);
+        this.append(create);
         controller.options = options;
+        controller.init();
         controller.setting();
-        $this.data('ggg', controller.view.options);
+        this.data('setting', controller.model.setting);
       });
     },
     get() {
-      const $this = $(this);
-      const dat = $this.data("ggg") ;
-      return dat
+      const setting = this.data('setting');
+      return setting;
     },
-    set(opt) {
-      const $this = $(this);
-      controller.view.options = $this.data("ggg", opt) ;
-      console.log($this.data("ggg"))
-    }
+    set(options) {
+      controller.$domEl = this;
+      controller.options = this.data('setting');
+      controller.setting();
+    },
   };
 
   $.fn.myFirstSliderPlugin = function(method) {
