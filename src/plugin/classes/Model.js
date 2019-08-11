@@ -1,10 +1,10 @@
 class Model {
   constructor(options) {
     this.options = options;
-    this.setting = this.setting();
+    this.setting = this.normalizationOfSettings();
   }
 
-  setting() {
+  normalizationOfSettings() {
     let options = {
       min: 0,
       max: 100,
@@ -22,8 +22,12 @@ class Model {
       options.valueMin = options.min;
     }
 
-    if (options.step < 1) {
+    if (options.step <= 0) {
       options.step = 1;
+    }
+
+    if (options.step > options.max) {
+      options.step = options.max;
     }
 
     if (options.min >= options.max) {
@@ -34,8 +38,12 @@ class Model {
       options.min = options.valueMin;
     }
 
-    if (options.valueMin < options.min) {
-      options.valueMin = options.min;
+    if (options.valueMin > options.valueMax) {
+      options.valueMin = options.valueMax;
+    }
+
+    if (options.valueMax > options.max) {
+      options.valueMax = options.max;
     }
 
     if (options.twoSliders) {
@@ -48,16 +56,7 @@ class Model {
       }
     }
 
-
-    if (options.valueMin > options.valueMax) {
-      options.valueMin = options.valueMax;
-    }
-    if (options.valueMax > options.max) {
-      options.valueMax = options.max;
-    }
-
     return options;
   }
-
 }
 module.exports = Model;

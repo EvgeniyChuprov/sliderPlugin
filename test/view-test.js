@@ -15,6 +15,9 @@ describe('Доступ к параметрам класса View', () => {
     twoSliders: true,
   };
   const domEl = $('body');
+  const create = $(`<div class="slider-range__value-min" ><div class = "slider-range__tool-min" ></div></div>
+  <div class="slider-range__value-max" ><div class = "slider-range__tool-max" ></div></div>`);
+  domEl.append(create);
   const view = new View(domEl, options);
 
 
@@ -32,12 +35,12 @@ describe('Доступ к параметрам класса View', () => {
 
   it ('view начальные позиции ползунков', () => {
     view.options.vertical = true;
-    view._constants();
+    view.constants();
     view._startingPositions();
-    assert.equal(view.$valueMin.css('top'), `${view._constants().minPoint}%`);
+    assert.equal(view.$valueMin.css('top'), `${view.constants().minPoint}%`);
     view.options.vertical = false;
     view._startingPositions();
-    assert.equal(view.$valueMax.css('left'), `${view._constants().maxPoint}%`);
+    assert.equal(view.$valueMax.css('left'), `${view.constants().maxPoint}%`);
   });
 
   it ('view видимость тултипов', () => {

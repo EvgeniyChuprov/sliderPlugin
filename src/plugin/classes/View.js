@@ -6,18 +6,16 @@ class View {
     this.options = options;
   }
 
-  initialization() {
-    this._createSlider();
-  }
-
   setting() {
+    this._createSlider();
     this._vertical();
     this._twoSliders();
     this._tool();
+    this._click();
     this._startingPositions();
   }
 
-  _constants() {
+  constants() {
     const minPoint = ((this.options.valueMin - this.options.min) * 100)
     / (this.options.max - this.options.min);
     const maxPoint = ((this.options.valueMax - this.options.min) * 100)
@@ -46,11 +44,11 @@ class View {
     this.$toolMax.html(this.options.valueMax);
 
     if (this.options.vertical) {
-      this.$valueMin.css('top', `${this._constants().minPoint}%`);
-      this.$valueMax.css('top', `${this._constants().maxPoint}%`);
+      this.$valueMin.css('top', `${this.constants().minPoint}%`);
+      this.$valueMax.css('top', `${this.constants().maxPoint}%`);
     } else {
-      this.$valueMin.css('left', `${this._constants().minPoint}%`);
-      this.$valueMax.css('left', `${this._constants().maxPoint}%`);
+      this.$valueMin.css('left', `${this.constants().minPoint}%`);
+      this.$valueMax.css('left', `${this.constants().maxPoint}%`);
     }
   }
 
@@ -62,12 +60,12 @@ class View {
         const newTop = e.pageY - sliderCoords;
         const shiftPercentage = (newTop * 100) / this.$domEl.height();
         const value = this.options.step * Math.round(shiftPercentage
-        / this._constants().step) + this.options.min;
+        / this.constants().step) + this.options.min;
 
         if (value <= this.options.max) {
           if (value >= this.options.min && value <= this.options.valueMax) {
             this.options.valueMin = value;
-            this.$valueMin.css('top', `${this._constants().minPoint}%`);
+            this.$valueMin.css('top', `${this.constants().minPoint}%`);
             this.$toolMin.html(this.options.valueMin);
           }
         }
@@ -79,12 +77,12 @@ class View {
         const newTop = e.pageY - sliderCoords;
         const shiftPercentage = (newTop * 100) / this.$domEl.height();
         const value = this.options.step * Math.round(shiftPercentage
-        / this._constants().step) + this.options.min;
+        / this.constants().step) + this.options.min;
 
         if (value >= this.options.min) {
           if (value <= this.options.max && value >= this.options.valueMin) {
             this.options.valueMax = value;
-            this.$valueMax.css('top', `${this._constants().maxPoint}%`);
+            this.$valueMax.css('top', `${this.constants().maxPoint}%`);
             this.$toolMax.html(this.options.valueMax); 
           }
         }
@@ -93,29 +91,6 @@ class View {
 
     $(document).mouseup(() => {
       $(document).unbind('mousemove');
-    });
-
-    this.$domEl.on('click', (e) => {
-      const newTop = e.pageY - sliderCoords;
-      const shiftPercentage = (newTop * 100) / this.$domEl.height();
-      const positionSlider = this.options.step * Math.round(shiftPercentage
-      / this._constants().step) + this.options.min;
-
-      if (this.options.twoSliders) {
-        if (e.pageY < sliderCoords + this.$domEl.height() / 2) {
-          this.options.valueMin = positionSlider;
-          this.$toolMin.html(this.options.valueMin);
-          this.$valueMin.css('top', `${this._constants().minPoint}%`);
-        } else if (e.pageY > sliderCoords + this.$domEl.height() / 2) {
-          this.options.valueMax = positionSlider;
-          this.$toolMax.html(this.options.valueMax);
-          this.$valueMax.css('top', `${this._constants().maxPoint}%`);
-        }
-      } else {
-        this.options.valueMin = positionSlider;
-        this.$toolMin.html(this.options.valueMin);
-        this.$valueMin.css('top', `${this._constants().minPoint}%`);
-      }
     });
   }
 
@@ -127,12 +102,12 @@ class View {
         const newLeft = event.pageX - sliderCoords;
         const shiftPercentage = (newLeft * 100) / this.$domEl.width();
         const value = this.options.step * Math.round(shiftPercentage
-        / this._constants().step) + this.options.min;
+        / this.constants().step) + this.options.min;
 
         if (value <= this.options.max) {
           if (value >= this.options.min && value <= this.options.valueMax) {
             this.options.valueMin = value;
-            this.$valueMin.css('left', `${this._constants().minPoint}%`);
+            this.$valueMin.css('left', `${this.constants().minPoint}%`);
             this.$toolMin.html(this.options.valueMin);
           }
         }
@@ -144,12 +119,12 @@ class View {
         const newLeft = event.pageX - sliderCoords;
         const shiftPercentage = (newLeft * 100) / this.$domEl.width();
         const value = this.options.step * Math.round(shiftPercentage
-        / this._constants().step) + this.options.min;
+        / this.constants().step) + this.options.min;
 
         if (value >= this.options.min) {
           if (value <= this.options.max && value >= this.options.valueMin) {
             this.options.valueMax = value;
-            this.$valueMax.css('left', `${this._constants().maxPoint}%`);
+            this.$valueMax.css('left', `${this.constants().maxPoint}%`);
             this.$toolMax.html(this.options.valueMax);
           }
         }
@@ -158,30 +133,61 @@ class View {
     $(document).mouseup(() => {
       $(document).unbind('mousemove');
     });
+  }
 
-    this.$domEl.on('click', (e) => {
-      const newLeft = e.pageX - sliderCoords;
-      const shiftPercentage = (newLeft * 100) / this.$domEl.width();
-      const positionSlider = this.options.step
-      * Math.round(shiftPercentage / this._constants().step)
-      + this.options.min;
+  _click() {
+    if (this.options.vertical) {
+      this.$domEl.unbind('click');
+      const sliderCoords = this.$domEl.offset().top;
+      this.$domEl.on('click', (e) => {
+        const newTop = e.pageY - sliderCoords;
+        const shiftPercentage = (newTop * 100) / this.$domEl.height();
+        const positionSlider = this.options.step * Math.round(shiftPercentage
+        / this.constants().step) + this.options.min;
 
-      if (this.options.twoSliders) {
-        if (e.pageX < sliderCoords + this.$domEl.width() / 2) {
+        if (this.options.twoSliders) {
+          if (e.pageY < sliderCoords + this.$domEl.height() / 2) {
+            this.options.valueMin = positionSlider;
+            this.$toolMin.html(this.options.valueMin);
+            this.$valueMin.css('top', `${this.constants().minPoint}%`);
+          } else if (e.pageY > sliderCoords + this.$domEl.height() / 2) {
+            this.options.valueMax = positionSlider;
+            this.$toolMax.html(this.options.valueMax);
+            this.$valueMax.css('top', `${this.constants().maxPoint}%`);
+          }
+        } else {
           this.options.valueMin = positionSlider;
           this.$toolMin.html(this.options.valueMin);
-          this.$valueMin.css('left', `${this._constants().minPoint}%`);
-        } else if (e.pageX > sliderCoords + this.$domEl.width() / 2) {
-          this.options.valueMax = positionSlider;
-          this.$toolMax.html(this.options.valueMax);
-          this.$valueMax.css('left', `${this._constants().maxPoint}%`);
+          this.$valueMin.css('top', `${this.constants().minPoint}%`);
         }
-      } else {
-        this.options.valueMin = positionSlider;
-        this.$toolMin.html(this.options.valueMin);
-        this.$valueMin.css('left', `${this._constants().minPoint}%`);
-      }
-    });
+      });
+    } else {
+      this.$domEl.unbind('click');
+      const sliderCoords = this.$domEl.offset().left;
+      this.$domEl.on('click', (e) => {
+        const newLeft = e.pageX - sliderCoords;
+        const shiftPercentage = (newLeft * 100) / this.$domEl.width();
+        const positionSlider = this.options.step
+        * Math.round(shiftPercentage / this.constants().step)
+        + this.options.min;
+
+        if (this.options.twoSliders) {
+          if (e.pageX < sliderCoords + this.$domEl.width() / 2) {
+            this.options.valueMin = positionSlider;
+            this.$toolMin.html(this.options.valueMin);
+            this.$valueMin.css('left', `${this.constants().minPoint}%`);
+          } else if (e.pageX > sliderCoords + this.$domEl.width() / 2) {
+            this.options.valueMax = positionSlider;
+            this.$toolMax.html(this.options.valueMax);
+            this.$valueMax.css('left', `${this.constants().maxPoint}%`);
+          }
+        } else {
+          this.options.valueMin = positionSlider;
+          this.$toolMin.html(this.options.valueMin);
+          this.$valueMin.css('left', `${this.constants().minPoint}%`);
+        }
+      });
+    }
   }
 
   _tool() {

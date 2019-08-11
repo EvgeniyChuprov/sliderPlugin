@@ -11,7 +11,7 @@ const Controller = require('./classes/Controller');
         this.append(create);
         controller.options = options;
         controller.init();
-        controller.setting();
+
         this.data('setting', controller.model.setting);
       });
     },
