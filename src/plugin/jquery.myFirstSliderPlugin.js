@@ -6,8 +6,8 @@ const Controller = require('./classes/Controller');
     init(options) {
       return this.each(() => {
         controller.$domEl = this;
-        const create = $(`<div class="slider-range__value-min" ><div class = "slider-range__tool-min" ></div></div>
-        <div class="slider-range__value-max" ><div class = "slider-range__tool-max" ></div></div>`);
+        const create = $(`<div class="range-slider__value-min" ><div class = "range-slider__tool-min" ></div></div>
+        <div class="range-slider__value-max" ><div class = "range-slider__tool-max" ></div></div>`);
         this.append(create);
         controller.options = options;
         controller.init();
@@ -22,7 +22,7 @@ const Controller = require('./classes/Controller');
     set(options) {
       controller.$domEl = this;
       controller.options = this.data('setting');
-      controller.setting();
+      controller.initSetting();
     },
   };
 

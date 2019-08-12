@@ -1,4 +1,4 @@
-/* eslint no-underscore-dangle: ["error", { "allowAfterThis": true }] */
+
 /* eslint-env mocha */
 const assert = require('assert');
 const View = require('../src/plugin/classes/View');
@@ -15,8 +15,8 @@ describe('Доступ к параметрам класса View', () => {
     twoSliders: true,
   };
   const domEl = $('body');
-  const create = $(`<div class="slider-range__value-min" ><div class = "slider-range__tool-min" ></div></div>
-  <div class="slider-range__value-max" ><div class = "slider-range__tool-max" ></div></div>`);
+  const create = $(`<div class="range-slider__value-min" ><div class = "range-slider__tool-min" ></div></div>
+        <div class="range-slider__value-max" ><div class = "range-slider__tool-max" ></div></div>`);
   domEl.append(create);
   const view = new View(domEl, options);
 
@@ -29,46 +29,46 @@ describe('Доступ к параметрам класса View', () => {
   it ('view создание DOM элементов', () => {
     assert.equal(view.$valueMin, undefined);
     view._createSlider();
-    assert.equal(view.$valueMin.hasClass('slider-range__value-min'), true);
-    assert.equal(view.$valueMax.hasClass('slider-range__value-max'), true);
+    assert.equal(view.$valueMin.hasClass('range-slider__value-min'), true);
+    assert.equal(view.$valueMax.hasClass('range-slider__value-max'), true);
   });
 
   it ('view начальные позиции ползунков', () => {
     view.options.vertical = true;
-    view.constants();
-    view._startingPositions();
-    assert.equal(view.$valueMin.css('top'), `${view.constants().minPoint}%`);
+    view.initConstants();
+    view._drawStartingPositions();
+    assert.equal(view.$valueMin.css('top'), `${view.initConstants().minPoint}%`);
     view.options.vertical = false;
-    view._startingPositions();
-    assert.equal(view.$valueMax.css('left'), `${view.constants().maxPoint}%`);
+    view._drawStartingPositions();
+    assert.equal(view.$valueMax.css('left'), `${view.initConstants().maxPoint}%`);
   });
 
   it ('view видимость тултипов', () => {
     view.options.tooltip = true;
-    view._tool();
+    view._drawTool();
     assert.equal(view.$toolMin.css('visibility'), 'visible');
     view.options.tooltip = false;
-    view._tool();
+    view._drawTool();
     assert.equal(view.$toolMin.css('visibility'), 'hidden');
   });
 
   it ('view вертикальное - горизонтальное  расположение слайдера', () => {
     view.options.vertical = true;
-    view._vertical();
-    assert.equal(view.$domEl.hasClass('slider-range_vertical'), true);
-    assert.equal(view.$valueMin.hasClass('slider-range__value-min_horizon'), false);
+    view._darwPositioning();
+    assert.equal(view.$domEl.hasClass('range-slider_vertical'), true);
+    assert.equal(view.$valueMin.hasClass('range-slider__value-min_horizon'), false);
     view.options.vertical = false;
-    view._vertical();
-    assert.equal(view.$domEl.hasClass('slider-range_horizon'), true);
-    assert.equal(view.$valueMin.hasClass('slider-range__value-min_vertical'), false);
+    view._darwPositioning();
+    assert.equal(view.$domEl.hasClass('range-slider_horizon'), true);
+    assert.equal(view.$valueMin.hasClass('range-slider__value-min_vertical'), false);
   });
 
   it ('view один или два ползунка', () => {
     view.options.twoSliders = true;
-    view._twoSliders();
+    view._darwTwoSliders();
     assert.equal(view.$valueMax.css('display'), 'block');
     view.options.twoSliders = false;
-    view._twoSliders();
+    view._darwTwoSliders();
     assert.equal(view.$toolMax.css('display'), 'none');
   });
 });

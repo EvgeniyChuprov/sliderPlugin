@@ -14,7 +14,38 @@ html
     meta( name="theme-color" content="#ffffff")
     title slider
   body
-    +settings-panel({idSlider:'firstSlider', tooltip: false, twoSlider:true, vertical:false})
-    +settings-panel({ idSlider:'secondSlider', tooltip: true, twoSlider:true, vertical:false})
-    +settings-panel({idSlider:'thirdSlider', tooltip: true, twoSlider:false, vertical:false})
-    +settings-panel({ idSlider:'fourthSlider', tooltip: true, twoSlider:true, vertical:true})
+    - const array = [
+    -        {
+    -          min: 25,
+    -          max: 75,
+    -          step: 5,
+    -          valueMin: 25,
+    -          valueMax: 45,
+    -          vertical: true,
+    -          tooltip: true,
+    -          twoSliders: true,
+    -        }, {
+    -          min: -15,
+    -          max: 15,
+    -          step: 5,
+    -          valueMin: -15,
+    -          valueMax: 15,
+    -          vertical: false,
+    -          tooltip: true,
+    -          twoSliders: false,
+    -        }, {
+    -          min: 0,
+    -          max: 100,
+    -          step: 1,
+    -          valueMin: 15,
+    -          valueMax: 75,
+    -          vertical: false,
+    -          tooltip: false,
+    -          twoSliders: true,
+    -        }, {
+    -        },
+    -      ];
+
+    each item in array
+      .wrapper
+        +settings-panel(item)

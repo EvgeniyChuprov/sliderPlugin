@@ -1,14 +1,13 @@
 /* eslint no-underscore-dangle: ["error", { "allowAfterThis": true }] */
+require('../../plugin/jquery.myFirstSliderPlugin.js');
 
 class sliderInterface {
   constructor($element) {
     this.$sliderInterface = $element;
-    this._menu();
-    this._changeOutput();
-    this._changeInput();
+    this._initMenu();
   }
 
-  _menu() {
+  _initMenu() {
     this.min = this.$sliderInterface.find('.slider__input_min');
     this.max = this.$sliderInterface.find('.slider__input_max');
     this.step = this.$sliderInterface.find('.slider__input_step');
@@ -17,8 +16,10 @@ class sliderInterface {
     this.vertical = this.$sliderInterface.find('.slider__vertically-horizontally');
     this.tooltip = this.$sliderInterface.find('.slider__tooltip');
     this.twoSliders = this.$sliderInterface.find('.slider__twoSlider');
-    this.plugin = this.$sliderInterface.find('.js-slider-range');
+    this.plugin = this.$sliderInterface.find('.js-range-slider');
     this.options = this.plugin.myFirstSliderPlugin('get');
+    this._changeOutput();
+    this._changeInput();
   }
 
   _changeInput() {

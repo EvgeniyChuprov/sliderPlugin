@@ -11,15 +11,15 @@ class Controller {
   init() {
     this.model = new Model(this.options);
     this.view = new View(this.$domEl, this.model.setting);
-    this.view.setting();
+    this.view.initSetting();
   }
 
-  setting() {
+  initSetting() {
     this.view.$domEl = this.$domEl;
     this.model.options = this.options;
     this.view.options = this.model.normalizationOfSettings();
-    this.view.constants();
-    this.view.setting();
+    this.view.initConstants();
+    this.view.initSetting();
   }
 }
 module.exports = Controller;

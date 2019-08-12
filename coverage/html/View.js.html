@@ -558,16 +558,16 @@ class View {
     this.options = options;
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  se</span>tting() {
+<span class="fstat-no" title="function not covered" >  in</span>itSetting() {
 <span class="cstat-no" title="statement not covered" >    this._createSlider();</span>
-<span class="cstat-no" title="statement not covered" >    this._vertical();</span>
-<span class="cstat-no" title="statement not covered" >    this._twoSliders();</span>
-<span class="cstat-no" title="statement not covered" >    this._tool();</span>
-<span class="cstat-no" title="statement not covered" >    this._click();</span>
-<span class="cstat-no" title="statement not covered" >    this._startingPositions();</span>
+<span class="cstat-no" title="statement not covered" >    this._darwPositioning();</span>
+<span class="cstat-no" title="statement not covered" >    this._darwTwoSliders();</span>
+<span class="cstat-no" title="statement not covered" >    this._drawTool();</span>
+<span class="cstat-no" title="statement not covered" >    this._toClick();</span>
+<span class="cstat-no" title="statement not covered" >    this._drawStartingPositions();</span>
   }
 &nbsp;
-  constants() {
+  initConstants() {
     const minPoint = ((this.options.valueMin - this.options.min) * 100)
     / (this.options.max - this.options.min);
     const maxPoint = ((this.options.valueMax - this.options.min) * 100)
@@ -585,22 +585,22 @@ class View {
   }
 &nbsp;
   _createSlider() {
-    this.$valueMin = this.$domEl.find('.slider-range__value-min');
-    this.$valueMax = this.$domEl.find('.slider-range__value-max');
-    this.$toolMin = this.$domEl.find('.slider-range__tool-min');
-    this.$toolMax = this.$domEl.find('.slider-range__tool-max');
+    this.$valueMin = this.$domEl.find('.range-slider__value-min');
+    this.$valueMax = this.$domEl.find('.range-slider__value-max');
+    this.$toolMin = this.$domEl.find('.range-slider__tool-min');
+    this.$toolMax = this.$domEl.find('.range-slider__tool-max');
   }
 &nbsp;
-  _startingPositions() {
+  _drawStartingPositions() {
     this.$toolMin.html(this.options.valueMin);
     this.$toolMax.html(this.options.valueMax);
 &nbsp;
     if (this.options.vertical) {
-      this.$valueMin.css('top', `${this.constants().minPoint}%`);
-      this.$valueMax.css('top', `${this.constants().maxPoint}%`);
+      this.$valueMin.css('top', `${this.initConstants().minPoint}%`);
+      this.$valueMax.css('top', `${this.initConstants().maxPoint}%`);
     } else {
-      this.$valueMin.css('left', `${this.constants().minPoint}%`);
-      this.$valueMax.css('left', `${this.constants().maxPoint}%`);
+      this.$valueMin.css('left', `${this.initConstants().minPoint}%`);
+      this.$valueMax.css('left', `${this.initConstants().maxPoint}%`);
     }
   }
 &nbsp;
@@ -612,12 +612,12 @@ class View {
         const newTop = <span class="cstat-no" title="statement not covered" >e.pageY - sliderCoords;</span>
         const shiftPercentage = <span class="cstat-no" title="statement not covered" >(newTop * 100) / this.$domEl.height();</span>
         const value = <span class="cstat-no" title="statement not covered" >this.options.step * Math.round(shiftPercentage</span>
-        / this.constants().step) + this.options.min;
+        / this.initConstants().step) + this.options.min;
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        if (value &lt;= this.options.max) {</span>
 <span class="cstat-no" title="statement not covered" >          if (value &gt;= this.options.min &amp;&amp; value &lt;= this.options.valueMax) {</span>
 <span class="cstat-no" title="statement not covered" >            this.options.valueMin = value;</span>
-<span class="cstat-no" title="statement not covered" >            this.$valueMin.css('top', `${this.constants().minPoint}%`);</span>
+<span class="cstat-no" title="statement not covered" >            this.$valueMin.css('top', `${this.initConstants().minPoint}%`);</span>
 <span class="cstat-no" title="statement not covered" >            this.$toolMin.html(this.options.valueMin);</span>
           }
         }
@@ -629,12 +629,12 @@ class View {
         const newTop = <span class="cstat-no" title="statement not covered" >e.pageY - sliderCoords;</span>
         const shiftPercentage = <span class="cstat-no" title="statement not covered" >(newTop * 100) / this.$domEl.height();</span>
         const value = <span class="cstat-no" title="statement not covered" >this.options.step * Math.round(shiftPercentage</span>
-        / this.constants().step) + this.options.min;
+        / this.initConstants().step) + this.options.min;
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        if (value &gt;= this.options.min) {</span>
 <span class="cstat-no" title="statement not covered" >          if (value &lt;= this.options.max &amp;&amp; value &gt;= this.options.valueMin) {</span>
 <span class="cstat-no" title="statement not covered" >            this.options.valueMax = value;</span>
-<span class="cstat-no" title="statement not covered" >            this.$valueMax.css('top', `${this.constants().maxPoint}%`);</span>
+<span class="cstat-no" title="statement not covered" >            this.$valueMax.css('top', `${this.initConstants().maxPoint}%`);</span>
 <span class="cstat-no" title="statement not covered" >            this.$toolMax.html(this.options.valueMax); </span>
           }
         }
@@ -654,12 +654,12 @@ class View {
         const newLeft = <span class="cstat-no" title="statement not covered" >event.pageX - sliderCoords;</span>
         const shiftPercentage = <span class="cstat-no" title="statement not covered" >(newLeft * 100) / this.$domEl.width();</span>
         const value = <span class="cstat-no" title="statement not covered" >this.options.step * Math.round(shiftPercentage</span>
-        / this.constants().step) + this.options.min;
+        / this.initConstants().step) + this.options.min;
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        if (value &lt;= this.options.max) {</span>
 <span class="cstat-no" title="statement not covered" >          if (value &gt;= this.options.min &amp;&amp; value &lt;= this.options.valueMax) {</span>
 <span class="cstat-no" title="statement not covered" >            this.options.valueMin = value;</span>
-<span class="cstat-no" title="statement not covered" >            this.$valueMin.css('left', `${this.constants().minPoint}%`);</span>
+<span class="cstat-no" title="statement not covered" >            this.$valueMin.css('left', `${this.initConstants().minPoint}%`);</span>
 <span class="cstat-no" title="statement not covered" >            this.$toolMin.html(this.options.valueMin);</span>
           }
         }
@@ -671,12 +671,12 @@ class View {
         const newLeft = <span class="cstat-no" title="statement not covered" >event.pageX - sliderCoords;</span>
         const shiftPercentage = <span class="cstat-no" title="statement not covered" >(newLeft * 100) / this.$domEl.width();</span>
         const value = <span class="cstat-no" title="statement not covered" >this.options.step * Math.round(shiftPercentage</span>
-        / this.constants().step) + this.options.min;
+        / this.initConstants().step) + this.options.min;
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        if (value &gt;= this.options.min) {</span>
 <span class="cstat-no" title="statement not covered" >          if (value &lt;= this.options.max &amp;&amp; value &gt;= this.options.valueMin) {</span>
 <span class="cstat-no" title="statement not covered" >            this.options.valueMax = value;</span>
-<span class="cstat-no" title="statement not covered" >            this.$valueMax.css('left', `${this.constants().maxPoint}%`);</span>
+<span class="cstat-no" title="statement not covered" >            this.$valueMax.css('left', `${this.initConstants().maxPoint}%`);</span>
 <span class="cstat-no" title="statement not covered" >            this.$toolMax.html(this.options.valueMax);</span>
           }
         }
@@ -687,7 +687,7 @@ class View {
     });
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  _c</span>lick() {
+<span class="fstat-no" title="function not covered" >  _t</span>oClick() {
 <span class="cstat-no" title="statement not covered" >    if (this.options.vertical) {</span>
 <span class="cstat-no" title="statement not covered" >      this.$domEl.unbind('click');</span>
       const sliderCoords = <span class="cstat-no" title="statement not covered" >this.$domEl.offset().top;</span>
@@ -695,22 +695,22 @@ class View {
         const newTop = <span class="cstat-no" title="statement not covered" >e.pageY - sliderCoords;</span>
         const shiftPercentage = <span class="cstat-no" title="statement not covered" >(newTop * 100) / this.$domEl.height();</span>
         const positionSlider = <span class="cstat-no" title="statement not covered" >this.options.step * Math.round(shiftPercentage</span>
-        / this.constants().step) + this.options.min;
+        / this.initConstants().step) + this.options.min;
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        if (this.options.twoSliders) {</span>
 <span class="cstat-no" title="statement not covered" >          if (e.pageY &lt; sliderCoords + this.$domEl.height() / 2) {</span>
 <span class="cstat-no" title="statement not covered" >            this.options.valueMin = positionSlider;</span>
 <span class="cstat-no" title="statement not covered" >            this.$toolMin.html(this.options.valueMin);</span>
-<span class="cstat-no" title="statement not covered" >            this.$valueMin.css('top', `${this.constants().minPoint}%`);</span>
+<span class="cstat-no" title="statement not covered" >            this.$valueMin.css('top', `${this.initConstants().minPoint}%`);</span>
           } else <span class="cstat-no" title="statement not covered" >if (e.pageY &gt; sliderCoords + this.$domEl.height() / 2) {</span>
 <span class="cstat-no" title="statement not covered" >            this.options.valueMax = positionSlider;</span>
 <span class="cstat-no" title="statement not covered" >            this.$toolMax.html(this.options.valueMax);</span>
-<span class="cstat-no" title="statement not covered" >            this.$valueMax.css('top', `${this.constants().maxPoint}%`);</span>
+<span class="cstat-no" title="statement not covered" >            this.$valueMax.css('top', `${this.initConstants().maxPoint}%`);</span>
           }
         } else {
 <span class="cstat-no" title="statement not covered" >          this.options.valueMin = positionSlider;</span>
 <span class="cstat-no" title="statement not covered" >          this.$toolMin.html(this.options.valueMin);</span>
-<span class="cstat-no" title="statement not covered" >          this.$valueMin.css('top', `${this.constants().minPoint}%`);</span>
+<span class="cstat-no" title="statement not covered" >          this.$valueMin.css('top', `${this.initConstants().minPoint}%`);</span>
         }
       });
     } else {
@@ -720,29 +720,29 @@ class View {
         const newLeft = <span class="cstat-no" title="statement not covered" >e.pageX - sliderCoords;</span>
         const shiftPercentage = <span class="cstat-no" title="statement not covered" >(newLeft * 100) / this.$domEl.width();</span>
         const positionSlider = <span class="cstat-no" title="statement not covered" >this.options.step</span>
-        * Math.round(shiftPercentage / this.constants().step)
+        * Math.round(shiftPercentage / this.initConstants().step)
         + this.options.min;
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        if (this.options.twoSliders) {</span>
 <span class="cstat-no" title="statement not covered" >          if (e.pageX &lt; sliderCoords + this.$domEl.width() / 2) {</span>
 <span class="cstat-no" title="statement not covered" >            this.options.valueMin = positionSlider;</span>
 <span class="cstat-no" title="statement not covered" >            this.$toolMin.html(this.options.valueMin);</span>
-<span class="cstat-no" title="statement not covered" >            this.$valueMin.css('left', `${this.constants().minPoint}%`);</span>
+<span class="cstat-no" title="statement not covered" >            this.$valueMin.css('left', `${this.initConstants().minPoint}%`);</span>
           } else <span class="cstat-no" title="statement not covered" >if (e.pageX &gt; sliderCoords + this.$domEl.width() / 2) {</span>
 <span class="cstat-no" title="statement not covered" >            this.options.valueMax = positionSlider;</span>
 <span class="cstat-no" title="statement not covered" >            this.$toolMax.html(this.options.valueMax);</span>
-<span class="cstat-no" title="statement not covered" >            this.$valueMax.css('left', `${this.constants().maxPoint}%`);</span>
+<span class="cstat-no" title="statement not covered" >            this.$valueMax.css('left', `${this.initConstants().maxPoint}%`);</span>
           }
         } else {
 <span class="cstat-no" title="statement not covered" >          this.options.valueMin = positionSlider;</span>
 <span class="cstat-no" title="statement not covered" >          this.$toolMin.html(this.options.valueMin);</span>
-<span class="cstat-no" title="statement not covered" >          this.$valueMin.css('left', `${this.constants().minPoint}%`);</span>
+<span class="cstat-no" title="statement not covered" >          this.$valueMin.css('left', `${this.initConstants().minPoint}%`);</span>
         }
       });
     }
   }
 &nbsp;
-  _tool() {
+  _drawTool() {
     if (this.options.tooltip) {
       this.$toolMin.css('visibility', 'visible');
       this.$toolMax.css('visibility', 'visible');
@@ -752,45 +752,45 @@ class View {
     }
   }
 &nbsp;
-  _vertical() {
+  _darwPositioning() {
     if (this.options.vertical) {
       this.$domEl
-        .addClass('slider-range_vertical')
-        .removeClass('slider-range_horizon');
+        .addClass('range-slider_vertical')
+        .removeClass('range-slider_horizon');
       this.$valueMin
-        .addClass('slider-range__value-min_vertical').css('left', `${-10}px`)
-        .removeClass('slider-range__value-min_horizon');
+        .addClass('range-slider__value-min_vertical').css('left', `${-10}px`)
+        .removeClass('range-slider__value-min_horizon');
       this.$valueMax
-        .addClass('slider-range__value-max_vertical').css('left', `${-10}px`)
-        .removeClass('slider-range__value-max_horizon');
+        .addClass('range-slider__value-max_vertical').css('left', `${-10}px`)
+        .removeClass('range-slider__value-max_horizon');
       this.$toolMin
-        .addClass('slider-range__tool-min_vertical')
-        .removeClass('slider-range__tool-min_horizon');
+        .addClass('range-slider__tool-min_vertical')
+        .removeClass('range-slider__tool-min_horizon');
       this.$toolMax
-        .addClass('slider-range__tool-max_vertical')
-        .removeClass('slider-range__tool-max_horizon');
+        .addClass('range-slider__tool-max_vertical')
+        .removeClass('range-slider__tool-max_horizon');
       this._movieVertical();
     } else {
       this.$domEl
-        .addClass('slider-range_horizon')
-        .removeClass('slider-range_vertical');
+        .addClass('range-slider_horizon')
+        .removeClass('range-slider_vertical');
       this.$valueMin
-        .addClass('slider-range__value-min_horizon').css('top', `${-10}px`)
-        .removeClass('slider-range__value-min_vertical');
+        .addClass('range-slider__value-min_horizon').css('top', `${-10}px`)
+        .removeClass('range-slider__value-min_vertical');
       this.$valueMax
-        .addClass('slider-range__value-max_horizon').css('top', `${-10}px`)
-        .removeClass('slider-range__value-max_vertical');
+        .addClass('range-slider__value-max_horizon').css('top', `${-10}px`)
+        .removeClass('range-slider__value-max_vertical');
       this.$toolMin
-        .addClass('slider-range__tool-min_horizon')
-        .removeClass('slider-range__tool-min_vertical');
+        .addClass('range-slider__tool-min_horizon')
+        .removeClass('range-slider__tool-min_vertical');
       this.$toolMax
-        .addClass('slider-range__tool-max_horizon')
-        .removeClass('slider-range__tool-max_vertical');
+        .addClass('range-slider__tool-max_horizon')
+        .removeClass('range-slider__tool-max_vertical');
       this._movieHorizon();
     }
   }
 &nbsp;
-  _twoSliders() {
+  _darwTwoSliders() {
     if (this.options.twoSliders) {
       this.$valueMax.css('display', 'block');
       this.$toolMax.css('display', 'block');
@@ -808,7 +808,7 @@ module.exports = View;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sat Aug 10 2019 19:26:07 GMT+0300 (GMT+03:00)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Aug 12 2019 15:23:03 GMT+0300 (GMT+03:00)
 </div>
 </div>
 <script src="prettify.js"></script>

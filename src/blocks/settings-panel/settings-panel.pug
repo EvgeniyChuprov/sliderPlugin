@@ -1,16 +1,16 @@
+include ../range-slider/range-slider
 
 mixin settings-panel(options)
-  -let { idSlider='', tooltip= false, twoSlider= false, vertical= false} = options;
 
-  .slider.js-slider(id= idTable)
-    .slider__wrapper
+  .slider.js-slider
+    form.slider__form
       .slider__block.slider__block_top
         span.slider__text Tooltip:
-        input.slider__tooltip(type="checkbox" checked= tooltip) 
+        input.slider__tooltip(type="checkbox") 
         span.slider__text Two slider:
-        input.slider__twoSlider(type="checkbox" checked= twoSlider)
+        input.slider__twoSlider(type="checkbox")
         span.slider__text Vertical:
-        input.slider__vertically-horizontally(type="checkbox" checked= vertical)
+        input.slider__vertically-horizontally(type="checkbox")
       .slider__block.slider__block_bottom 
         span.slider__text Min:
         input.slider__input.slider__input_min(type="number" value="" )
@@ -23,4 +23,5 @@ mixin settings-panel(options)
         span.slider__text Value max:
         input.slider__input.slider__input_value-max(type="number" value="")
       .slider__plugin
-        .slider-range.js-slider-range(id= idSlider)
+        +range-slider(options)
+
