@@ -23,16 +23,16 @@ module.exports = function (config) {
       }
     },
     webpack: {
-      mode: 'none',
-      module: {
-        rules: [{
-          test: /\.js$/,
-          include: path.resolve('src/'),
-          use: {
-            loader: 'istanbul-instrumenter-loader'
-          },
-        }]
-      }
+       mode: 'none',
+      // module: {
+      //   rules: [{
+      //     test: /\.js$/,
+      //     include: path.resolve('src/'),
+      //     use: {
+      //       loader: 'istanbul-instrumenter-loader'
+      //     },
+      //   }]
+      // }
     },
     webpackMiddleware: {
       noInfo: true

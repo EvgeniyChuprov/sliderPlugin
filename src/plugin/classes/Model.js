@@ -1,16 +1,15 @@
-const EventEmitter = require('./EventEmitter');
+import EventEmitter from './EventEmitter';
 
 class Model extends EventEmitter {
-  constructor() {
+  constructor(options) {
     super();
-    this.options = {};
+    this.options = options;
     this.setting = this.normalizationOfSettings();
   }
 
-  event() {
+  modelEmit() {
     this.emit('event', this.setting);
   }
-
 
   normalizationOfSettings() {
     let options = {
@@ -67,4 +66,5 @@ class Model extends EventEmitter {
     return options;
   }
 }
-module.exports = Model;
+
+export default Model;

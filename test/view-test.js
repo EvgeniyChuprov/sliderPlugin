@@ -1,8 +1,9 @@
 
 /* eslint-env mocha */
-const assert = require('assert');
-const View = require('../src/plugin/classes/View');
-
+//const assert = require('assert');
+import assert from 'assert';
+//const View = require('../src/plugin/classes/View');
+import View from '../src/plugin/classes/View';
 describe('Доступ к параметрам класса View', () => {
   const options = {
     min: 10,

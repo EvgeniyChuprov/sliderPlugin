@@ -1,31 +1,24 @@
-const Controller = require('./classes/Controller');
-const Model = require('./classes/Model');
-const View = require('./classes/View');
+import Controller from './classes/Controller';
+import Model from './classes/Model';
+import View from './classes/View';
 
 (($, window, undefined) => {
-  const model = new Model();
-  const view = new View();
-  const controller = new Controller(model, view);
   const methods = {
     init(options) {
+      const model = new Model(options);
+      const view = new View();
+      const controller = new Controller(model, view, this);
       return this.each(() => {
-        controller.$domEl = this;
+        controller.options = options;
         const create = $(`<div class="range-slider__value-min" ><div class = "range-slider__tool-min" ></div></div>
         <div class="range-slider__value-max" ><div class = "range-slider__tool-max" ></div></div>`);
         this.append(create);
-        model.event();
-        controller.init();
-        this.data('setting', model.setting);
+        model.modelEmit();
+        this.data('setting', [model, view]);
       });
     },
     get() {
-      // const setting = this.data('setting');
-      // return setting;
-    },
-    set(options) {
-      // controller.$domEl = this;
-      // controller.options = this.data('setting');
-      // controller.initSetting();
+      return this.data('setting');
     },
   };
 

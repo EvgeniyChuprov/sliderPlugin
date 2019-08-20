@@ -1,11 +1,7 @@
 /* eslint no-underscore-dangle: ["error", { "allowAfterThis": true }] */
+import EventEmitter from './EventEmitter';
 
-class View {
-  constructor($domEl, options) {
-    this.$domEl = $domEl;
-    this.options = options;
-  }
-
+class View extends EventEmitter {
   initSetting(opt, $domEl) {
     this.$domEl = $domEl;
     this.options = opt;
@@ -70,6 +66,7 @@ class View {
             this.options.valueMin = value;
             this.$valueMin.css('top', `${this.initConstants().minPoint}%`);
             this.$toolMin.html(this.options.valueMin);
+            this.emit('event', this.options);
           }
         }
       });
@@ -86,7 +83,8 @@ class View {
           if (value <= this.options.max && value >= this.options.valueMin) {
             this.options.valueMax = value;
             this.$valueMax.css('top', `${this.initConstants().maxPoint}%`);
-            this.$toolMax.html(this.options.valueMax); 
+            this.$toolMax.html(this.options.valueMax);
+            this.emit('event', this.options);
           }
         }
       });
@@ -112,6 +110,7 @@ class View {
             this.options.valueMin = value;
             this.$valueMin.css('left', `${this.initConstants().minPoint}%`);
             this.$toolMin.html(this.options.valueMin);
+            this.emit('event', this.options);
           }
         }
       });
@@ -129,6 +128,7 @@ class View {
             this.options.valueMax = value;
             this.$valueMax.css('left', `${this.initConstants().maxPoint}%`);
             this.$toolMax.html(this.options.valueMax);
+            this.emit('event', this.options);
           }
         }
       });
@@ -153,15 +153,18 @@ class View {
             this.options.valueMin = positionSlider;
             this.$toolMin.html(this.options.valueMin);
             this.$valueMin.css('top', `${this.initConstants().minPoint}%`);
+            this.emit('event', this.options);
           } else if (e.pageY > sliderCoords + this.$domEl.height() / 2) {
             this.options.valueMax = positionSlider;
             this.$toolMax.html(this.options.valueMax);
             this.$valueMax.css('top', `${this.initConstants().maxPoint}%`);
+            this.emit('event', this.options);
           }
         } else {
           this.options.valueMin = positionSlider;
           this.$toolMin.html(this.options.valueMin);
           this.$valueMin.css('top', `${this.initConstants().minPoint}%`);
+          this.emit('event', this.options);
         }
       });
     } else {
@@ -179,15 +182,18 @@ class View {
             this.options.valueMin = positionSlider;
             this.$toolMin.html(this.options.valueMin);
             this.$valueMin.css('left', `${this.initConstants().minPoint}%`);
+            this.emit('event', this.options);
           } else if (e.pageX > sliderCoords + this.$domEl.width() / 2) {
             this.options.valueMax = positionSlider;
             this.$toolMax.html(this.options.valueMax);
             this.$valueMax.css('left', `${this.initConstants().maxPoint}%`);
+            this.emit('event', this.options);
           }
         } else {
           this.options.valueMin = positionSlider;
           this.$toolMin.html(this.options.valueMin);
           this.$valueMin.css('left', `${this.initConstants().minPoint}%`);
+          this.emit('event', this.options);
         }
       });
     }
@@ -252,4 +258,5 @@ class View {
     }
   }
 }
-module.exports = View;
+
+export default View;
