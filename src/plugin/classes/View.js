@@ -6,13 +6,16 @@ class View {
     this.options = options;
   }
 
-  initSetting() {
+  initSetting(opt, $domEl) {
+    this.$domEl = $domEl;
+    this.options = opt;
     this._createSlider();
-    this._darwPositioning();
-    this._darwTwoSliders();
+    this._drawPositioning();
+    this._drawTwoSliders();
     this._drawTool();
     this._toClick();
     this._drawStartingPositions();
+    this.initConstants();
   }
 
   initConstants() {
@@ -200,7 +203,7 @@ class View {
     }
   }
 
-  _darwPositioning() {
+  _drawPositioning() {
     if (this.options.vertical) {
       this.$domEl
         .addClass('range-slider_vertical')
@@ -238,7 +241,7 @@ class View {
     }
   }
 
-  _darwTwoSliders() {
+  _drawTwoSliders() {
     if (this.options.twoSliders) {
       this.$valueMax.css('display', 'block');
       this.$toolMax.css('display', 'block');

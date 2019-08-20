@@ -1,8 +1,16 @@
-class Model {
-  constructor(options) {
-    this.options = options;
+const EventEmitter = require('./EventEmitter');
+
+class Model extends EventEmitter {
+  constructor() {
+    super();
+    this.options = {};
     this.setting = this.normalizationOfSettings();
   }
+
+  event() {
+    this.emit('event', this.setting);
+  }
+
 
   normalizationOfSettings() {
     let options = {

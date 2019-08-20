@@ -1,7 +1,11 @@
 const Controller = require('./classes/Controller');
+const Model = require('./classes/Model');
+const View = require('./classes/View');
 
 (($, window, undefined) => {
-  const controller = new Controller();
+  const model = new Model();
+  const view = new View();
+  const controller = new Controller(model, view);
   const methods = {
     init(options) {
       return this.each(() => {
@@ -9,20 +13,19 @@ const Controller = require('./classes/Controller');
         const create = $(`<div class="range-slider__value-min" ><div class = "range-slider__tool-min" ></div></div>
         <div class="range-slider__value-max" ><div class = "range-slider__tool-max" ></div></div>`);
         this.append(create);
-        controller.options = options;
+        model.event();
         controller.init();
-
-        this.data('setting', controller.model.setting);
+        this.data('setting', model.setting);
       });
     },
     get() {
-      const setting = this.data('setting');
-      return setting;
+      // const setting = this.data('setting');
+      // return setting;
     },
     set(options) {
-      controller.$domEl = this;
-      controller.options = this.data('setting');
-      controller.initSetting();
+      // controller.$domEl = this;
+      // controller.options = this.data('setting');
+      // controller.initSetting();
     },
   };
 
