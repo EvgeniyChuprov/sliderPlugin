@@ -9,10 +9,10 @@ class Model extends EventEmitter {
 
   modelEmit() {
     //this.emit('event', this.setting);
-    this.emit('event', this.d.bind(this));
+    this.emit('event', this.data.bind(this));
   }
 
-  d() {
+  data() {
     return this.setting;
   }
   normalizationOfSettings() {

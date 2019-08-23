@@ -15,10 +15,10 @@ class sliderInterface {
     this.valueMax = this.$sliderInterface.find('.slider__input-value-max');
     this.vertical = this.$sliderInterface.find('.slider__vertically-horizontally');
     this.tooltip = this.$sliderInterface.find('.slider__tooltip');
-    this.twoSliders = this.$sliderInterface.find('.slider__twoSlider');
+    this.twoSliders = this.$sliderInterface.find('.slider__two-slider');
     this.plugin = this.$sliderInterface.find('.js-range-slider');
-    this.options = this.plugin.myFirstSliderPlugin('get')[0].setting;
-    this.plugin.myFirstSliderPlugin('get')[1].subscribe('event', this._dar.bind(this));
+    this.options = this.plugin.myFirstSliderPlugin('get').model.data();
+    this.plugin.myFirstSliderPlugin('get').view.subscribe('event', this._dar.bind(this));
     this._changeOutput();
     this._changeInput();
   }
@@ -32,46 +32,46 @@ class sliderInterface {
   _changeInput() {
     this.min.change(() => {
       this.options.min = +this.min.val();
-      this.plugin.myFirstSliderPlugin('get')[0].emit('event', this.a.bind(this));
+      this.plugin.myFirstSliderPlugin('get').model.emit('event', this.returnOpt.bind(this));
     });
 
     this.max.change(() => {
       this.options.max = +this.max.val();
-      this.plugin.myFirstSliderPlugin('get')[0].emit('event', this.a.bind(this));
+      this.plugin.myFirstSliderPlugin('get').model.emit('event', this.returnOpt.bind(this));
     });
 
     this.step.change(() => {
       this.options.step = +this.step.val();
-      this.plugin.myFirstSliderPlugin('get')[0].emit('event', this.a.bind(this));
+      this.plugin.myFirstSliderPlugin('get').model.emit('event', this.returnOpt.bind(this));
     });
 
     this.valueMin.change(() => {
       this.options.valueMin = +this.valueMin.val();
-      this.plugin.myFirstSliderPlugin('get')[0].emit('event', this.a.bind(this));
+      this.plugin.myFirstSliderPlugin('get').model.emit('event', this.returnOpt.bind(this));
     });
 
     this.valueMax.change(() => {
       this.options.valueMax = +this.valueMax.val();
-      this.plugin.myFirstSliderPlugin('get')[0].emit('event', this.a.bind(this));
+      this.plugin.myFirstSliderPlugin('get').model.emit('event', this.returnOpt.bind(this));
     });
 
     this.vertical.change(() => {
       this.options.vertical = this.vertical.is(':checked');
-      this.plugin.myFirstSliderPlugin('get')[0].emit('event', this.a.bind(this));
+      this.plugin.myFirstSliderPlugin('get').model.emit('event', this.returnOpt.bind(this));
     });
 
     this.tooltip.change(() => {
       this.options.tooltip = this.tooltip.is(':checked');
-      this.plugin.myFirstSliderPlugin('get')[0].emit('event', this.a.bind(this));
+      this.plugin.myFirstSliderPlugin('get').model.emit('event', this.returnOpt.bind(this));
     });
 
     this.twoSliders.change(() => {
       this.options.twoSliders = this.twoSliders.is(':checked');
-      this.plugin.myFirstSliderPlugin('get')[0].emit('event', this.a.bind(this));
+      this.plugin.myFirstSliderPlugin('get').model.emit('event', this.returnOpt.bind(this));
     });
   }
 
-  a() {
+  returnOpt() {
     console.log(this.options)
     return this.options;
   }

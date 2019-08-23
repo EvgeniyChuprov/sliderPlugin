@@ -18,11 +18,11 @@ class EventEmitter {
     }
 
     this.events[eventName].push(fn);
-    return () => {
-      this.events[eventName] = this.events[eventName].filter(
-        eventFn => fn !== eventFn,
-      );
-    };
+    // return () => {
+    //   this.events[eventName] = this.events[eventName].filter(
+    //     eventFn => fn !== eventFn,
+    //   );
+    //};
   }
 }
 module.exports = EventEmitter;

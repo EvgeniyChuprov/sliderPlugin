@@ -14,6 +14,7 @@ class Controller {
     this.model.subscribe('event', this._data.bind(this));
   }
 
+
   _data(data) {
     this.view.initSetting(data, this.$domEl);
   }
@@ -22,6 +23,7 @@ class Controller {
     this.model.options = data;
     this.model.normalizationOfSettings();
   }
+
 }
 
 export default Controller;
