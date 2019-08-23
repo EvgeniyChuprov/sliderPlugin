@@ -1,9 +1,15 @@
+%input-setting {
+  width: 2.5rem;
+  height: 1.5rem;
+  text-align: center;
+  margin: 0 0.3rem 0 0.12rem;
+}
 .slider {
   &__form {
-    width: 560px;
+    width: 35rem;
     margin: auto;
     background: gray;
-    border-radius: 5px;
+    border-radius: 0.3rem;
     padding: 1%;
   }
 
@@ -25,16 +31,31 @@
   }
 
   &__input {
-    width: 40px;
-    height: 25px;
-    text-align: center;
-    margin: 0 5px 0 2px;
+    &-min {
+      @extend %input-setting;
+    }
+
+    &-max {
+      @extend %input-setting;
+    }
+
+    &-step {
+      @extend %input-setting;
+    }
+
+    &-value-min {
+      @extend %input-setting;
+    }
+
+    &-value-max {
+      @extend %input-setting;
+    }
   }
 
   &__plugin {
     background: white;
-    height: 200px;
-    width: 450px;
+    height: 12.5rem;
+    width: 28rem;
     display: flex;
     align-items: center;
     justify-content: center;

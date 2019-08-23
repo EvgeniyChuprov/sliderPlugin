@@ -5,8 +5,13 @@ class Controller {
     this.model = model;
     this.view = view;
     this.$domEl = $this;
-    this.model.subscribe('event', this._data.bind(this));
+    //this.model.subscribe('event', this._data.bind(this));
+    this.test();
     this.view.subscribe('event', this._da.bind(this));
+  }
+
+  test() {
+    this.model.subscribe('event', this._data.bind(this));
   }
 
   _data(data) {

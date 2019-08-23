@@ -14,6 +14,7 @@ import View from './classes/View';
         <div class="range-slider__value-max" ><div class = "range-slider__tool-max" ></div></div>`);
         this.append(create);
         model.modelEmit();
+        controller.test();
         this.data('setting', [model, view]);
       });
     },

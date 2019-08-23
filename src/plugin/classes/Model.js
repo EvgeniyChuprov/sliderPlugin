@@ -8,9 +8,13 @@ class Model extends EventEmitter {
   }
 
   modelEmit() {
-    this.emit('event', this.setting);
+    //this.emit('event', this.setting);
+    this.emit('event', this.d.bind(this));
   }
 
+  d() {
+    return this.setting;
+  }
   normalizationOfSettings() {
     let options = {
       min: 0,

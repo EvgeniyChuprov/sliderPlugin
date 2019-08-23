@@ -4,7 +4,7 @@ import EventEmitter from './EventEmitter';
 class View extends EventEmitter {
   initSetting(opt, $domEl) {
     this.$domEl = $domEl;
-    this.options = opt;
+    this.options = opt();
     this._createSlider();
     this._drawPositioning();
     this._drawTwoSliders();
