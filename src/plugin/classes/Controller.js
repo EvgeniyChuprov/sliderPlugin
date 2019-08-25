@@ -1,29 +1,22 @@
 /* eslint no-underscore-dangle: ["error", { "allowAfterThis": true }] */
+import Observer from './Observer';
 
-class Controller {
-  constructor(model, view, $this) {
-    this.model = model;
-    this.view = view;
-    this.$domEl = $this;
-    //this.model.subscribe('event', this._data.bind(this));
-    this.test();
-    this.view.subscribe('event', this._da.bind(this));
+class Controller extends Observer {
+  constructor(opt, $this) {
+    super();
+    this.$domEl = $($this[0]);
+    this.options = opt;
   }
 
-  test() {
-    this.model.subscribe('event', this._data.bind(this));
+  init() {
+    this.publish('forModel', this.options);
   }
 
-
-  _data(data) {
-    this.view.initSetting(data, this.$domEl);
+  initView(forController, data) {
+    if (forController === 'forController') {
+      this.publish('forView', this.$domEl, data);
+    }
   }
-
-  _da(data) {
-    this.model.options = data;
-    this.model.normalizationOfSettings();
-  }
-
 }
 
 export default Controller;
