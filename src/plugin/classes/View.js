@@ -11,6 +11,14 @@ class View extends Observer {
       this._drawPositioning();
       this._drawTwoSliders();
       this._drawTool();
+      
+      this._toClick();
+      this._movie();
+
+      // $(document).mouseup(() => {
+      //   console.log(123)
+      //   $(document).unbind('mousemove');
+      // });
     }
   }
 
@@ -61,7 +69,6 @@ class View extends Observer {
       this.$toolMax
         .addClass('range-slider__tool-max_vertical')
         .removeClass('range-slider__tool-max_horizon');
-      //this._movieVertical();
     } else {
       this.$domEl
         .addClass('range-slider_horizon')
@@ -78,7 +85,6 @@ class View extends Observer {
       this.$toolMax
         .addClass('range-slider__tool-max_horizon')
         .removeClass('range-slider__tool-max_vertical');
-    //  this._movieHorizon();
     }
   }
 
@@ -92,153 +98,77 @@ class View extends Observer {
     }
   }
 
-  // _movieVertical() {
-  //   const sliderCoords = this.$domEl.offset().top;
 
-  //   this.$valueMin.mousedown(() => {
-  //     $(document).mousemove((e) => {
-  //       const newTop = e.pageY - sliderCoords;
-  //       const shiftPercentage = (newTop * 100) / this.$domEl.height();
-  //       const value = this.options.step * Math.round(shiftPercentage
-  //       / this.initConstants().step) + this.options.min;
+  _toClick() {
+    if (this.options.upright) {
+      this.$domEl.unbind('click');
+      const sliderCoords = this.$domEl.offset().top;
+      const length = this.$domEl.height();
+      this.$domEl.on('click', (e) => {
+        const newTop = e.pageY - sliderCoords;
+        this.publish('coordClickForCont', newTop, length);
+      });
+    } else {
+      this.$domEl.unbind('click');
+      const sliderCoords = this.$domEl.offset().left;
+      const length = this.$domEl.width();
+      this.$domEl.on('click', (e) => {
+        const newTop = e.pageX - sliderCoords;
+        this.publish('coordClickForCont', newTop, length);
+      });
+    }
+  }
 
-  //       if (value <= this.options.max) {
-  //         if (value >= this.options.min && value <= this.options.valueMax) {
-  //           this.options.valueMin = value;
-  //           this.$valueMin.css('top', `${this.initConstants().minPoint}%`);
-  //           this.$toolMin.html(this.options.valueMin);
-  //           this.emit('event', this.options);
-  //         }
-  //       }
-  //     });
-  //   });
-
-  //   this.$valueMax.mousedown(() => {
-  //     $(document).mousemove((e) => {
-  //       const newTop = e.pageY - sliderCoords;
-  //       const shiftPercentage = (newTop * 100) / this.$domEl.height();
-  //       const value = this.options.step * Math.round(shiftPercentage
-  //       / this.initConstants().step) + this.options.min;
-
-  //       if (value >= this.options.min) {
-  //         if (value <= this.options.max && value >= this.options.valueMin) {
-  //           this.options.valueMax = value;
-  //           this.$valueMax.css('top', `${this.initConstants().maxPoint}%`);
-  //           this.$toolMax.html(this.options.valueMax);
-  //           this.emit('event', this.options);
-  //         }
-  //       }
-  //     });
-  //   });
-
-  //   $(document).mouseup(() => {
-  //     $(document).unbind('mousemove');
-  //   });
-  // }
-
-  // _movieHorizon() {
-  //   const sliderCoords = this.$domEl.offset().left - pageXOffset;
-
-  //   this.$valueMin.mousedown(() => {
-  //     $(document).mousemove((event) => {
-  //       const newLeft = event.pageX - sliderCoords;
-  //       const shiftPercentage = (newLeft * 100) / this.$domEl.width();
-  //       const value = this.options.step * Math.round(shiftPercentage
-  //       / this.initConstants().step) + this.options.min;
-
-  //       if (value <= this.options.max) {
-  //         if (value >= this.options.min && value <= this.options.valueMax) {
-  //           this.options.valueMin = value;
-  //           this.$valueMin.css('left', `${this.initConstants().minPoint}%`);
-  //           this.$toolMin.html(this.options.valueMin);
-  //           this.emit('event', this.options);
-  //         }
-  //       }
-  //     });
-  //   });
-
-  //   this.$valueMax.mousedown(() => {
-  //     $(document).mousemove((event) => {
-  //       const newLeft = event.pageX - sliderCoords;
-  //       const shiftPercentage = (newLeft * 100) / this.$domEl.width();
-  //       const value = this.options.step * Math.round(shiftPercentage
-  //       / this.initConstants().step) + this.options.min;
-
-  //       if (value >= this.options.min) {
-  //         if (value <= this.options.max && value >= this.options.valueMin) {
-  //           this.options.valueMax = value;
-  //           this.$valueMax.css('left', `${this.initConstants().maxPoint}%`);
-  //           this.$toolMax.html(this.options.valueMax);
-  //           this.emit('event', this.options);
-  //         }
-  //       }
-  //     });
-  //   });
-  //   $(document).mouseup(() => {
-  //     $(document).unbind('mousemove');
-  //   });
-  // }
-
-  // _toClick() {
-  //   if (this.options.upright) {
-  //     this.$domEl.unbind('click');
-  //     const sliderCoords = this.$domEl.offset().top;
-  //     this.$domEl.on('click', (e) => {
-  //       const newTop = e.pageY - sliderCoords;
-  //       const shiftPercentage = (newTop * 100) / this.$domEl.height();
-  //       const positionSlider = this.options.step * Math.round(shiftPercentage
-  //       / this.initConstants().step) + this.options.min;
-
-  //       if (this.options.twoSliders) {
-  //         if (e.pageY < sliderCoords + this.$domEl.height() / 2) {
-  //           this.options.valueMin = positionSlider;
-  //           this.$toolMin.html(this.options.valueMin);
-  //           this.$valueMin.css('top', `${this.initConstants().minPoint}%`);
-  //           this.emit('event', this.options);
-  //         } else if (e.pageY > sliderCoords + this.$domEl.height() / 2) {
-  //           this.options.valueMax = positionSlider;
-  //           this.$toolMax.html(this.options.valueMax);
-  //           this.$valueMax.css('top', `${this.initConstants().maxPoint}%`);
-  //           this.emit('event', this.options);
-  //         }
-  //       } else {
-  //         this.options.valueMin = positionSlider;
-  //         this.$toolMin.html(this.options.valueMin);
-  //         this.$valueMin.css('top', `${this.initConstants().minPoint}%`);
-  //         this.emit('event', this.options);
-  //       }
-  //     });
-  //   } else {
-  //     this.$domEl.unbind('click');
-  //     const sliderCoords = this.$domEl.offset().left;
-  //     this.$domEl.on('click', (e) => {
-  //       const newLeft = e.pageX - sliderCoords;
-  //       const shiftPercentage = (newLeft * 100) / this.$domEl.width();
-  //       const positionSlider = this.options.step
-  //       * Math.round(shiftPercentage / this.initConstants().step)
-  //       + this.options.min;
-
-  //       if (this.options.twoSliders) {
-  //         if (e.pageX < sliderCoords + this.$domEl.width() / 2) {
-  //           this.options.valueMin = positionSlider;
-  //           this.$toolMin.html(this.options.valueMin);
-  //           this.$valueMin.css('left', `${this.initConstants().minPoint}%`);
-  //           this.emit('event', this.options);
-  //         } else if (e.pageX > sliderCoords + this.$domEl.width() / 2) {
-  //           this.options.valueMax = positionSlider;
-  //           this.$toolMax.html(this.options.valueMax);
-  //           this.$valueMax.css('left', `${this.initConstants().maxPoint}%`);
-  //           this.emit('event', this.options);
-  //         }
-  //       } else {
-  //         this.options.valueMin = positionSlider;
-  //         this.$toolMin.html(this.options.valueMin);
-  //         this.$valueMin.css('left', `${this.initConstants().minPoint}%`);
-  //         this.emit('event', this.options);
-  //       }
-  //     });
-  //   }
-  // }
+  _movie() {
+    let min;
+    if (this.options.upright) {
+      const sliderCoords = this.$domEl.offset().top;
+      this.$valueMin.mousedown(() => {
+        $(document).mousemove((e) => {
+          min = true;
+          const newTop = e.pageY - sliderCoords;
+          const length = this.$domEl.height();
+          this.publish('coordMoveForCont', newTop, length, min);
+          console.log(e.pageY);
+        });
+      });
+      this.$valueMax.mousedown(() => {
+        $(document).mousemove((e) => {
+          min = false;
+          const newTop = e.pageY - sliderCoords;
+          const length = this.$domEl.height();
+          this.publish('coordMoveForCont', newTop, length, min);
+          console.log(e.pageY);
+        });
+      });
+      $(document).mouseup(() => {
+        $(document).unbind('mousemove');
+      });
+    } else {
+      const sliderCoords = this.$domEl.offset().left;
+      this.$valueMin.mousedown(() => {
+        $(document).mousemove((e) => {
+          min = true;
+          const newTop = e.pageX - sliderCoords;
+          const length = this.$domEl.width();
+          this.publish('coordMoveForCont', newTop, length, min);
+          console.log(e.pageX);
+        });
+      });
+      this.$valueMax.mousedown(() => {
+        $(document).mousemove((e) => {
+          min = false;
+          const newTop = e.pageX - sliderCoords;
+          const length = this.$domEl.width();
+          this.publish('coordMoveForCont', newTop, length, min);
+          console.log(e.pageX);
+        });
+      });
+      $(document).mouseup(() => {
+        $(document).unbind('mousemove');
+      });
+    }
+  }
 }
 
 export default View;

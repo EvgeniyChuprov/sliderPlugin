@@ -14,10 +14,14 @@ import View from './classes/View';
         <div class="range-slider__value-max" ><div class = "range-slider__tool-max" ></div></div>`);
         this.append(create);
         this.controller.subscribe(this.model.normalizationOfSettings.bind(this.model));
+        this.controller.subscribe(this.model.toClick.bind(this.model));
+        this.controller.subscribe(this.model.toMove.bind(this.model));
         this.controller.subscribe(this.view.init.bind(this.view));
         this.model.subscribe(this.controller.initView.bind(this.controller));
+        this.view.subscribe(this.controller.clickSlider.bind(this.controller));
+        this.view.subscribe(this.controller.moveSlider.bind(this.controller));
         this.controller.init();
-        //this.data('setting', controller);
+        this.data('setting', this.model.options);
       });
     },
     get() {

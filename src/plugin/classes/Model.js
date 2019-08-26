@@ -10,7 +10,7 @@ class Model extends Observer {
       this._checkStep();
       this._checkValueMin();
       this._checkValueMax();
-      this.publish('forController', this._initConstants());
+      this.publish('forController', this._initConstants(), this.options);
     }
   }
 
@@ -24,6 +24,8 @@ class Model extends Observer {
       vertical: false,
       tooltip: true,
       twoSliders: true,
+      onChange: null,
+      update: null,
     };
 
     this.options = $.extend({}, this.options, opt);
@@ -98,6 +100,52 @@ class Model extends Observer {
       twoRange,
       tool,
     };
+  }
+
+  toClick(coordClickForModel, newTop, length) {
+    if (coordClickForModel === 'coordClickForModel') {
+      const shiftPercentage = (newTop * 100) / length;
+      const positionSlider = this.options.step * Math.round(shiftPercentage
+      / this._initConstants().step) + this.options.min;
+      if (this.options.twoSliders) {
+        if (positionSlider - this.options.min < (this.options.max - this.options.min) / 2) {
+          this.options.valueMin = positionSlider;
+          this.options.onChange(this.options.valueMin, this.options.valueMax);
+        } else {
+          this.options.valueMax = positionSlider;
+          this.options.onChange(this.options.valueMin, this.options.valueMax);
+        }
+      } else {
+        this.options.valueMin = positionSlider;
+        this.options.onChange(this.options.valueMin, this.options.valueMax);
+      }
+      this.publish('forController', this._initConstants(), this.options);
+    }
+  }
+
+  toMove(coordMoveForModel, newTop, length, min) {
+    if (coordMoveForModel === 'coordMoveForModel') {
+      const shiftPercentage = (newTop * 100) / length;
+      const value = this.options.step * Math.round(shiftPercentage
+      / this._initConstants().step) + this.options.min;
+      if (min) {
+        if (value <= this.options.max) {
+          if (value >= this.options.min && value <= this.options.valueMax) {
+            this.options.valueMin = value;
+            this.options.onChange(this.options.valueMin, this.options.valueMax);
+            this.publish('forController', this._initConstants(), this.options);
+          }
+        }
+      } else if (!min) {
+        if (value >= this.options.min) {
+          if (value <= this.options.max && value >= this.options.valueMin) {
+            this.options.valueMax = value;
+            this.options.onChange(this.options.valueMin, this.options.valueMax);
+            this.publish('forController', this._initConstants(), this.options);
+          }
+        }
+      }
+    }
   }
 }
 
