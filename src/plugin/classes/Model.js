@@ -7,10 +7,10 @@ class Model extends Observer {
       case 'forModel':
         this._normalizationOfSettings(arg[0]);
         break;
-      case 'coordClickForModel':
+      case 'coordinatesClickForModel':
         this._toClick(arg[0], arg[1]);
         break;
-      case 'coordMoveForModel':
+      case 'coordinatesMoveForModel':
         this._toMove(arg[0], arg[1], arg[2]);
         break;
       default:
@@ -74,24 +74,24 @@ class Model extends Observer {
     if (this.options.min > this.options.valueMin) {
       this.options.min = this.options.valueMin;
     }
-    if (this.options.min > this.options.max) {
+    if (this.options.min >= this.options.max) {
       this.options.min = this.options.max - this.options.step;
     }
   }
 
   _checkMax() {
-    if (this._isChangeAllowedForMax()) {
-      this.options.max = this.options.valueMax;
-    } else if (this.options.max < this.options.valueMin) {
+    if (this.options.twoSliders) {
+      if (this.options.max < this.options.valueMax) {
+        this.options.max = this.options.valueMax;
+      }
+    }
+
+    if (this.options.max < this.options.valueMin) {
       this.options.max = this.options.valueMin;
     }
-    if (this.options.min > this.options.max) {
+    if (this.options.min >= this.options.max) {
       this.options.max = this.options.min + this.options.step;
     }
-  }
-
-  _isChangeAllowedForMax() {
-    return this.options.twoSliders && this.options.max < this.options.valueMax;
   }
 
   _checkStep() {
@@ -101,7 +101,7 @@ class Model extends Observer {
   }
 
   _isChangeAllowedForStep() {
-    return this.options.step <= 0 || this.options.step > (this.options.max - this.options.min);
+    return this.options.step < 0 || this.options.step > (this.options.max - this.options.min);
   }
 
   _checkValueMin() {

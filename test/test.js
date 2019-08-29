@@ -1,5 +1,3 @@
-const chai = require('chai');
-
 function importAll(r) {
   r.keys().forEach(r);
 }

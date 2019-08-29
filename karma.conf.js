@@ -24,16 +24,25 @@ module.exports = (config) => {
       },
     },
     webpack: {
-      mode: 'none',
-      // module: {
-      //   rules: [{
-      //     test: /\.js$/,
-      //     include: path.resolve('src/'),
-      //     use: {
-      //       loader: 'istanbul-instrumenter-loader'
-      //     },
-      //   }]
-      // }
+      mode: 'development',
+      module: {
+        rules: [
+          {
+            enforce: 'post',
+            exclude: [
+              path.resolve('node_modules/'),
+            ],
+            include: path.resolve('src/'),
+            test: /\.js$/,
+            use: {
+              loader: 'istanbul-instrumenter-loader',
+              query: {
+                esModules: true,
+              },
+            },
+          },
+        ],
+      },
     },
     webpackMiddleware: {
       noInfo: true,

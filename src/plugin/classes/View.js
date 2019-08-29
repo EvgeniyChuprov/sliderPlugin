@@ -102,7 +102,7 @@ class View extends Observer {
 
       this.$domEl.on('click', (e) => {
         const newTop = e.pageY - sliderCoords;
-        this.publish('coordClickForCont', newTop, length);
+        this.publish('coordinatesClickForController', newTop, length);
       });
     } else {
       this.$domEl.unbind('click');
@@ -112,7 +112,7 @@ class View extends Observer {
 
       this.$domEl.on('click', (e) => {
         const newTop = e.pageX - sliderCoords;
-        this.publish('coordClickForCont', newTop, length);
+        this.publish('coordinatesClickForController', newTop, length);
       });
     }
   }
@@ -127,7 +127,7 @@ class View extends Observer {
           min = true;
           const newTop = e.pageY - sliderCoords;
           const length = this.$domEl.height();
-          this.publish('coordMoveForCont', newTop, length, min);
+          this.publish('coordinatesMoveForController', newTop, length, min);
         });
       });
 
@@ -136,7 +136,7 @@ class View extends Observer {
           min = false;
           const newTop = e.pageY - sliderCoords;
           const length = this.$domEl.height();
-          this.publish('coordMoveForCont', newTop, length, min);
+          this.publish('coordinatesMoveForController', newTop, length, min);
         });
       });
 
@@ -151,7 +151,7 @@ class View extends Observer {
           min = true;
           const newTop = e.pageX - sliderCoords;
           const length = this.$domEl.width();
-          this.publish('coordMoveForCont', newTop, length, min);
+          this.publish('coordinatesMoveForController', newTop, length, min);
         });
       });
 
@@ -160,7 +160,7 @@ class View extends Observer {
           min = false;
           const newTop = e.pageX - sliderCoords;
           const length = this.$domEl.width();
-          this.publish('coordMoveForCont', newTop, length, min);
+          this.publish('coordinatesMoveForController', newTop, length, min);
         });
       });
 

@@ -1,6 +1,6 @@
-// const assert = require('assert');
-// //const Controller = require('../src/plugin/classes/Controller');
-// import Controller from '../src/plugin/classes/Controller';
+const assert = require('assert');
+//const Controller = require('../src/plugin/classes/Controller');
+import Controller from '../src/plugin/classes/Controller';
 // describe('Доступ к параметрам класса Controller', () => {
 //   const options = { min: 10, max: 90 };
 //   const domEl = '<div></div>';

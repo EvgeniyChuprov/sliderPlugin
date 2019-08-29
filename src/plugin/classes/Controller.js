@@ -14,10 +14,10 @@ class Controller extends Observer {
 
   transferDataBetweenModelView(event, ...arg) {
     switch (event) {
-      case 'coordClickForCont':
+      case 'coordinatesClickForController':
         this._clickSlider(arg[0], arg[1]);
         break;
-      case 'coordMoveForCont':
+      case 'coordinatesMoveForController':
         this._moveSlider(arg[0], arg[1], arg[2]);
         break;
       case 'forController':
@@ -41,11 +41,11 @@ class Controller extends Observer {
   }
 
   _clickSlider(newTop, length) {
-    this.publish('coordClickForModel', newTop, length);
+    this.publish('coordinatesClickForModel', newTop, length);
   }
 
   _moveSlider(newTop, length, min) {
-    this.publish('coordMoveForModel', newTop, length, min);
+    this.publish('coordinatesMoveForModel', newTop, length, min);
   }
 }
 
