@@ -11,14 +11,8 @@ class View extends Observer {
       this._drawPositioning();
       this._drawTwoSliders();
       this._drawTool();
-      
       this._toClick();
       this._movie();
-
-      // $(document).mouseup(() => {
-      //   console.log(123)
-      //   $(document).unbind('mousemove');
-      // });
     }
   }
 
@@ -102,16 +96,20 @@ class View extends Observer {
   _toClick() {
     if (this.options.upright) {
       this.$domEl.unbind('click');
+
       const sliderCoords = this.$domEl.offset().top;
       const length = this.$domEl.height();
+
       this.$domEl.on('click', (e) => {
         const newTop = e.pageY - sliderCoords;
         this.publish('coordClickForCont', newTop, length);
       });
     } else {
       this.$domEl.unbind('click');
+
       const sliderCoords = this.$domEl.offset().left;
       const length = this.$domEl.width();
+
       this.$domEl.on('click', (e) => {
         const newTop = e.pageX - sliderCoords;
         this.publish('coordClickForCont', newTop, length);
@@ -123,6 +121,7 @@ class View extends Observer {
     let min;
     if (this.options.upright) {
       const sliderCoords = this.$domEl.offset().top;
+
       this.$valueMin.mousedown(() => {
         $(document).mousemove((e) => {
           min = true;
@@ -132,29 +131,33 @@ class View extends Observer {
           console.log(e.pageY);
         });
       });
+
       this.$valueMax.mousedown(() => {
         $(document).mousemove((e) => {
           min = false;
           const newTop = e.pageY - sliderCoords;
           const length = this.$domEl.height();
           this.publish('coordMoveForCont', newTop, length, min);
-          console.log(e.pageY);
+          console.log('e.pageY ', e.pageY);
         });
       });
+
       $(document).mouseup(() => {
         $(document).unbind('mousemove');
       });
     } else {
       const sliderCoords = this.$domEl.offset().left;
+
       this.$valueMin.mousedown(() => {
         $(document).mousemove((e) => {
           min = true;
           const newTop = e.pageX - sliderCoords;
           const length = this.$domEl.width();
           this.publish('coordMoveForCont', newTop, length, min);
-          console.log(e.pageX);
+          console.log('e.pageY ', e.pageY);
         });
       });
+
       this.$valueMax.mousedown(() => {
         $(document).mousemove((e) => {
           min = false;
@@ -164,6 +167,7 @@ class View extends Observer {
           console.log(e.pageX);
         });
       });
+
       $(document).mouseup(() => {
         $(document).unbind('mousemove');
       });

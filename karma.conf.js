@@ -1,13 +1,14 @@
-var path = require('path');
-module.exports = function (config) {
+const path = require('path');
+
+module.exports = (config) => {
   config.set({
 
     files: [
-      'test/test.js'
+      'test/test.js',
     ],
     frameworks: ['mocha', 'jquery-3.3.1'],
     preprocessors: {
-      'test/test.js': ['webpack']
+      'test/test.js': ['webpack'],
     },
     reporters: ['mocha', 'coverage-istanbul'],
     coverageIstanbulReporter: {
@@ -18,12 +19,12 @@ module.exports = function (config) {
       skipFilesWithNoCoverage: true,
       'report-config': {
         html: {
-          subdir: 'html'
-        }
-      }
+          subdir: 'html',
+        },
+      },
     },
     webpack: {
-       mode: 'none',
+      mode: 'none',
       // module: {
       //   rules: [{
       //     test: /\.js$/,
@@ -35,18 +36,18 @@ module.exports = function (config) {
       // }
     },
     webpackMiddleware: {
-      noInfo: true
+      noInfo: true,
     },
     plugins: [
       'karma-jquery',
-      "karma-webpack",
-      "karma-mocha",
-      "karma-chai",
-      "karma-chrome-launcher",
-      "karma-mocha-reporter",
-      "karma-coverage-istanbul-reporter",
-      "istanbul-instrumenter-loader"
+      'karma-webpack',
+      'karma-mocha',
+      'karma-chai',
+      'karma-chrome-launcher',
+      'karma-mocha-reporter',
+      'karma-coverage-istanbul-reporter',
+      'istanbul-instrumenter-loader',
     ],
-    browsers: ['Chrome']
+    browsers: ['Chrome'],
   });
 };

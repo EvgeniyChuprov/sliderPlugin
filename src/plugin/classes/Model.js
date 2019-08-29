@@ -2,16 +2,30 @@
 import Observer from './Observer';
 
 class Model extends Observer {
-  normalizationOfSettings(forModel, opt) {
-    if (forModel === 'forModel') {
-      this._addMissingValues(opt);
-      this._checkMin();
-      this._checkMax();
-      this._checkStep();
-      this._checkValueMin();
-      this._checkValueMax();
-      this.publish('forController', this._initConstants(), this.options);
+  getDataFromController(event, ...arg) {
+    switch (event) {
+      case 'forModel':
+        this._normalizationOfSettings(arg[0]);
+        break;
+      case 'coordClickForModel':
+        this._toClick(arg[0], arg[1]);
+        break;
+      case 'coordMoveForModel':
+        this._toMove(arg[0], arg[1], arg[2]);
+        break;
+      default:
+        break;
     }
+  }
+
+  _normalizationOfSettings(opt) {
+    this._addMissingValues(opt);
+    this._checkMin();
+    this._checkMax();
+    this._checkStep();
+    this._checkValueMin();
+    this._checkValueMax();
+    this.publish('forController', this._initConstants(), this.options);
   }
 
   _addMissingValues(opt) {
@@ -102,47 +116,43 @@ class Model extends Observer {
     };
   }
 
-  toClick(coordClickForModel, newTop, length) {
-    if (coordClickForModel === 'coordClickForModel') {
-      const shiftPercentage = (newTop * 100) / length;
-      const positionSlider = this.options.step * Math.round(shiftPercentage
-      / this._initConstants().step) + this.options.min;
-      if (this.options.twoSliders) {
-        if (positionSlider - this.options.min < (this.options.max - this.options.min) / 2) {
-          this.options.valueMin = positionSlider;
-          this.options.onChange(this.options.valueMin, this.options.valueMax);
-        } else {
-          this.options.valueMax = positionSlider;
-          this.options.onChange(this.options.valueMin, this.options.valueMax);
-        }
-      } else {
+  _toClick(newTop, length) {
+    const shiftPercentage = (newTop * 100) / length;
+    const positionSlider = this.options.step * Math.round(shiftPercentage
+     / this._initConstants().step) + this.options.min;
+    if (this.options.twoSliders) {
+      if (positionSlider - this.options.min < (this.options.max - this.options.min) / 2) {
         this.options.valueMin = positionSlider;
         this.options.onChange(this.options.valueMin, this.options.valueMax);
+      } else {
+        this.options.valueMax = positionSlider;
+        this.options.onChange(this.options.valueMin, this.options.valueMax);
       }
-      this.publish('forController', this._initConstants(), this.options);
+    } else {
+      this.options.valueMin = positionSlider;
+      this.options.onChange(this.options.valueMin, this.options.valueMax);
     }
+    this.publish('forController', this._initConstants(), this.options);
   }
 
-  toMove(coordMoveForModel, newTop, length, min) {
-    if (coordMoveForModel === 'coordMoveForModel') {
-      const shiftPercentage = (newTop * 100) / length;
-      const value = this.options.step * Math.round(shiftPercentage
-      / this._initConstants().step) + this.options.min;
-      if (min) {
-        if (value <= this.options.max) {
-          if (value >= this.options.min && value <= this.options.valueMax) {
-            this.options.valueMin = value;
-            this.options.onChange(this.options.valueMin, this.options.valueMax);
-            this.publish('forController', this._initConstants(), this.options);
-          }
+  _toMove(newTop, length, min) {
+    const shiftPercentage = (newTop * 100) / length;
+    const value = this.options.step * Math.round(shiftPercentage
+    / this._initConstants().step) + this.options.min;
+    if (min) {
+      if (value <= this.options.max) {
+        if (value >= this.options.min && value <= this.options.valueMax) {
+          this.options.valueMin = value;
+          this.options.onChange(this.options.valueMin, this.options.valueMax);
+          this.publish('forController', this._initConstants(), this.options);
         }
-      } else if (!min) {
-        if (value >= this.options.min) {
-          if (value <= this.options.max && value >= this.options.valueMin) {
-            this.options.valueMax = value;
-            this.options.onChange(this.options.valueMin, this.options.valueMax);
-            this.publish('forController', this._initConstants(), this.options);
-          }
+      }
+    } else if (!min) {
+      if (value >= this.options.min) {
+        if (value <= this.options.max && value >= this.options.valueMin) {
+          this.options.valueMax = value;
+          this.options.onChange(this.options.valueMin, this.options.valueMax);
+          this.publish('forController', this._initConstants(), this.options);
         }
       }
     }

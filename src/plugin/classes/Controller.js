@@ -12,26 +12,40 @@ class Controller extends Observer {
     this.publish('forModel', this.options);
   }
 
-  initView(forController, data, options) {
-    if (forController === 'forController') {
-      this.publish('forView', this.$domEl, data);
-      this.options = options;
-      this.options.update = (value) => {
-        this.publish('forModel', value);
-      };
+  transferDataBetweenModelView(event, ...arg) {
+    switch (event) {
+      case 'coordClickForCont':
+        this._clickSlider(arg[0], arg[1]);
+        break;
+      case 'coordMoveForCont':
+        this._moveSlider(arg[0], arg[1], arg[2]);
+        break;
+      case 'forController':
+        this._initView(arg[0], arg[1]);
+        break;
+      default:
+        break;
     }
   }
 
-  clickSlider(coordClickForCont, newTop, length) {
-    if (coordClickForCont === 'coordClickForCont') {
-      this.publish('coordClickForModel', newTop, length);
-    }
+  _initView(data, options) {
+    this.publish('forView', this.$domEl, data);
+    this._createCallbackFunction(options);
   }
 
-  moveSlider(coordMoveForCont, newTop, length, min) {
-    if (coordMoveForCont === 'coordMoveForCont') {
-      this.publish('coordMoveForModel', newTop, length, min);
-    }
+  _createCallbackFunction(options) {
+    this.options = options;
+    this.options.update = (value) => {
+      this.publish('forModel', value);
+    };
+  }
+
+  _clickSlider(newTop, length) {
+    this.publish('coordClickForModel', newTop, length);
+  }
+
+  _moveSlider(newTop, length, min) {
+    this.publish('coordMoveForModel', newTop, length, min);
   }
 }
 

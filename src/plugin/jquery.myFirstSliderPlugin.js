@@ -1,3 +1,4 @@
+
 import Controller from './classes/Controller';
 import Model from './classes/Model';
 import View from './classes/View';
@@ -13,14 +14,14 @@ import View from './classes/View';
         const create = $(`<div class="range-slider__value-min" ><div class = "range-slider__tool-min" ></div></div>
         <div class="range-slider__value-max" ><div class = "range-slider__tool-max" ></div></div>`);
         this.append(create);
-        this.controller.subscribe(this.model.normalizationOfSettings.bind(this.model));
-        this.controller.subscribe(this.model.toClick.bind(this.model));
-        this.controller.subscribe(this.model.toMove.bind(this.model));
+
+        this.controller.subscribe(this.model.getDataFromController.bind(this.model));
         this.controller.subscribe(this.view.init.bind(this.view));
-        this.model.subscribe(this.controller.initView.bind(this.controller));
-        this.view.subscribe(this.controller.clickSlider.bind(this.controller));
-        this.view.subscribe(this.controller.moveSlider.bind(this.controller));
+        this.model.subscribe(this.controller.transferDataBetweenModelView.bind(this.controller));
+        this.view.subscribe(this.controller.transferDataBetweenModelView.bind(this.controller));
+
         this.controller.init();
+
         this.data('setting', this.model.options);
       });
     },
@@ -29,11 +30,12 @@ import View from './classes/View';
     },
   };
 
-  $.fn.myFirstSliderPlugin = function(method) {
+  // eslint-disable-next-line no-param-reassign
+  $.fn.myFirstSliderPlugin = function initPlugin(method, ...args) {
     if (methods[method]) {
-      return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
-    } else if(typeof method === 'object' || ! method) {
-      return methods.init.apply(this, arguments);
+      return methods[method].apply(this, Array.prototype.slice.call(args, 1));
     }
-  }
+
+    return methods.init.apply(this, args);
+  };
 })(jQuery, window);

@@ -28,6 +28,7 @@
       top: 0.06rem;
       left: -0.6rem;
     }
+
     &_horizon {
       left: 3.1rem;
       top: 0.6rem;
@@ -46,6 +47,7 @@
       top: 0.06rem;
       left: 0.6rem;
     }
+
     &_horizon {
       left: 0rem;
       top: 0.6rem;
@@ -66,6 +68,7 @@
         left: 2.18rem;
         top: -0.125rem;
       }
+
       &_horizon {
         left: -0.125rem;
         top: -1.87rem;
@@ -80,10 +83,12 @@
       border-radius: 0.18rem;
       position: relative;
       border: 0.06rem solid red;
+
       &_vertical {
         top: -0.125rem;
         left: 2.18rem;
       }
+
       &_horizon {
         left: -0.125rem;
         top: -1.8rem;
