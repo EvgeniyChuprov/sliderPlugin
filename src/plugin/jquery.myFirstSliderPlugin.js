@@ -1,4 +1,3 @@
-
 import Controller from './classes/Controller';
 import Model from './classes/Model';
 import View from './classes/View';
@@ -31,11 +30,12 @@ import View from './classes/View';
   };
 
   // eslint-disable-next-line no-param-reassign
-  $.fn.myFirstSliderPlugin = function initPlugin(method, ...args) {
+  $.fn.myFirstSliderPlugin = function initPlugin(method) {
     if (methods[method]) {
-      return methods[method].apply(this, Array.prototype.slice.call(args, 1));
+      // eslint-disable-next-line prefer-rest-params
+      return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
     }
-
-    return methods.init.apply(this, args);
+    // eslint-disable-next-line prefer-rest-params
+    return methods.init.apply(this, arguments);
   };
 })(jQuery, window);

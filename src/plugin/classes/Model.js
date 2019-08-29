@@ -42,7 +42,32 @@ class Model extends Observer {
       update: null,
     };
 
-    this.options = $.extend({}, this.options, opt);
+    if (typeof opt.min === 'number') {
+      this.options.min = opt.min;
+    }
+    if (typeof opt.max === 'number') {
+      this.options.max = opt.max;
+    }
+    if (typeof opt.step === 'number') {
+      this.options.step = opt.step;
+    }
+    if (typeof opt.valueMin === 'number') {
+      this.options.valueMin = opt.valueMin;
+    }
+    if (typeof opt.valueMax === 'number') {
+      this.options.valueMax = opt.valueMax;
+    }
+    if (typeof opt.vertical === 'boolean') {
+      this.options.vertical = opt.vertical;
+    }
+    if (typeof opt.tooltip === 'boolean') {
+      this.options.tooltip = opt.tooltip;
+    }
+    if (typeof opt.twoSliders === 'boolean') {
+      this.options.twoSliders = opt.twoSliders;
+    }
+    this.options.onChange = opt.onChange;
+    this.options.update = opt.update;
   }
 
   _checkMin() {
@@ -55,7 +80,7 @@ class Model extends Observer {
   }
 
   _checkMax() {
-    if (this.options.twoSliders && this.options.max < this.options.valueMax) {
+    if (this._isChangeAllowedForMax()) {
       this.options.max = this.options.valueMax;
     } else if (this.options.max < this.options.valueMin) {
       this.options.max = this.options.valueMin;
@@ -65,19 +90,31 @@ class Model extends Observer {
     }
   }
 
+  _isChangeAllowedForMax() {
+    return this.options.twoSliders && this.options.max < this.options.valueMax;
+  }
+
   _checkStep() {
-    if (this.options.step <= 0 || this.options.step > (this.options.max - this.options.min)) {
+    if (this._isChangeAllowedForStep()) {
       this.options.step = 1;
     }
   }
 
+  _isChangeAllowedForStep() {
+    return this.options.step <= 0 || this.options.step > (this.options.max - this.options.min);
+  }
+
   _checkValueMin() {
-    if (this.options.twoSliders && this.options.valueMin > this.options.valueMax) {
-      this.options.valueMin = this.options.valueMax;
+    if (this.options.twoSliders) {
+      if (this.options.valueMin > this.options.valueMax) {
+        this.options.valueMin = this.options.valueMax;
+      }
     }
-    if (!this.options.twoSliders && this.options.valueMin > this.options.max) {
+
+    if (this.options.valueMin > this.options.max) {
       this.options.valueMin = this.options.max;
     }
+
     if (this.options.valueMin < this.options.min) {
       this.options.valueMin = this.options.min;
     }
@@ -118,19 +155,21 @@ class Model extends Observer {
 
   _toClick(newTop, length) {
     const shiftPercentage = (newTop * 100) / length;
+    const middle = (this.options.max - this.options.min) / 2;
     const positionSlider = this.options.step * Math.round(shiftPercentage
      / this._initConstants().step) + this.options.min;
+
     if (this.options.twoSliders) {
-      if (positionSlider - this.options.min < (this.options.max - this.options.min) / 2) {
+      if (positionSlider - this.options.min < middle) {
         this.options.valueMin = positionSlider;
-        this.options.onChange(this.options.valueMin, this.options.valueMax);
+        this.options.onChange(this.options);
       } else {
         this.options.valueMax = positionSlider;
-        this.options.onChange(this.options.valueMin, this.options.valueMax);
+        this.options.onChange(this.options);
       }
     } else {
       this.options.valueMin = positionSlider;
-      this.options.onChange(this.options.valueMin, this.options.valueMax);
+      this.options.onChange(this.options);
     }
     this.publish('forController', this._initConstants(), this.options);
   }
@@ -139,20 +178,25 @@ class Model extends Observer {
     const shiftPercentage = (newTop * 100) / length;
     const value = this.options.step * Math.round(shiftPercentage
     / this._initConstants().step) + this.options.min;
+
     if (min) {
       if (value <= this.options.max) {
         if (value >= this.options.min && value <= this.options.valueMax) {
-          this.options.valueMin = value;
-          this.options.onChange(this.options.valueMin, this.options.valueMax);
-          this.publish('forController', this._initConstants(), this.options);
+          if (value !== this.options.valueMin) {
+            this.options.valueMin = value;
+            this.options.onChange(this.options);
+            this.publish('forController', this._initConstants(), this.options);
+          }
         }
       }
     } else if (!min) {
       if (value >= this.options.min) {
         if (value <= this.options.max && value >= this.options.valueMin) {
-          this.options.valueMax = value;
-          this.options.onChange(this.options.valueMin, this.options.valueMax);
-          this.publish('forController', this._initConstants(), this.options);
+          if (value !== this.options.valueMax) {
+            this.options.valueMax = value;
+            this.options.onChange(this.options);
+            this.publish('forController', this._initConstants(), this.options);
+          }
         }
       }
     }

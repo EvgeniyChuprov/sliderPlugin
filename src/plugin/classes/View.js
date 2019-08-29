@@ -128,7 +128,6 @@ class View extends Observer {
           const newTop = e.pageY - sliderCoords;
           const length = this.$domEl.height();
           this.publish('coordMoveForCont', newTop, length, min);
-          console.log(e.pageY);
         });
       });
 
@@ -138,7 +137,6 @@ class View extends Observer {
           const newTop = e.pageY - sliderCoords;
           const length = this.$domEl.height();
           this.publish('coordMoveForCont', newTop, length, min);
-          console.log('e.pageY ', e.pageY);
         });
       });
 
@@ -154,7 +152,6 @@ class View extends Observer {
           const newTop = e.pageX - sliderCoords;
           const length = this.$domEl.width();
           this.publish('coordMoveForCont', newTop, length, min);
-          console.log('e.pageY ', e.pageY);
         });
       });
 
@@ -164,7 +161,6 @@ class View extends Observer {
           const newTop = e.pageX - sliderCoords;
           const length = this.$domEl.width();
           this.publish('coordMoveForCont', newTop, length, min);
-          console.log(e.pageX);
         });
       });
 
