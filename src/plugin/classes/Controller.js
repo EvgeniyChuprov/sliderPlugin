@@ -4,7 +4,7 @@ import Observer from './Observer';
 class Controller extends Observer {
   constructor(opt, $this) {
     super();
-    this.$domEl = $($this[0]);
+    this.$domEl = $this;
     this.options = opt;
   }
 

@@ -8,11 +8,12 @@ class View extends Observer {
       this.options = options;
       this._createSlider();
       this._drawStartingPositions();
+      this._drawStartingTooltip();
       this._drawPositioning();
       this._drawTwoSliders();
       this._drawTool();
       this._toClick();
-      this._movie();
+      this._move();
     }
   }
 
@@ -24,9 +25,6 @@ class View extends Observer {
   }
 
   _drawStartingPositions() {
-    this.$toolMin.html(this.options.toolMin);
-    this.$toolMax.html(this.options.toolMax);
-
     if (this.options.upright) {
       this.$valueMin.css('top', `${this.options.minPoint}%`);
       this.$valueMax.css('top', `${this.options.maxPoint}%`);
@@ -34,6 +32,11 @@ class View extends Observer {
       this.$valueMin.css('left', `${this.options.minPoint}%`);
       this.$valueMax.css('left', `${this.options.maxPoint}%`);
     }
+  }
+
+  _drawStartingTooltip() {
+    this.$toolMin.html(this.options.toolMin);
+    this.$toolMax.html(this.options.toolMax);
   }
 
   _drawTool() {
@@ -117,7 +120,7 @@ class View extends Observer {
     }
   }
 
-  _movie() {
+  _move() {
     let min;
     if (this.options.upright) {
       const sliderCoords = this.$domEl.offset().top;

@@ -6,7 +6,7 @@ module.exports = (config) => {
     files: [
       'test/test.js',
     ],
-    frameworks: ['mocha', 'jquery-3.3.1'],
+    frameworks: ['mocha', 'jquery-3.3.1', 'sinon-chai'],
     preprocessors: {
       'test/test.js': ['webpack'],
     },
@@ -56,6 +56,7 @@ module.exports = (config) => {
       'karma-mocha-reporter',
       'karma-coverage-istanbul-reporter',
       'istanbul-instrumenter-loader',
+      'karma-sinon-chai',
     ],
     browsers: ['Chrome'],
   });

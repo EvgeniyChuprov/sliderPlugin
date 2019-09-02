@@ -1,6 +1,6 @@
-/* eslint no-underscore-dangle: ["error", { "allowAftermodel": true }] */
-const assert = require('assert');
-
+/* eslint-disable no-underscore-dangle */
+import assert from 'assert';
+import sinon from 'sinon';
 import Model from '../src/plugin/classes/Model';
 
 describe('Доступ к параметрам класса Model', () => {
@@ -18,34 +18,52 @@ describe('Доступ к параметрам класса Model', () => {
     update: null,
   };
 
+  const normalizationOfSettings = sinon.spy(model, '_normalizationOfSettings');
+  const toClick = sinon.spy(model, '_toClick');
+  const toMove = sinon.spy(model, '_toMove');
+  const publish = sinon.spy(model, 'publish');
+
   it('Проверка получения параметров по умолчанию', () => {
     const emptyObj = {};
-
     assert.equal(typeof model.options === 'undefined', true);
-
-    // eslint-disable-next-line no-underscore-dangle
     model._addMissingValues(emptyObj);
-
     assert.equal(typeof model.options.min, 'number');
     assert.equal(typeof model.options.tooltip, 'boolean');
   });
 
   it('Проверка получения параметров', () => {
-    // eslint-disable-next-line no-underscore-dangle
     model._addMissingValues(externalOptions);
-
     assert.equal(model.options.min, 30);
     assert.equal(model.options.tooltip, true);
   });
 
+  it('Проверка вызова _normalizationOfSettings в методе getDataFromController', () => {
+    model.getDataFromController('forModel', 1);
+    assert(normalizationOfSettings.called);
+  });
+
+  it('Проверка вызова toClick в методе getDataFromController', () => {
+    model.options.onChange = x => x;
+    model.getDataFromController('coordinatesClickForModel', 1, 2);
+    assert(toClick.called);
+  });
+
+  it('Проверка вызова _toMove в методе getDataFromController', () => {
+    model.getDataFromController('coordinatesMoveForModel', 1);
+    assert(toMove.called);
+  });
+
+  it('Проверка вызова publish в методе _normalizationOfSettings', () => {
+    model._normalizationOfSettings(externalOptions);
+    assert(publish.called);
+  });
+
   it('Проверка измения минимума', () => {
     model.options.min = model.options.valueMin + 100;
-    // eslint-disable-next-line no-underscore-dangle
     model._checkMin();
     assert.equal(model.options.min <= model.options.valueMin, true);
     model.options.valueMin = model.options.max;
     model.options.min = model.options.max;
-    // eslint-disable-next-line no-underscore-dangle
     model._checkMin();
     assert.equal(model.options.min < model.options.max, true);
   });
@@ -54,18 +72,14 @@ describe('Доступ к параметрам класса Model', () => {
     model._addMissingValues(externalOptions);
     model.options.twoSliders = true;
     model.options.max = model.options.valueMax - 100;
-    // eslint-disable-next-line no-underscore-dangle
     model._checkMax();
     assert.equal(model.options.max >= model.options.valueMax, true);
-
     model.options.twoSliders = false;
     model.options.max = model.options.valueMin - 100;
-    // eslint-disable-next-line no-underscore-dangle
     model._checkMax();
     assert.equal(model.options.max >= model.options.valueMin, true);
     model.options.valueMin = model.options.min;
     model.options.max = model.options.min;
-    // eslint-disable-next-line no-underscore-dangle
     model._checkMax();
     assert.equal(model.options.max > model.options.min, true);
   });
@@ -73,56 +87,40 @@ describe('Доступ к параметрам класса Model', () => {
   it('Проверка изменения шага', () => {
     model._addMissingValues(externalOptions);
     model.options.step = -2;
-    // eslint-disable-next-line no-underscore-dangle
     model._checkStep();
     assert.equal(model.options.step === 1, true);
-
     model.options.step = model.options.max + 10;
-    // eslint-disable-next-line no-underscore-dangle
     model._checkStep();
     assert.equal(model.options.step === 1, true);
   });
 
   it('Проверка изменения меньшего ползунка', () => {
-    // eslint-disable-next-line no-underscore-dangle
     model._addMissingValues(externalOptions);
     model.options.twoSliders = true;
-
     model.options.valueMin = model.options.valueMax + 1;
-    // eslint-disable-next-line no-underscore-dangle
     model._checkValueMin();
     assert.equal(model.options.valueMin === model.options.valueMax, true);
-
     model.options.valueMin = model.options.min - 1;
-    // eslint-disable-next-line no-underscore-dangle
     model._checkValueMin();
     assert.equal(model.options.valueMin === model.options.min, true);
-
     model.options.twoSliders = false;
     model.options.valueMin = model.options.max + 1;
-    // eslint-disable-next-line no-underscore-dangle
     model._checkValueMin();
     assert.equal(model.options.valueMin === model.options.max, true);
   });
 
   it('Проверка изменения большего ползунка', () => {
-    // eslint-disable-next-line no-underscore-dangle
     model._addMissingValues(externalOptions);
     model.options.twoSliders = true;
-
     model.options.valueMax = model.options.valueMin - 1;
-    // eslint-disable-next-line no-underscore-dangle
     model._checkValueMax();
     assert.equal(model.options.valueMin === model.options.valueMax, true);
-
     model.options.valueMax = model.options.max + 1;
-    // eslint-disable-next-line no-underscore-dangle
     model._checkValueMax();
     assert.equal(model.options.valueMax === model.options.max, true);
   });
 
   it('Проверка получения констант', () => {
-    // eslint-disable-next-line no-underscore-dangle
     model._addMissingValues(externalOptions);
     const minPoint = ((model.options.valueMin - model.options.min) * 100)
     / (model.options.max - model.options.min);
@@ -130,19 +128,14 @@ describe('Доступ к параметрам класса Model', () => {
     / (model.options.max - model.options.min);
     const step = 100 / ((model.options.max - model.options.min)
     / model.options.step);
-    // eslint-disable-next-line no-underscore-dangle
     model._initConstants();
-
-
     assert.equal(model._initConstants().minPoint, minPoint);
     assert.equal(model._initConstants().maxPoint, maxPoint);
     assert.equal(model._initConstants().step, step);
   });
 
   it('Проверка расчета перемещения по клику', () => {
-    // eslint-disable-next-line no-underscore-dangle
     model._addMissingValues(externalOptions);
-
     model.options.onChange = x => x;
     const newTop = 2;
     const length = 10;
@@ -158,31 +151,24 @@ describe('Доступ к параметрам класса Model', () => {
     } else {
       assert.equal(model.options.valueMax, positionSlider);
     }
-
     model.options.twoSliders = false;
     model._toClick(newTop, length);
     assert.equal(model.options.valueMin, positionSlider);
   });
 
   it('Проверка расчета перетаскивания ползунка', () => {
-    // eslint-disable-next-line no-underscore-dangle
     model._addMissingValues(externalOptions);
-
     model.options.onChange = x => x;
     const newTop = 10;
     const length = 20;
-    
     const shiftPercentage = (newTop * 100) / length;
     const value = model.options.step * Math.round(shiftPercentage
     / model._initConstants().step) + model.options.min;
-
-    let min = true;  
+    let min = true;
     model._toMove(newTop, length, min);
-
     assert.equal(model.options.valueMin, value);
-    min = false;  
+    min = false;
     model._toMove(newTop, length, min);
-
     assert.equal(model.options.valueMax, value);
   });
 });
