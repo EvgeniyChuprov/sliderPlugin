@@ -14,7 +14,7 @@ import View from './classes/View';
         <div class="range-slider__value-max" ><div class = "range-slider__tool-max" ></div></div>`);
         this.append(create);
 
-        this.controller.subscribe(this.model.getDataFromController.bind(this.model));
+        this.controller.subscribe(this.model.processEvent.bind(this.model));
         this.controller.subscribe(this.view.init.bind(this.view));
         this.model.subscribe(this.controller.transferDataBetweenModelView.bind(this.controller));
         this.view.subscribe(this.controller.transferDataBetweenModelView.bind(this.controller));

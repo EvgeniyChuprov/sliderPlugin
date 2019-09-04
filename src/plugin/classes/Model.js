@@ -2,30 +2,30 @@
 import Observer from './Observer';
 
 class Model extends Observer {
-  getDataFromController(event, ...arg) {
+  processEvent(event, ...arg) {
     switch (event) {
       case 'forModel':
-        this._normalizationOfSettings(arg[0]);
+        this._normalizeInputData(arg[0]);
         break;
       case 'coordinatesClickForModel':
-        this._toClick(arg[0], arg[1]);
+        this._calculateMovingCoordinatesByClick(arg[0], arg[1]);
         break;
       case 'coordinatesMoveForModel':
-        this._toMove(arg[0], arg[1], arg[2]);
+        this._calculateMovingCoordinates(arg[0], arg[1], arg[2]);
         break;
       default:
         break;
     }
   }
 
-  _normalizationOfSettings(opt) {
+  _normalizeInputData(opt) {
     this._addMissingValues(opt);
-    this._checkMin();
-    this._checkMax();
-    this._checkStep();
-    this._checkValueMin();
-    this._checkValueMax();
-    this.publish('forController', this._initConstants(), this.options);
+    this._validateMinimumValue();
+    this._validateMaximumValue();
+    this._validateStepValue();
+    this._minorHandleValue();
+    this._majorHandleValue();
+    this.publish('modelStateChanged', this._calculationCoordinate(), this.options);
   }
 
   _addMissingValues(opt) {
@@ -70,7 +70,7 @@ class Model extends Observer {
     this.options.update = opt.update;
   }
 
-  _checkMin() {
+  _validateMinimumValue() {
     if (this.options.min > this.options.valueMin) {
       this.options.min = this.options.valueMin;
     }
@@ -79,7 +79,7 @@ class Model extends Observer {
     }
   }
 
-  _checkMax() {
+  _validateMaximumValue() {
     if (this.options.twoSliders) {
       if (this.options.max < this.options.valueMax) {
         this.options.max = this.options.valueMax;
@@ -94,7 +94,7 @@ class Model extends Observer {
     }
   }
 
-  _checkStep() {
+  _validateStepValue() {
     if (this._isChangeAllowedForStep()) {
       this.options.step = 1;
     }
@@ -104,7 +104,7 @@ class Model extends Observer {
     return this.options.step < 0 || this.options.step > (this.options.max - this.options.min);
   }
 
-  _checkValueMin() {
+  _minorHandleValue() {
     if (this.options.twoSliders) {
       if (this.options.valueMin > this.options.valueMax) {
         this.options.valueMin = this.options.valueMax;
@@ -120,7 +120,7 @@ class Model extends Observer {
     }
   }
 
-  _checkValueMax() {
+  _majorHandleValue() {
     if (this.options.valueMax < this.options.valueMin) {
       this.options.valueMax = this.options.valueMin;
     }
@@ -129,7 +129,7 @@ class Model extends Observer {
     }
   }
 
-  _initConstants() {
+  _calculationCoordinate() {
     const minPoint = ((this.options.valueMin - this.options.min) * 100)
     / (this.options.max - this.options.min);
     const maxPoint = ((this.options.valueMax - this.options.min) * 100)
@@ -153,39 +153,36 @@ class Model extends Observer {
     };
   }
 
-  _toClick(newTop, length) {
+  _calculateMovingCoordinatesByClick(newTop, length) {
     const shiftPercentage = (newTop * 100) / length;
     const middle = (this.options.max - this.options.min) / 2;
     const positionSlider = this.options.step * Math.round(shiftPercentage
-     / this._initConstants().step) + this.options.min;
+     / this._calculationCoordinate().step) + this.options.min;
 
     if (this.options.twoSliders) {
       if (positionSlider - this.options.min < middle) {
         this.options.valueMin = positionSlider;
-        this.options.onChange(this.options);
+
       } else {
         this.options.valueMax = positionSlider;
-        this.options.onChange(this.options);
       }
     } else {
       this.options.valueMin = positionSlider;
-      this.options.onChange(this.options);
     }
-    this.publish('forController', this._initConstants(), this.options);
+    this.publish('modelStateChanged', this._calculationCoordinate(), this.options);
   }
 
-  _toMove(newTop, length, min) {
+  _calculateMovingCoordinates(newTop, length, min) {
     const shiftPercentage = (newTop * 100) / length;
     const value = this.options.step * Math.round(shiftPercentage
-    / this._initConstants().step) + this.options.min;
+    / this._calculationCoordinate().step) + this.options.min;
 
     if (min) {
       if (value <= this.options.max) {
         if (value >= this.options.min && value <= this.options.valueMax) {
           if (value !== this.options.valueMin) {
             this.options.valueMin = value;
-            this.options.onChange(this.options);
-            this.publish('forController', this._initConstants(), this.options);
+            this.publish('modelStateChanged', this._calculationCoordinate(), this.options);
           }
         }
       }
@@ -194,8 +191,7 @@ class Model extends Observer {
         if (value <= this.options.max && value >= this.options.valueMin) {
           if (value !== this.options.valueMax) {
             this.options.valueMax = value;
-            this.options.onChange(this.options);
-            this.publish('forController', this._initConstants(), this.options);
+            this.publish('modelStateChanged', this._calculationCoordinate(), this.options);
           }
         }
       }

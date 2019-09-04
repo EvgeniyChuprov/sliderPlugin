@@ -1,7 +1,7 @@
 /* eslint no-underscore-dangle: ["error", { "allowAfterThis": true }] */
 require('../../plugin/jquery.myFirstSliderPlugin.js');
 
-class sliderInterface {
+class SliderInterface {
   constructor($element) {
     this.$sliderInterface = $element;
     this._initMenu();
@@ -76,10 +76,13 @@ class sliderInterface {
     this.options.onChange = (options) => {
       this.valueMin.val(options.valueMin);
       this.valueMax.val(options.valueMax);
+      this.min.val(options.min);
+      this.max.val(options.max);
+      this.step.val(options.step);
     };
   }
 }
 
 $('.js-slider').each((index, element) => {
-  new sliderInterface($(element));
+  new SliderInterface($(element));
 });

@@ -20,7 +20,10 @@ class Controller extends Observer {
       case 'coordinatesMoveForController':
         this._moveSlider(arg[0], arg[1], arg[2]);
         break;
-      case 'forController':
+      case 'modelStateChanged':
+        if (typeof arg[1].onChange === 'function') {
+          arg[1].onChange(arg[1]);
+        }
         this._initView(arg[0], arg[1]);
         break;
       default:
