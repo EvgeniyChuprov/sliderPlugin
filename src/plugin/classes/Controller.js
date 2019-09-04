@@ -9,15 +9,15 @@ class Controller extends Observer {
   }
 
   init() {
-    this.publish('forModel', this.options);
+    this.publish('receptionData', this.options);
   }
 
-  transferDataBetweenModelView(event, ...arg) {
+  transferData(event, ...arg) {
     switch (event) {
-      case 'coordinatesClickForController':
+      case 'coordinatesChangedByClick':
         this._clickSlider(arg[0], arg[1]);
         break;
-      case 'coordinatesMoveForController':
+      case 'coordinatesChangedByHandleMove':
         this._moveSlider(arg[0], arg[1], arg[2]);
         break;
       case 'modelStateChanged':
@@ -32,23 +32,23 @@ class Controller extends Observer {
   }
 
   _initView(data, options) {
-    this.publish('forView', this.$domEl, data);
+    this.publish('drawSlider', this.$domEl, data);
     this._createCallbackFunction(options);
   }
 
   _createCallbackFunction(options) {
     this.options = options;
     this.options.update = (value) => {
-      this.publish('forModel', value);
+      this.publish('receptionData', value);
     };
   }
 
   _clickSlider(newTop, length) {
-    this.publish('coordinatesClickForModel', newTop, length);
+    this.publish('coordinatesChangedByClick', newTop, length);
   }
 
   _moveSlider(newTop, length, min) {
-    this.publish('coordinatesMoveForModel', newTop, length, min);
+    this.publish('coordinatesChangedByHandleMove', newTop, length, min);
   }
 }
 

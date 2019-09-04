@@ -2,22 +2,22 @@
 import Observer from './Observer';
 
 class View extends Observer {
-  init(forView, $this, options) {
-    if (forView === 'forView') {
-      this.$domEl = $this;
-      this.options = options;
-      this._createSlider();
+  init(drawSlider, $this, options) {
+    if (drawSlider === 'drawSlider') {
+      this._receivingData($this, options);
       this._drawStartingPositions();
       this._drawStartingTooltip();
       this._drawPositioning();
       this._drawTwoSliders();
       this._drawTool();
-      this._toClick();
-      this._move();
+      this._clickSlider();
+      this._moveHandle();
     }
   }
 
-  _createSlider() {
+  _receivingData($this, options) {
+    this.$domEl = $this;
+    this.options = options;
     this.$valueMin = this.$domEl.find('.range-slider__value-min');
     this.$valueMax = this.$domEl.find('.range-slider__value-max');
     this.$toolMin = this.$domEl.find('.range-slider__tool-min');
@@ -96,7 +96,7 @@ class View extends Observer {
   }
 
 
-  _toClick() {
+  _clickSlider() {
     if (this.options.upright) {
       this.$domEl.unbind('click');
 
@@ -105,7 +105,7 @@ class View extends Observer {
 
       this.$domEl.on('click', (e) => {
         const newTop = e.pageY - sliderCoords;
-        this.publish('coordinatesClickForController', newTop, length);
+        this.publish('coordinatesChangedByClick', newTop, length);
       });
     } else {
       this.$domEl.unbind('click');
@@ -115,12 +115,12 @@ class View extends Observer {
 
       this.$domEl.on('click', (e) => {
         const newTop = e.pageX - sliderCoords;
-        this.publish('coordinatesClickForController', newTop, length);
+        this.publish('coordinatesChangedByClick', newTop, length);
       });
     }
   }
 
-  _move() {
+  _moveHandle() {
     let min;
     if (this.options.upright) {
       const sliderCoords = this.$domEl.offset().top;
@@ -130,7 +130,7 @@ class View extends Observer {
           min = true;
           const newTop = e.pageY - sliderCoords;
           const length = this.$domEl.height();
-          this.publish('coordinatesMoveForController', newTop, length, min);
+          this.publish('coordinatesChangedByHandleMove', newTop, length, min);
         });
       });
 
@@ -139,7 +139,7 @@ class View extends Observer {
           min = false;
           const newTop = e.pageY - sliderCoords;
           const length = this.$domEl.height();
-          this.publish('coordinatesMoveForController', newTop, length, min);
+          this.publish('coordinatesChangedByHandleMove', newTop, length, min);
         });
       });
 
@@ -154,7 +154,7 @@ class View extends Observer {
           min = true;
           const newTop = e.pageX - sliderCoords;
           const length = this.$domEl.width();
-          this.publish('coordinatesMoveForController', newTop, length, min);
+          this.publish('coordinatesChangedByHandleMove', newTop, length, min);
         });
       });
 
@@ -163,7 +163,7 @@ class View extends Observer {
           min = false;
           const newTop = e.pageX - sliderCoords;
           const length = this.$domEl.width();
-          this.publish('coordinatesMoveForController', newTop, length, min);
+          this.publish('coordinatesChangedByHandleMove', newTop, length, min);
         });
       });
 

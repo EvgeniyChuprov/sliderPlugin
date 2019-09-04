@@ -4,13 +4,13 @@ import Observer from './Observer';
 class Model extends Observer {
   processEvent(event, ...arg) {
     switch (event) {
-      case 'forModel':
+      case 'receptionData':
         this._normalizeInputData(arg[0]);
         break;
-      case 'coordinatesClickForModel':
+      case 'coordinatesChangedByClick':
         this._calculateMovingCoordinatesByClick(arg[0], arg[1]);
         break;
-      case 'coordinatesMoveForModel':
+      case 'coordinatesChangedByHandleMove':
         this._calculateMovingCoordinates(arg[0], arg[1], arg[2]);
         break;
       default:
