@@ -33,11 +33,11 @@ class Model extends Observer {
       min: 0,
       max: 100,
       step: 1,
-      valueMin: 10,
-      valueMax: 90,
+      minorHandleValue: 10,
+      majorHandleValue: 90,
       vertical: false,
       tooltip: true,
-      twoSliders: true,
+      severalHandles: true,
       onChange: null,
       update: null,
     };
@@ -51,11 +51,11 @@ class Model extends Observer {
     if (typeof opt.step === 'number') {
       this.options.step = opt.step;
     }
-    if (typeof opt.valueMin === 'number') {
-      this.options.valueMin = opt.valueMin;
+    if (typeof opt.minorHandleValue === 'number') {
+      this.options.minorHandleValue = opt.minorHandleValue;
     }
-    if (typeof opt.valueMax === 'number') {
-      this.options.valueMax = opt.valueMax;
+    if (typeof opt.majorHandleValue === 'number') {
+      this.options.majorHandleValue = opt.majorHandleValue;
     }
     if (typeof opt.vertical === 'boolean') {
       this.options.vertical = opt.vertical;
@@ -63,16 +63,16 @@ class Model extends Observer {
     if (typeof opt.tooltip === 'boolean') {
       this.options.tooltip = opt.tooltip;
     }
-    if (typeof opt.twoSliders === 'boolean') {
-      this.options.twoSliders = opt.twoSliders;
+    if (typeof opt.severalHandles === 'boolean') {
+      this.options.severalHandles = opt.severalHandles;
     }
     this.options.onChange = opt.onChange;
     this.options.update = opt.update;
   }
 
   _validateMinimumValue() {
-    if (this.options.min > this.options.valueMin) {
-      this.options.min = this.options.valueMin;
+    if (this.options.min > this.options.minorHandleValue) {
+      this.options.min = this.options.minorHandleValue;
     }
     if (this.options.min >= this.options.max) {
       this.options.min = this.options.max - this.options.step;
@@ -80,14 +80,14 @@ class Model extends Observer {
   }
 
   _validateMaximumValue() {
-    if (this.options.twoSliders) {
-      if (this.options.max < this.options.valueMax) {
-        this.options.max = this.options.valueMax;
+    if (this.options.severalHandles) {
+      if (this.options.max < this.options.majorHandleValue) {
+        this.options.max = this.options.majorHandleValue;
       }
     }
 
-    if (this.options.max < this.options.valueMin) {
-      this.options.max = this.options.valueMin;
+    if (this.options.max < this.options.minorHandleValue) {
+      this.options.max = this.options.minorHandleValue;
     }
     if (this.options.min >= this.options.max) {
       this.options.max = this.options.min + this.options.step;
@@ -105,41 +105,40 @@ class Model extends Observer {
   }
 
   _minorHandleValue() {
-    if (this.options.twoSliders) {
-      if (this.options.valueMin > this.options.valueMax) {
-        this.options.valueMin = this.options.valueMax;
+    if (this.options.severalHandles) {
+      if (this.options.minorHandleValue > this.options.majorHandleValue) {
+        this.options.minorHandleValue = this.options.majorHandleValue;
       }
     }
 
-    if (this.options.valueMin > this.options.max) {
-      this.options.valueMin = this.options.max;
+    if (this.options.minorHandleValue > this.options.max) {
+      this.options.minorHandleValue = this.options.max;
     }
 
-    if (this.options.valueMin < this.options.min) {
-      this.options.valueMin = this.options.min;
+    if (this.options.minorHandleValue < this.options.min) {
+      this.options.minorHandleValue = this.options.min;
     }
   }
 
   _majorHandleValue() {
-    if (this.options.valueMax < this.options.valueMin) {
-      this.options.valueMax = this.options.valueMin;
+    if (this.options.majorHandleValue < this.options.minorHandleValue) {
+      this.options.majorHandleValue = this.options.minorHandleValue;
     }
-    if (this.options.valueMax > this.options.max) {
-      this.options.valueMax = this.options.max;
+    if (this.options.majorHandleValue > this.options.max) {
+      this.options.majorHandleValue = this.options.max;
     }
   }
 
   _calculationCoordinate() {
-    const minPoint = ((this.options.valueMin - this.options.min) * 100)
+    const minPoint = ((this.options.minorHandleValue - this.options.min) * 100)
     / (this.options.max - this.options.min);
-    const maxPoint = ((this.options.valueMax - this.options.min) * 100)
+    const maxPoint = ((this.options.majorHandleValue - this.options.min) * 100)
     / (this.options.max - this.options.min);
     const step = 100 / ((this.options.max - this.options.min)
     / this.options.step);
     const upright = this.options.vertical;
-    const toolMin = this.options.valueMin;
-    const toolMax = this.options.valueMax;
-    const twoRange = this.options.twoSliders;
+    const toolMin = this.options.minorHandleValue;
+    const toolMax = this.options.majorHandleValue;
     const tool = this.options.tooltip;
     return {
       minPoint,
@@ -148,7 +147,7 @@ class Model extends Observer {
       upright,
       toolMin,
       toolMax,
-      twoRange,
+      severalHandles: this.options.severalHandles,
       tool,
     };
   }
@@ -159,38 +158,38 @@ class Model extends Observer {
     const positionSlider = this.options.step * Math.round(shiftPercentage
      / this._calculationCoordinate().step) + this.options.min;
 
-    if (this.options.twoSliders) {
+    if (this.options.severalHandles) {
       if (positionSlider - this.options.min < middle) {
-        this.options.valueMin = positionSlider;
+        this.options.minorHandleValue = positionSlider;
 
       } else {
-        this.options.valueMax = positionSlider;
+        this.options.majorHandleValue = positionSlider;
       }
     } else {
-      this.options.valueMin = positionSlider;
+      this.options.minorHandleValue = positionSlider;
     }
     this.publish('modelStateChanged', this._calculationCoordinate(), this.options);
   }
 
-  _calculateMovingCoordinates(newTop, length, min) {
+  _calculateMovingCoordinates(newTop, length, moveMinorHandle) {
     const shiftPercentage = (newTop * 100) / length;
     const value = this.options.step * Math.round(shiftPercentage
     / this._calculationCoordinate().step) + this.options.min;
 
-    if (min) {
+    if (moveMinorHandle) {
       if (value <= this.options.max) {
-        if (value >= this.options.min && value <= this.options.valueMax) {
-          if (value !== this.options.valueMin) {
-            this.options.valueMin = value;
+        if (value >= this.options.min && value <= this.options.majorHandleValue) {
+          if (value !== this.options.minorHandleValue) {
+            this.options.minorHandleValue = value;
             this.publish('modelStateChanged', this._calculationCoordinate(), this.options);
           }
         }
       }
-    } else if (!min) {
+    } else if (!moveMinorHandle) {
       if (value >= this.options.min) {
-        if (value <= this.options.max && value >= this.options.valueMin) {
-          if (value !== this.options.valueMax) {
-            this.options.valueMax = value;
+        if (value <= this.options.max && value >= this.options.minorHandleValue) {
+          if (value !== this.options.majorHandleValue) {
+            this.options.majorHandleValue = value;
             this.publish('modelStateChanged', this._calculationCoordinate(), this.options);
           }
         }

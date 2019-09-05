@@ -5,10 +5,10 @@ class View extends Observer {
   init(drawSlider, $this, options) {
     if (drawSlider === 'drawSlider') {
       this._receivingData($this, options);
-      this._drawStartingPositions();
-      this._drawStartingTooltip();
+      this._drawPositionsHandles();
+      this._writeValues();
       this._drawPositioning();
-      this._drawTwoSliders();
+      this._drawSeveralHandles();
       this._drawTool();
       this._clickSlider();
       this._moveHandle();
@@ -18,23 +18,23 @@ class View extends Observer {
   _receivingData($this, options) {
     this.$domEl = $this;
     this.options = options;
-    this.$valueMin = this.$domEl.find('.range-slider__value-min');
-    this.$valueMax = this.$domEl.find('.range-slider__value-max');
+    this.$minorHandleValue = this.$domEl.find('.range-slider__value-min');
+    this.$majorHandleValue = this.$domEl.find('.range-slider__value-max');
     this.$toolMin = this.$domEl.find('.range-slider__tool-min');
     this.$toolMax = this.$domEl.find('.range-slider__tool-max');
   }
 
-  _drawStartingPositions() {
+  _drawPositionsHandles() {
     if (this.options.upright) {
-      this.$valueMin.css('top', `${this.options.minPoint}%`);
-      this.$valueMax.css('top', `${this.options.maxPoint}%`);
+      this.$minorHandleValue.css('top', `${this.options.minPoint}%`);
+      this.$majorHandleValue.css('top', `${this.options.maxPoint}%`);
     } else {
-      this.$valueMin.css('left', `${this.options.minPoint}%`);
-      this.$valueMax.css('left', `${this.options.maxPoint}%`);
+      this.$minorHandleValue.css('left', `${this.options.minPoint}%`);
+      this.$majorHandleValue.css('left', `${this.options.maxPoint}%`);
     }
   }
 
-  _drawStartingTooltip() {
+  _writeValues() {
     this.$toolMin.html(this.options.toolMin);
     this.$toolMax.html(this.options.toolMax);
   }
@@ -54,10 +54,10 @@ class View extends Observer {
       this.$domEl
         .addClass('range-slider_vertical')
         .removeClass('range-slider_horizon');
-      this.$valueMin
+      this.$minorHandleValue
         .addClass('range-slider__value-min_vertical').css('left', `${-10}px`)
         .removeClass('range-slider__value-min_horizon');
-      this.$valueMax
+      this.$majorHandleValue
         .addClass('range-slider__value-max_vertical').css('left', `${-10}px`)
         .removeClass('range-slider__value-max_horizon');
       this.$toolMin
@@ -70,10 +70,10 @@ class View extends Observer {
       this.$domEl
         .addClass('range-slider_horizon')
         .removeClass('range-slider_vertical');
-      this.$valueMin
+      this.$minorHandleValue
         .addClass('range-slider__value-min_horizon').css('top', `${-10}px`)
         .removeClass('range-slider__value-min_vertical');
-      this.$valueMax
+      this.$majorHandleValue
         .addClass('range-slider__value-max_horizon').css('top', `${-10}px`)
         .removeClass('range-slider__value-max_vertical');
       this.$toolMin
@@ -85,12 +85,12 @@ class View extends Observer {
     }
   }
 
-  _drawTwoSliders() {
-    if (this.options.twoRange) {
-      this.$valueMax.css('display', 'block');
+  _drawSeveralHandles() {
+    if (this.options.severalHandles) {
+      this.$majorHandleValue.css('display', 'block');
       this.$toolMax.css('display', 'block');
     } else {
-      this.$valueMax.css('display', 'none');
+      this.$majorHandleValue.css('display', 'none');
       this.$toolMax.css('display', 'none');
     }
   }
@@ -121,25 +121,25 @@ class View extends Observer {
   }
 
   _moveHandle() {
-    let min;
+    let moveMinorHandle;
     if (this.options.upright) {
       const sliderCoords = this.$domEl.offset().top;
 
-      this.$valueMin.mousedown(() => {
+      this.$minorHandleValue.mousedown(() => {
         $(document).mousemove((e) => {
-          min = true;
+          moveMinorHandle = true;
           const newTop = e.pageY - sliderCoords;
           const length = this.$domEl.height();
-          this.publish('coordinatesChangedByHandleMove', newTop, length, min);
+          this.publish('coordinatesChangedByHandleMove', newTop, length, moveMinorHandle);
         });
       });
 
-      this.$valueMax.mousedown(() => {
+      this.$majorHandleValue.mousedown(() => {
         $(document).mousemove((e) => {
-          min = false;
+          moveMinorHandle = false;
           const newTop = e.pageY - sliderCoords;
           const length = this.$domEl.height();
-          this.publish('coordinatesChangedByHandleMove', newTop, length, min);
+          this.publish('coordinatesChangedByHandleMove', newTop, length, moveMinorHandle);
         });
       });
 
@@ -149,21 +149,21 @@ class View extends Observer {
     } else {
       const sliderCoords = this.$domEl.offset().left;
 
-      this.$valueMin.mousedown(() => {
+      this.$minorHandleValue.mousedown(() => {
         $(document).mousemove((e) => {
-          min = true;
+          moveMinorHandle = true;
           const newTop = e.pageX - sliderCoords;
           const length = this.$domEl.width();
-          this.publish('coordinatesChangedByHandleMove', newTop, length, min);
+          this.publish('coordinatesChangedByHandleMove', newTop, length, moveMinorHandle);
         });
       });
 
-      this.$valueMax.mousedown(() => {
+      this.$majorHandleValue.mousedown(() => {
         $(document).mousemove((e) => {
-          min = false;
+          moveMinorHandle = false;
           const newTop = e.pageX - sliderCoords;
           const length = this.$domEl.width();
-          this.publish('coordinatesChangedByHandleMove', newTop, length, min);
+          this.publish('coordinatesChangedByHandleMove', newTop, length, moveMinorHandle);
         });
       });
 

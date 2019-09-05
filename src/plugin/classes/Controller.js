@@ -47,8 +47,8 @@ class Controller extends Observer {
     this.publish('coordinatesChangedByClick', newTop, length);
   }
 
-  _moveSlider(newTop, length, min) {
-    this.publish('coordinatesChangedByHandleMove', newTop, length, min);
+  _moveSlider(newTop, length, moveMinorHandle) {
+    this.publish('coordinatesChangedByHandleMove', newTop, length, moveMinorHandle);
   }
 }
 

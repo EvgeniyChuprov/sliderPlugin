@@ -11,11 +11,11 @@ class SliderInterface {
     this.min = this.$sliderInterface.find('.slider__input-min');
     this.max = this.$sliderInterface.find('.slider__input-max');
     this.step = this.$sliderInterface.find('.slider__input-step');
-    this.valueMin = this.$sliderInterface.find('.slider__input-value-min');
-    this.valueMax = this.$sliderInterface.find('.slider__input-value-max');
+    this.minorHandleValue = this.$sliderInterface.find('.slider__input-value-min');
+    this.majorHandleValue = this.$sliderInterface.find('.slider__input-value-max');
     this.vertical = this.$sliderInterface.find('.slider__vertically-horizontally');
     this.tooltip = this.$sliderInterface.find('.slider__tooltip');
-    this.twoSliders = this.$sliderInterface.find('.slider__two-slider');
+    this.severalHandles = this.$sliderInterface.find('.slider__two-slider');
     this.plugin = this.$sliderInterface.find('.js-range-slider');
     this.options = this.plugin.myFirstSliderPlugin('get');
     this._changeOutput();
@@ -38,13 +38,13 @@ class SliderInterface {
       this.options.update(this.options);
     });
 
-    this.valueMin.change(() => {
-      this.options.valueMin = +this.valueMin.val();
+    this.minorHandleValue.change(() => {
+      this.options.minorHandleValue = +this.minorHandleValue.val();
       this.options.update(this.options);
     });
 
-    this.valueMax.change(() => {
-      this.options.valueMax = +this.valueMax.val();
+    this.majorHandleValue.change(() => {
+      this.options.majorHandleValue = +this.majorHandleValue.val();
       this.options.update(this.options);
     });
 
@@ -58,8 +58,8 @@ class SliderInterface {
       this.options.update(this.options);
     });
 
-    this.twoSliders.change(() => {
-      this.options.twoSliders = this.twoSliders.is(':checked');
+    this.severalHandles.change(() => {
+      this.options.severalHandles = this.severalHandles.is(':checked');
       this.options.update(this.options);
     });
   }
@@ -68,14 +68,14 @@ class SliderInterface {
     this.min.val(this.options.min);
     this.max.val(this.options.max);
     this.step.val(this.options.step);
-    this.valueMin.val(this.options.valueMin);
-    this.valueMax.val(this.options.valueMax);
+    this.minorHandleValue.val(this.options.minorHandleValue);
+    this.majorHandleValue.val(this.options.majorHandleValue);
     this.tooltip.prop('checked', this.options.tooltip);
     this.vertical.prop('checked', this.options.vertical);
-    this.twoSliders.prop('checked', this.options.twoSliders);
+    this.severalHandles.prop('checked', this.options.severalHandles);
     this.options.onChange = (options) => {
-      this.valueMin.val(options.valueMin);
-      this.valueMax.val(options.valueMax);
+      this.minorHandleValue.val(options.minorHandleValue);
+      this.majorHandleValue.val(options.majorHandleValue);
       this.min.val(options.min);
       this.max.val(options.max);
       this.step.val(options.step);
