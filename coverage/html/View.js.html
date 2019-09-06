@@ -237,12 +237,12 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -404,39 +404,39 @@
 import Observer from './Observer';
 &nbsp;
 class View extends Observer {
-  init(forView, $this, options) {
-    <span class="missing-if-branch" title="else path not taken" >E</span>if (forView === 'forView') {
-      this.$domEl = $this;
-      this.options = options;
-      this._createSlider();
-      this._drawStartingPositions();
-      this._drawStartingTooltip();
+  init(drawSlider, $this, options) {
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (drawSlider === 'drawSlider') {
+      this._receivingData($this, options);
+      this._drawPositionsHandles();
+      this._writeValues();
       this._drawPositioning();
-      this._drawTwoSliders();
+      this._drawSeveralHandles();
       this._drawTool();
-      this._toClick();
-      this._move();
+      this._clickSlider();
+      this._moveHandle();
     }
   }
 &nbsp;
-  _createSlider() {
-    this.$valueMin = this.$domEl.find('.range-slider__value-min');
-    this.$valueMax = this.$domEl.find('.range-slider__value-max');
+  _receivingData($this, options) {
+    this.$domEl = $this;
+    this.options = options;
+    this.$minorHandleValue = this.$domEl.find('.range-slider__value-min');
+    this.$majorHandleValue = this.$domEl.find('.range-slider__value-max');
     this.$toolMin = this.$domEl.find('.range-slider__tool-min');
     this.$toolMax = this.$domEl.find('.range-slider__tool-max');
   }
 &nbsp;
-  _drawStartingPositions() {
+  _drawPositionsHandles() {
     if (this.options.upright) {
-      this.$valueMin.css('top', `${this.options.minPoint}%`);
-      this.$valueMax.css('top', `${this.options.maxPoint}%`);
+      this.$minorHandleValue.css('top', `${this.options.minPoint}%`);
+      this.$majorHandleValue.css('top', `${this.options.maxPoint}%`);
     } else {
-      this.$valueMin.css('left', `${this.options.minPoint}%`);
-      this.$valueMax.css('left', `${this.options.maxPoint}%`);
+      this.$minorHandleValue.css('left', `${this.options.minPoint}%`);
+      this.$majorHandleValue.css('left', `${this.options.maxPoint}%`);
     }
   }
 &nbsp;
-  _drawStartingTooltip() {
+  _writeValues() {
     this.$toolMin.html(this.options.toolMin);
     this.$toolMax.html(this.options.toolMax);
   }
@@ -456,10 +456,10 @@ class View extends Observer {
       this.$domEl
         .addClass('range-slider_vertical')
         .removeClass('range-slider_horizon');
-      this.$valueMin
+      this.$minorHandleValue
         .addClass('range-slider__value-min_vertical').css('left', `${-10}px`)
         .removeClass('range-slider__value-min_horizon');
-      this.$valueMax
+      this.$majorHandleValue
         .addClass('range-slider__value-max_vertical').css('left', `${-10}px`)
         .removeClass('range-slider__value-max_horizon');
       this.$toolMin
@@ -472,10 +472,10 @@ class View extends Observer {
       this.$domEl
         .addClass('range-slider_horizon')
         .removeClass('range-slider_vertical');
-      this.$valueMin
+      this.$minorHandleValue
         .addClass('range-slider__value-min_horizon').css('top', `${-10}px`)
         .removeClass('range-slider__value-min_vertical');
-      this.$valueMax
+      this.$majorHandleValue
         .addClass('range-slider__value-max_horizon').css('top', `${-10}px`)
         .removeClass('range-slider__value-max_vertical');
       this.$toolMin
@@ -487,18 +487,18 @@ class View extends Observer {
     }
   }
 &nbsp;
-  _drawTwoSliders() {
-    if (this.options.twoRange) {
-      this.$valueMax.css('display', 'block');
+  _drawSeveralHandles() {
+    if (this.options.severalHandles) {
+      this.$majorHandleValue.css('display', 'block');
       this.$toolMax.css('display', 'block');
     } else {
-      this.$valueMax.css('display', 'none');
+      this.$majorHandleValue.css('display', 'none');
       this.$toolMax.css('display', 'none');
     }
   }
 &nbsp;
 &nbsp;
-  _toClick() {
+  _clickSlider() {
     <span class="missing-if-branch" title="if path not taken" >I</span>if (this.options.upright) {
 <span class="cstat-no" title="statement not covered" >      this.$domEl.unbind('click');</span>
 &nbsp;
@@ -507,7 +507,7 @@ class View extends Observer {
 &nbsp;
 <span class="cstat-no" title="statement not covered" >      this.$domEl.on('click', <span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
         const newTop = <span class="cstat-no" title="statement not covered" >e.pageY - sliderCoords;</span>
-<span class="cstat-no" title="statement not covered" >        this.publish('coordinatesClickForController', newTop, length);</span>
+<span class="cstat-no" title="statement not covered" >        this.publish('coordinatesChangedByClick', newTop, length);</span>
       });
     } else {
       this.$domEl.unbind('click');
@@ -517,31 +517,31 @@ class View extends Observer {
 &nbsp;
       this.$domEl.on('click', (e) =&gt; {
         const newTop = e.pageX - sliderCoords;
-        this.publish('coordinatesClickForController', newTop, length);
+        this.publish('coordinatesChangedByClick', newTop, length);
       });
     }
   }
 &nbsp;
-  _move() {
-    let min;
+  _moveHandle() {
+    let moveMinorHandle;
     <span class="missing-if-branch" title="if path not taken" >I</span>if (this.options.upright) {
       const sliderCoords = <span class="cstat-no" title="statement not covered" >this.$domEl.offset().top;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      this.$valueMin.mousedown(<span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      this.$minorHandleValue.mousedown(<span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >        $(document).mousemove(<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >          min = true;</span>
+<span class="cstat-no" title="statement not covered" >          moveMinorHandle = true;</span>
           const newTop = <span class="cstat-no" title="statement not covered" >e.pageY - sliderCoords;</span>
           const length = <span class="cstat-no" title="statement not covered" >this.$domEl.height();</span>
-<span class="cstat-no" title="statement not covered" >          this.publish('coordinatesMoveForController', newTop, length, min);</span>
+<span class="cstat-no" title="statement not covered" >          this.publish('coordinatesChangedByHandleMove', newTop, length, moveMinorHandle);</span>
         });
       });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      this.$valueMax.mousedown(<span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      this.$majorHandleValue.mousedown(<span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >        $(document).mousemove(<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >          min = false;</span>
+<span class="cstat-no" title="statement not covered" >          moveMinorHandle = false;</span>
           const newTop = <span class="cstat-no" title="statement not covered" >e.pageY - sliderCoords;</span>
           const length = <span class="cstat-no" title="statement not covered" >this.$domEl.height();</span>
-<span class="cstat-no" title="statement not covered" >          this.publish('coordinatesMoveForController', newTop, length, min);</span>
+<span class="cstat-no" title="statement not covered" >          this.publish('coordinatesChangedByHandleMove', newTop, length, moveMinorHandle);</span>
         });
       });
 &nbsp;
@@ -551,21 +551,21 @@ class View extends Observer {
     } else {
       const sliderCoords = this.$domEl.offset().left;
 &nbsp;
-      this.$valueMin.mousedown(() =&gt; {
+      this.$minorHandleValue.mousedown(() =&gt; {
         $(document).mousemove((e) =&gt; {
-          min = true;
+          moveMinorHandle = true;
           const newTop = e.pageX - sliderCoords;
           const length = this.$domEl.width();
-          this.publish('coordinatesMoveForController', newTop, length, min);
+          this.publish('coordinatesChangedByHandleMove', newTop, length, moveMinorHandle);
         });
       });
 &nbsp;
-      this.$valueMax.mousedown(() =&gt; {
+      this.$majorHandleValue.mousedown(() =&gt; {
         $(document).mousemove((e) =&gt; {
-          min = false;
+          moveMinorHandle = false;
           const newTop = e.pageX - sliderCoords;
           const length = this.$domEl.width();
-          this.publish('coordinatesMoveForController', newTop, length, min);
+          this.publish('coordinatesChangedByHandleMove', newTop, length, moveMinorHandle);
         });
       });
 &nbsp;
@@ -583,7 +583,7 @@ export default View;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Sep 02 2019 12:02:04 GMT+0300 (GMT+03:00)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Sep 06 2019 14:53:43 GMT+0300 (GMT+03:00)
 </div>
 </div>
 <script src="prettify.js"></script>

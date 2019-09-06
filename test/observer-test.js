@@ -11,17 +11,17 @@ describe('Проверка вызова внутрених методов кла
 
 
 
-  it('Проверка вызова publish в функции init', () => {
+  it('Проверка вызова push в функции subscribe', () => {
     observer.subscribe();
     assert(push.called);
   });
   
-  it('Проверка вызова publish в функции init', () => {
+  it('Проверка вызова splice в функции unsubscribe', () => {
     observer.unsubscribe();
     assert(splice.called);
   });
 
-  it('Проверка вызова publish в функции init', () => {
+  it('Проверка вызова forEach в функции publish', () => {
     observer.publish();
     assert(forEach.called);
   });

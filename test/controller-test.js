@@ -30,12 +30,12 @@ describe('Проверка вызова внутрених методов кла
   });
 
   it('Проверка вызова _clickSlider', () => {
-    controller.transferDataBetweenModelView('coordinatesClickForController', 1, 2);
+    controller.transferData('coordinatesChangedByClick', 1, 2);
     assert(clickSlider.called);
   });
 
   it('Проверка вызова _moveSlider', () => {
-    controller.transferDataBetweenModelView('coordinatesMoveForController', 1, 2);
+    controller.transferData('coordinatesChangedByHandleMove', 1, 2);
     assert(moveSlider.called);
   });
 
@@ -61,7 +61,7 @@ describe('Проверка вызова внутрених методов кла
   });
 
   it('Проверка вызова _initView', () => {
-    controller.transferDataBetweenModelView('forController', 1, options);
+    controller.transferData('modelStateChanged', 1, options);
     assert(initView.called);
   });
 });

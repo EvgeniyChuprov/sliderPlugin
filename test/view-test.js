@@ -11,7 +11,7 @@ describe('Доступ к параметрам класса View', () => {
     toolMin: 5,
     toolMax: 10,
     upright: true,
-    twoRange: true,
+    severalHandles: true,
     tool: true,
   };
 
@@ -22,30 +22,30 @@ describe('Доступ к параметрам класса View', () => {
   view.$domEl = $dom.find('.js-range-slider');
   view.options = options;
 
-  const move = sinon.spy(view, '_move');
+  const move = sinon.spy(view, '_moveHandle');
   const publish = sinon.spy(view, 'publish');
 
-  it('Присвоение параметру $valueMin DOM элемента', () => {
-    assert.equal(view.$valueMin, undefined);
-    view._createSlider();
-    assert.equal(typeof view.$valueMin, 'object');
+  it('Присвоение параметру $minorHandleValue DOM элемента', () => {
+    assert.equal(view.$minorHandleValue, undefined);
+    view._receivingData($dom, options);
+    assert.equal(typeof view.$minorHandleValue, 'object');
   });
 
   it('Присвоение параметру $toolMin значения ползунка', () => {
     assert.equal(view.$toolMin.html(), '');
-    view._drawStartingTooltip();
+    view._writeValues();
     assert.equal(view.$toolMin.html(), view.options.toolMin);
   });
 
   it('Присвоение параметру $toolMin css значения', () => {
-    assert.equal(view.$valueMin.css('top'), 'auto');
-    assert.equal(view.$valueMin.css('left'), 'auto');
+    assert.equal(view.$minorHandleValue.css('top'), 'auto');
+    assert.equal(view.$minorHandleValue.css('left'), 'auto');
     view.options.upright = true;
-    view._drawStartingPositions();
-    assert.equal(view.$valueMin.css('top'), `${view.options.minPoint}%`);
+    view._drawPositionsHandles();
+    assert.equal(view.$minorHandleValue.css('top'), `${view.options.minPoint}%`);
     view.options.upright = false;
-    view._drawStartingPositions();
-    assert.equal(view.$valueMin.css('left'), `${view.options.minPoint}%`);
+    view._drawPositionsHandles();
+    assert.equal(view.$minorHandleValue.css('left'), `${view.options.minPoint}%`);
   });
 
   it('Отображение тултипов', () => {
@@ -58,27 +58,27 @@ describe('Доступ к параметрам класса View', () => {
   });
 
   it('Отображение двух слайдеров', () => {
-    view.options.twoRange = true;
-    view._drawTwoSliders();
-    assert.equal(view.$valueMax.css('display'), 'block');
-    view.options.twoRange = false;
-    view._drawTwoSliders();
-    assert.equal(view.$valueMax.css('display'), 'none');
+    view.options.severalHandles = true;
+    view._drawSeveralHandles();
+    assert.equal(view.$majorHandleValue.css('display'), 'block');
+    view.options.severalHandles = false;
+    view._drawSeveralHandles();
+    assert.equal(view.$majorHandleValue.css('display'), 'none');
   });
 
   it('Позиционирование слайдера', () => {
     view.options.upright = true;
     view._drawPositioning();
-    assert.equal(view.$valueMin.hasClass('range-slider__value-min_vertical'), true);
-    assert.equal(view.$valueMin.hasClass('range-slider__value-min_horizon'), false);
+    assert.equal(view.$minorHandleValue.hasClass('range-slider__value-min_vertical'), true);
+    assert.equal(view.$minorHandleValue.hasClass('range-slider__value-min_horizon'), false);
     view.options.upright = false;
     view._drawPositioning();
-    assert.equal(view.$valueMin.hasClass('range-slider__value-min_vertical'), false);
-    assert.equal(view.$valueMin.hasClass('range-slider__value-min_horizon'), true);
+    assert.equal(view.$minorHandleValue.hasClass('range-slider__value-min_vertical'), false);
+    assert.equal(view.$minorHandleValue.hasClass('range-slider__value-min_horizon'), true);
   });
 
   it('Проверка вызова move в методе init', () => {
-    view.init('forView', $dom.find('.js-range-slider'), options);
+    view.init('drawSlider', $dom.find('.js-range-slider'), options);
     assert(move.called);
   });
 
@@ -87,12 +87,12 @@ describe('Доступ к параметрам класса View', () => {
     sinon.assert.called(publish);
   });
 
-  it('Проверка вызова publish в методе _move', () => {
-    view.$valueMin.trigger('mousedown');
+  it('Проверка вызова publish в методе _moveHandle', () => {
+    view.$minorHandleValue.trigger('mousedown');
     $(document).trigger('mousemove');
     sinon.assert.called(publish);
 
-    view.$valueMax.trigger('mousedown');
+    view.$majorHandleValue.trigger('mousedown');
     $(document).trigger('mousemove');
     sinon.assert.called(publish);
     if ($(document).trigger('mouseup')) {

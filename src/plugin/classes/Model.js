@@ -23,9 +23,9 @@ class Model extends Observer {
     this._validateMinimumValue();
     this._validateMaximumValue();
     this._validateStepValue();
-    this._minorHandleValue();
-    this._majorHandleValue();
-    this.publish('modelStateChanged', this._calculationCoordinate(), this.options);
+    this._validateMinorHandleValue();
+    this._validateMajorHandleValue();
+    this.publish('modelStateChanged', this._calculateSliderParameters(), this.options);
   }
 
   _addMissingValues(opt) {
@@ -104,7 +104,7 @@ class Model extends Observer {
     return this.options.step < 0 || this.options.step > (this.options.max - this.options.min);
   }
 
-  _minorHandleValue() {
+  _validateMinorHandleValue() {
     if (this.options.severalHandles) {
       if (this.options.minorHandleValue > this.options.majorHandleValue) {
         this.options.minorHandleValue = this.options.majorHandleValue;
@@ -120,7 +120,7 @@ class Model extends Observer {
     }
   }
 
-  _majorHandleValue() {
+  _validateMajorHandleValue() {
     if (this.options.majorHandleValue < this.options.minorHandleValue) {
       this.options.majorHandleValue = this.options.minorHandleValue;
     }
@@ -129,7 +129,7 @@ class Model extends Observer {
     }
   }
 
-  _calculationCoordinate() {
+  _calculateSliderParameters() {
     const minPoint = ((this.options.minorHandleValue - this.options.min) * 100)
     / (this.options.max - this.options.min);
     const maxPoint = ((this.options.majorHandleValue - this.options.min) * 100)
@@ -156,32 +156,31 @@ class Model extends Observer {
     const shiftPercentage = (newTop * 100) / length;
     const middle = (this.options.max - this.options.min) / 2;
     const positionSlider = this.options.step * Math.round(shiftPercentage
-     / this._calculationCoordinate().step) + this.options.min;
+     / this._calculateSliderParameters().step) + this.options.min;
 
     if (this.options.severalHandles) {
       if (positionSlider - this.options.min < middle) {
         this.options.minorHandleValue = positionSlider;
-
       } else {
         this.options.majorHandleValue = positionSlider;
       }
     } else {
       this.options.minorHandleValue = positionSlider;
     }
-    this.publish('modelStateChanged', this._calculationCoordinate(), this.options);
+    this.publish('modelStateChanged', this._calculateSliderParameters(), this.options);
   }
 
   _calculateMovingCoordinates(newTop, length, moveMinorHandle) {
     const shiftPercentage = (newTop * 100) / length;
     const value = this.options.step * Math.round(shiftPercentage
-    / this._calculationCoordinate().step) + this.options.min;
+    / this._calculateSliderParameters().step) + this.options.min;
 
     if (moveMinorHandle) {
       if (value <= this.options.max) {
         if (value >= this.options.min && value <= this.options.majorHandleValue) {
           if (value !== this.options.minorHandleValue) {
             this.options.minorHandleValue = value;
-            this.publish('modelStateChanged', this._calculationCoordinate(), this.options);
+            this.publish('modelStateChanged', this._calculateSliderParameters(), this.options);
           }
         }
       }
@@ -190,7 +189,7 @@ class Model extends Observer {
         if (value <= this.options.max && value >= this.options.minorHandleValue) {
           if (value !== this.options.majorHandleValue) {
             this.options.majorHandleValue = value;
-            this.publish('modelStateChanged', this._calculationCoordinate(), this.options);
+            this.publish('modelStateChanged', this._calculateSliderParameters(), this.options);
           }
         }
       }

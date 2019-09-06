@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">98.96% </span>
+        <span class="strong">98.89% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>95/96</span>
+        <span class='fraction'>89/90</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">90.28% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>12/12</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">98.96% </span>
+        <span class="strong">98.89% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>95/96</span>
+        <span class='fraction'>89/90</span>
       </div>
     </div>
     <p class="quiet">
@@ -246,13 +246,7 @@
 <a name='L198'></a><a href='#L198'>198</a>
 <a name='L199'></a><a href='#L199'>199</a>
 <a name='L200'></a><a href='#L200'>200</a>
-<a name='L201'></a><a href='#L201'>201</a>
-<a name='L202'></a><a href='#L202'>202</a>
-<a name='L203'></a><a href='#L203'>203</a>
-<a name='L204'></a><a href='#L204'>204</a>
-<a name='L205'></a><a href='#L205'>205</a>
-<a name='L206'></a><a href='#L206'>206</a>
-<a name='L207'></a><a href='#L207'>207</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L201'></a><a href='#L201'>201</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -395,7 +389,6 @@
 <span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -416,13 +409,10 @@
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
@@ -434,7 +424,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -445,7 +434,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -462,30 +450,30 @@
 import Observer from './Observer';
 &nbsp;
 class Model extends Observer {
-  getDataFromController(event, ...arg) {
+  processEvent(event, ...arg) {
     switch (event) {
-      case 'forModel':
-        this._normalizationOfSettings(arg[0]);
+      case 'receptionData':
+        this._normalizeInputData(arg[0]);
         break;
-      case 'coordinatesClickForModel':
-        this._toClick(arg[0], arg[1]);
+      case 'coordinatesChangedByClick':
+        this._calculateMovingCoordinatesByClick(arg[0], arg[1]);
         break;
-      case 'coordinatesMoveForModel':
-        this._toMove(arg[0], arg[1], arg[2]);
+      case 'coordinatesChangedByHandleMove':
+        this._calculateMovingCoordinates(arg[0], arg[1], arg[2]);
         break;
 <span class="branch-3 cbranch-no" title="branch not covered" >      default:</span>
 <span class="cstat-no" title="statement not covered" >        break;</span>
     }
   }
 &nbsp;
-  _normalizationOfSettings(opt) {
+  _normalizeInputData(opt) {
     this._addMissingValues(opt);
-    this._checkMin();
-    this._checkMax();
-    this._checkStep();
-    this._checkValueMin();
-    this._checkValueMax();
-    this.publish('forController', this._initConstants(), this.options);
+    this._validateMinimumValue();
+    this._validateMaximumValue();
+    this._validateStepValue();
+    this._validateMinorHandleValue();
+    this._validateMajorHandleValue();
+    this.publish('modelStateChanged', this._calculateSliderParameters(), this.options);
   }
 &nbsp;
   _addMissingValues(opt) {
@@ -493,11 +481,11 @@ class Model extends Observer {
       min: 0,
       max: 100,
       step: 1,
-      valueMin: 10,
-      valueMax: 90,
+      minorHandleValue: 10,
+      majorHandleValue: 90,
       vertical: false,
       tooltip: true,
-      twoSliders: true,
+      severalHandles: true,
       onChange: null,
       update: null,
     };
@@ -511,11 +499,11 @@ class Model extends Observer {
     if (typeof opt.step === 'number') {
       this.options.step = opt.step;
     }
-    if (typeof opt.valueMin === 'number') {
-      this.options.valueMin = opt.valueMin;
+    if (typeof opt.minorHandleValue === 'number') {
+      this.options.minorHandleValue = opt.minorHandleValue;
     }
-    if (typeof opt.valueMax === 'number') {
-      this.options.valueMax = opt.valueMax;
+    if (typeof opt.majorHandleValue === 'number') {
+      this.options.majorHandleValue = opt.majorHandleValue;
     }
     if (typeof opt.vertical === 'boolean') {
       this.options.vertical = opt.vertical;
@@ -523,38 +511,38 @@ class Model extends Observer {
     if (typeof opt.tooltip === 'boolean') {
       this.options.tooltip = opt.tooltip;
     }
-    if (typeof opt.twoSliders === 'boolean') {
-      this.options.twoSliders = opt.twoSliders;
+    if (typeof opt.severalHandles === 'boolean') {
+      this.options.severalHandles = opt.severalHandles;
     }
     this.options.onChange = opt.onChange;
     this.options.update = opt.update;
   }
 &nbsp;
-  _checkMin() {
-    if (this.options.min &gt; this.options.valueMin) {
-      this.options.min = this.options.valueMin;
+  _validateMinimumValue() {
+    if (this.options.min &gt; this.options.minorHandleValue) {
+      this.options.min = this.options.minorHandleValue;
     }
     if (this.options.min &gt;= this.options.max) {
       this.options.min = this.options.max - this.options.step;
     }
   }
 &nbsp;
-  _checkMax() {
-    if (this.options.twoSliders) {
-      if (this.options.max &lt; this.options.valueMax) {
-        this.options.max = this.options.valueMax;
+  _validateMaximumValue() {
+    if (this.options.severalHandles) {
+      if (this.options.max &lt; this.options.majorHandleValue) {
+        this.options.max = this.options.majorHandleValue;
       }
     }
 &nbsp;
-    if (this.options.max &lt; this.options.valueMin) {
-      this.options.max = this.options.valueMin;
+    if (this.options.max &lt; this.options.minorHandleValue) {
+      this.options.max = this.options.minorHandleValue;
     }
     if (this.options.min &gt;= this.options.max) {
       this.options.max = this.options.min + this.options.step;
     }
   }
 &nbsp;
-  _checkStep() {
+  _validateStepValue() {
     if (this._isChangeAllowedForStep()) {
       this.options.step = 1;
     }
@@ -564,42 +552,41 @@ class Model extends Observer {
     return this.options.step &lt; 0 || this.options.step &gt; (this.options.max - this.options.min);
   }
 &nbsp;
-  _checkValueMin() {
-    if (this.options.twoSliders) {
-      if (this.options.valueMin &gt; this.options.valueMax) {
-        this.options.valueMin = this.options.valueMax;
+  _validateMinorHandleValue() {
+    if (this.options.severalHandles) {
+      if (this.options.minorHandleValue &gt; this.options.majorHandleValue) {
+        this.options.minorHandleValue = this.options.majorHandleValue;
       }
     }
 &nbsp;
-    if (this.options.valueMin &gt; this.options.max) {
-      this.options.valueMin = this.options.max;
+    if (this.options.minorHandleValue &gt; this.options.max) {
+      this.options.minorHandleValue = this.options.max;
     }
 &nbsp;
-    if (this.options.valueMin &lt; this.options.min) {
-      this.options.valueMin = this.options.min;
+    if (this.options.minorHandleValue &lt; this.options.min) {
+      this.options.minorHandleValue = this.options.min;
     }
   }
 &nbsp;
-  _checkValueMax() {
-    if (this.options.valueMax &lt; this.options.valueMin) {
-      this.options.valueMax = this.options.valueMin;
+  _validateMajorHandleValue() {
+    if (this.options.majorHandleValue &lt; this.options.minorHandleValue) {
+      this.options.majorHandleValue = this.options.minorHandleValue;
     }
-    if (this.options.valueMax &gt; this.options.max) {
-      this.options.valueMax = this.options.max;
+    if (this.options.majorHandleValue &gt; this.options.max) {
+      this.options.majorHandleValue = this.options.max;
     }
   }
 &nbsp;
-  _initConstants() {
-    const minPoint = ((this.options.valueMin - this.options.min) * 100)
+  _calculateSliderParameters() {
+    const minPoint = ((this.options.minorHandleValue - this.options.min) * 100)
     / (this.options.max - this.options.min);
-    const maxPoint = ((this.options.valueMax - this.options.min) * 100)
+    const maxPoint = ((this.options.majorHandleValue - this.options.min) * 100)
     / (this.options.max - this.options.min);
     const step = 100 / ((this.options.max - this.options.min)
     / this.options.step);
     const upright = this.options.vertical;
-    const toolMin = this.options.valueMin;
-    const toolMax = this.options.valueMax;
-    const twoRange = this.options.twoSliders;
+    const toolMin = this.options.minorHandleValue;
+    const toolMax = this.options.majorHandleValue;
     const tool = this.options.tooltip;
     return {
       minPoint,
@@ -608,54 +595,49 @@ class Model extends Observer {
       upright,
       toolMin,
       toolMax,
-      twoRange,
+      severalHandles: this.options.severalHandles,
       tool,
     };
   }
 &nbsp;
-  _toClick(newTop, length) {
+  _calculateMovingCoordinatesByClick(newTop, length) {
     const shiftPercentage = (newTop * 100) / length;
     const middle = (this.options.max - this.options.min) / 2;
     const positionSlider = this.options.step * Math.round(shiftPercentage
-     / this._initConstants().step) + this.options.min;
+     / this._calculateSliderParameters().step) + this.options.min;
 &nbsp;
-    if (this.options.twoSliders) {
+    if (this.options.severalHandles) {
       if (positionSlider - this.options.min &lt; middle) {
-        this.options.valueMin = positionSlider;
-        this.options.onChange(this.options);
+        this.options.minorHandleValue = positionSlider;
       } else {
-        this.options.valueMax = positionSlider;
-        this.options.onChange(this.options);
+        this.options.majorHandleValue = positionSlider;
       }
     } else {
-      this.options.valueMin = positionSlider;
-      this.options.onChange(this.options);
+      this.options.minorHandleValue = positionSlider;
     }
-    this.publish('forController', this._initConstants(), this.options);
+    this.publish('modelStateChanged', this._calculateSliderParameters(), this.options);
   }
 &nbsp;
-  _toMove(newTop, length, min) {
+  _calculateMovingCoordinates(newTop, length, moveMinorHandle) {
     const shiftPercentage = (newTop * 100) / length;
     const value = this.options.step * Math.round(shiftPercentage
-    / this._initConstants().step) + this.options.min;
+    / this._calculateSliderParameters().step) + this.options.min;
 &nbsp;
-    if (min) {
+    if (moveMinorHandle) {
       <span class="missing-if-branch" title="else path not taken" >E</span>if (value &lt;= this.options.max) {
-        <span class="missing-if-branch" title="else path not taken" >E</span>if (value &gt;= this.options.min &amp;&amp; value &lt;= this.options.valueMax) {
-          <span class="missing-if-branch" title="else path not taken" >E</span>if (value !== this.options.valueMin) {
-            this.options.valueMin = value;
-            this.options.onChange(this.options);
-            this.publish('forController', this._initConstants(), this.options);
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (value &gt;= this.options.min &amp;&amp; value &lt;= this.options.majorHandleValue) {
+          <span class="missing-if-branch" title="else path not taken" >E</span>if (value !== this.options.minorHandleValue) {
+            this.options.minorHandleValue = value;
+            this.publish('modelStateChanged', this._calculateSliderParameters(), this.options);
           }
         }
       }
-    } else <span class="missing-if-branch" title="else path not taken" >E</span>if (!min) {
+    } else <span class="missing-if-branch" title="else path not taken" >E</span>if (!moveMinorHandle) {
       if (value &gt;= this.options.min) {
-        <span class="missing-if-branch" title="else path not taken" >E</span>if (value &lt;= this.options.max &amp;&amp; value &gt;= this.options.valueMin) {
-          <span class="missing-if-branch" title="else path not taken" >E</span>if (value !== this.options.valueMax) {
-            this.options.valueMax = value;
-            this.options.onChange(this.options);
-            this.publish('forController', this._initConstants(), this.options);
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (value &lt;= this.options.max &amp;&amp; value &gt;= this.options.minorHandleValue) {
+          <span class="missing-if-branch" title="else path not taken" >E</span>if (value !== this.options.majorHandleValue) {
+            this.options.majorHandleValue = value;
+            this.publish('modelStateChanged', this._calculateSliderParameters(), this.options);
           }
         }
       }
@@ -670,7 +652,7 @@ export default Model;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Sep 02 2019 12:02:04 GMT+0300 (GMT+03:00)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Sep 06 2019 14:53:43 GMT+0300 (GMT+03:00)
 </div>
 </div>
 <script src="prettify.js"></script>
