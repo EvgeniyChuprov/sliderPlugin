@@ -6,7 +6,7 @@ import View from './classes/View';
   const methods = {
     init(options) {
       this.model = new Model();
-      this.view = new View();
+      this.view = new View(this);
       this.controller = new Controller(options, this);
 
       return this.each(() => {
@@ -15,7 +15,7 @@ import View from './classes/View';
         this.append(create);
 
         this.controller.subscribe(this.model.processEvent.bind(this.model));
-        this.controller.subscribe(this.view.init.bind(this.view));
+        this.controller.subscribe(this.view.processEvent.bind(this.view));
         this.model.subscribe(this.controller.transferData.bind(this.controller));
         this.view.subscribe(this.controller.transferData.bind(this.controller));
 

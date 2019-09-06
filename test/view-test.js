@@ -27,7 +27,7 @@ describe('Доступ к параметрам класса View', () => {
 
   it('Присвоение параметру $minorHandleValue DOM элемента', () => {
     assert.equal(view.$minorHandleValue, undefined);
-    view._receivingData($dom, options);
+    view._recieveData($dom, options);
     assert.equal(typeof view.$minorHandleValue, 'object');
   });
 
@@ -77,8 +77,8 @@ describe('Доступ к параметрам класса View', () => {
     assert.equal(view.$minorHandleValue.hasClass('range-slider__value-min_horizon'), true);
   });
 
-  it('Проверка вызова move в методе init', () => {
-    view.init('drawSlider', $dom.find('.js-range-slider'), options);
+  it('Проверка вызова move в методе processEvent', () => {
+    view.processEvent('drawSlider', $dom.find('.js-range-slider'), options);
     assert(move.called);
   });
 

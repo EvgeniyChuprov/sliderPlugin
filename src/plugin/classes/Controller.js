@@ -32,7 +32,7 @@ class Controller extends Observer {
   }
 
   _initView(data, options) {
-    this.publish('drawSlider', this.$domEl, data);
+    this.publish('drawSlider', data);
     this._createCallbackFunction(options);
   }
 
