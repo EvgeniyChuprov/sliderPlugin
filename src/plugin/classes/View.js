@@ -5,22 +5,26 @@ class View extends Observer {
   constructor($this) {
     super();
     this.$domEl = $this;
-   // this._receiveData();
-    this._clickSlider();
-    //this._moveHandle();
+    this._receiveData();
+    this._updateSliderView();
   }
 
   processEvent(event, options) {
     if (event === 'drawSlider') {
       this.options = options;
-      this._receiveData();
-      this._drawPositionsHandles();
-      this._writeValues();
-      this._drawPositioning();
-      this._drawTool();
-      //this._clickSlider();
-      this._moveHandle();
+      this._initialCreateSlider();
     }
+  }
+
+  _initialCreateSlider() {
+    this._drawPositionsHandles();
+    this._drawTool();
+    this._drawPositioning();
+  }
+
+  _updateSliderView() {
+    this._clickSlider();
+    this._moveHandle();
   }
 
   _receiveData() {
@@ -40,15 +44,12 @@ class View extends Observer {
     this.$toolMax.css('display', visibilityMajorHandle);
   }
 
-  _writeValues() {
-    this.$toolMin.html(this.options.toolMin);
-    this.$toolMax.html(this.options.toolMax);
-  }
-
   _drawTool() {
     const visibility = this.options.tool ? 'visible' : 'hidden';
     this.$toolMin.css('visibility', visibility);
     this.$toolMax.css('visibility', visibility);
+    this.$toolMin.html(this.options.toolMin);
+    this.$toolMax.html(this.options.toolMax);
   }
 
   _drawPositioning() {
@@ -91,24 +92,25 @@ class View extends Observer {
     this.$majorHandleValue.on('mousedown', this._handleSliderMousedown.bind(this));
   }
 
-  _handleSliderMousedown() {
+  _handleSliderMousedown(e) {
+    this.moveMinorHandle = $(e.target).hasClass('range-slider__value-min');
     $(document).on('mousemove', this._handleSliderMousemove.bind(this));
     $(document).on('mouseup', this._handleSliderMouseup.bind(this));
   }
 
+  // eslint-disable-next-line class-methods-use-this
   _handleSliderMouseup() {
     $(document).unbind('mousemove');
   }
 
   _handleSliderMousemove(e) {
-    const moveMinorHandle = false;
     const sliderCoords = this.options.upright
       ? this.$domEl.offset().top : this.$domEl.offset().left;
     const page = this.options.upright ? e.pageY : e.pageX;
     const newPosition = page - sliderCoords;
     const length = this.options.upright
       ? this.$domEl.height() : this.$domEl.width();
-    this.publish('coordinatesChangedByHandleMove', newPosition, length, moveMinorHandle);
+    this.publish('coordinatesChangedByHandleMove', newPosition, length, this.moveMinorHandle);
   }
 }
 

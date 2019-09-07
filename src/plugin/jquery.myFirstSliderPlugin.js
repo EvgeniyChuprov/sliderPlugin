@@ -5,15 +5,15 @@ import View from './classes/View';
 (($) => {
   const methods = {
     init(options) {
+      const create = $(`<div class="range-slider__value-min" ><div class = "range-slider__tool-min" ></div></div>
+      <div class="range-slider__value-max" ><div class = "range-slider__tool-max" ></div></div>`);
+      this.append(create);
+
       this.model = new Model();
       this.view = new View(this);
       this.controller = new Controller(options, this);
 
       return this.each(() => {
-        const create = $(`<div class="range-slider__value-min" ><div class = "range-slider__tool-min" ></div></div>
-        <div class="range-slider__value-max" ><div class = "range-slider__tool-max" ></div></div>`);
-        this.append(create);
-
         this.controller.subscribe(this.model.processEvent.bind(this.model));
         this.controller.subscribe(this.view.processEvent.bind(this.view));
         this.model.subscribe(this.controller.transferData.bind(this.controller));
