@@ -7,11 +7,8 @@ class Model extends Observer {
       case 'receptionData':
         this._normalizeInputData(arg[0]);
         break;
-      case 'coordinatesChangedByClick':
-        this._calculateMovingCoordinatesByClick(arg[0], arg[1]);
-        break;
-      case 'coordinatesChangedByHandleMove':
-        this._calculateMovingCoordinates(arg[0], arg[1], arg[2]);
+      case 'coordinatesChanged':
+        this._calculateCoordinates(arg[0], arg[1], arg[2]);
         break;
       default:
         break;
@@ -193,6 +190,14 @@ class Model extends Observer {
           }
         }
       }
+    }
+  }
+
+  _calculateCoordinates(newTop, length, moveMinorHandle) {
+    if (typeof moveMinorHandle === 'boolean') {
+      this._calculateMovingCoordinates(newTop, length, moveMinorHandle);
+    } else if (moveMinorHandle === null) {
+      this._calculateMovingCoordinatesByClick(newTop, length);
     }
   }
 }

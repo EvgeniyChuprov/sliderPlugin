@@ -32,6 +32,7 @@ class View extends Observer {
     this.$majorHandleValue = this.$domEl.find('.range-slider__value-max');
     this.$toolMin = this.$domEl.find('.range-slider__tool-min');
     this.$toolMax = this.$domEl.find('.range-slider__tool-max');
+    this.moveMinorHandle = null;
   }
 
   _drawPositionsHandles() {
@@ -74,17 +75,17 @@ class View extends Observer {
   }
 
   _clickSlider() {
-    this.$domEl.on('click', this._handleSliderClick.bind(this));
+    this.$domEl.on('click', this._handleSlider.bind(this));
   }
 
-  _handleSliderClick(e) {
+  _handleSlider(e) {
     const sliderCoords = this.options.upright
       ? this.$domEl.offset().top : this.$domEl.offset().left;
     const page = this.options.upright ? e.pageY : e.pageX;
     const length = this.options.upright
       ? this.$domEl.height() : this.$domEl.width();
     const newPosition = page - sliderCoords;
-    this.publish('coordinatesChangedByClick', newPosition, length);
+    this.publish('coordinatesChanged', newPosition, length, this.moveMinorHandle);
   }
 
   _moveHandle() {
@@ -94,23 +95,13 @@ class View extends Observer {
 
   _handleSliderMousedown(e) {
     this.moveMinorHandle = $(e.target).hasClass('range-slider__value-min');
-    $(document).on('mousemove', this._handleSliderMousemove.bind(this));
+    $(document).on('mousemove', this._handleSlider.bind(this));
     $(document).on('mouseup', this._handleSliderMouseup.bind(this));
   }
 
-  // eslint-disable-next-line class-methods-use-this
   _handleSliderMouseup() {
+    this.moveMinorHandle = null;
     $(document).unbind('mousemove');
-  }
-
-  _handleSliderMousemove(e) {
-    const sliderCoords = this.options.upright
-      ? this.$domEl.offset().top : this.$domEl.offset().left;
-    const page = this.options.upright ? e.pageY : e.pageX;
-    const newPosition = page - sliderCoords;
-    const length = this.options.upright
-      ? this.$domEl.height() : this.$domEl.width();
-    this.publish('coordinatesChangedByHandleMove', newPosition, length, this.moveMinorHandle);
   }
 }
 

@@ -14,10 +14,7 @@ class Controller extends Observer {
 
   transferData(event, ...arg) {
     switch (event) {
-      case 'coordinatesChangedByClick':
-        this._clickSlider(arg[0], arg[1]);
-        break;
-      case 'coordinatesChangedByHandleMove':
+      case 'coordinatesChanged':
         this._moveSlider(arg[0], arg[1], arg[2]);
         break;
       case 'modelStateChanged':
@@ -43,12 +40,8 @@ class Controller extends Observer {
     };
   }
 
-  _clickSlider(newTop, length) {
-    this.publish('coordinatesChangedByClick', newTop, length);
-  }
-
   _moveSlider(newTop, length, moveMinorHandle) {
-    this.publish('coordinatesChangedByHandleMove', newTop, length, moveMinorHandle);
+    this.publish('coordinatesChanged', newTop, length, moveMinorHandle);
   }
 }
 
