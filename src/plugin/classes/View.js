@@ -19,11 +19,11 @@ class View extends Observer {
 
   _drawSlider() {
     const {
-      upright = 'upright', minPoint = 'minPoint', maxPoint = 'maxPoint',
-      severalHandles = 'severalHandles', tool = 'tool', toolMin = 'toolMin',
-      toolMax = 'toolMax',
+      upright, minPoint, maxPoint,
+      severalHandles, tool, toolMin,
+      toolMax,
     } = this.options;
-    const initialPosition = -10;
+    const initialPosition = '-10px';
     const orientation = upright ? 'top' : 'left';
     this.$minorHandleValue.css(orientation, `${minPoint}%`);
     this.$majorHandleValue.css(orientation, `${maxPoint}%`);
@@ -42,8 +42,8 @@ class View extends Observer {
 
     this.$domEl.toggleClass('range-slider_vertical', upright);
 
-    this.$minorHandleValue.toggleClass('range-slider__value-min_vertical', upright).css(displacement, `${initialPosition}px`);
-    this.$majorHandleValue.toggleClass('range-slider__value-max_vertical', upright).css(displacement, `${initialPosition}px`);
+    this.$minorHandleValue.toggleClass('range-slider__value-min_vertical', upright).css(displacement, initialPosition);
+    this.$majorHandleValue.toggleClass('range-slider__value-max_vertical', upright).css(displacement, initialPosition);
 
     this.$toolMin.toggleClass('range-slider__tool-min_vertical', upright);
     this.$toolMax.toggleClass('range-slider__tool-max_vertical', upright);
@@ -69,7 +69,7 @@ class View extends Observer {
   }
 
   _handleSliderMousemove(e) {
-    const { upright = 'upright' } = this.options;
+    const { upright } = this.options;
 
     const sliderCoords = upright
       ? this.$domEl.offset().top : this.$domEl.offset().left;

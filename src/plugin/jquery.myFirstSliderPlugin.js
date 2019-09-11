@@ -16,8 +16,8 @@ import View from './classes/View';
       return this.each(() => {
         this.controller.subscribe(this.model.processEvent.bind(this.model));
         this.controller.subscribe(this.view.processEvent.bind(this.view));
-        this.model.subscribe(this.controller.transferData.bind(this.controller));
-        this.view.subscribe(this.controller.transferData.bind(this.controller));
+        this.model.subscribe(this.controller.processEvent.bind(this.controller));
+        this.view.subscribe(this.controller.processEvent.bind(this.controller));
 
         this.controller.init();
 
