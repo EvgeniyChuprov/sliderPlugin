@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import assert from 'assert';
 import sinon from 'sinon';
-import Controller from '../src/plugin/classes/Controller';
+import Controller from '../src/plugin/classes/controller';
 
 describe('Проверка вызова внутрених методов класса Controller', () => {
   const controller = new Controller();
@@ -19,9 +19,8 @@ describe('Проверка вызова внутрених методов кла
     update: null,
   };
 
-  const clickSlider = sinon.spy(controller, '_clickSlider');
-  const moveSlider = sinon.spy(controller, '_moveSlider');
-  const initView = sinon.spy(controller, '_initView');
+  const _moveSlider = sinon.spy(controller, '_moveSlider');
+  const _createView = sinon.spy(controller, '_createView');
   const publish = sinon.spy(controller, 'publish');
 
   it('Проверка вызова publish в функции init', () => {
@@ -29,39 +28,18 @@ describe('Проверка вызова внутрених методов кла
     assert(publish.called);
   });
 
-  it('Проверка вызова _clickSlider', () => {
-    controller.transferData('coordinatesChangedByClick', 1, 2);
-    assert(clickSlider.called);
+  it('Проверка вызова _moveSlider в методе processEvent', () => {
+    controller.processEvent('coordinatesChanged', 1, 2, 3);
+    assert(_moveSlider.called);
   });
 
-  it('Проверка вызова _moveSlider', () => {
-    controller.transferData('coordinatesChangedByHandleMove', 1, 2);
-    assert(moveSlider.called);
-  });
-
-  it('Проверка вызова publish в функции _clickSlider', () => {
-    controller._clickSlider(1, 2);
-    assert(publish.called);
-  });
-
-  it('Проверка вызова publish в функции _moveSlider', () => {
-    controller._moveSlider(1, 2, 3);
-    assert(publish.called);
-  });
-
-  it('Присовение параметру options.update callback функции', () => {
-    assert.equal(controller.options, undefined);
-    controller._createCallbackFunction(options);
-    assert.equal(typeof controller.options.update, 'function');
+  it('Проверка вызова _createView в методе processEvent', () => {
+    controller.processEvent('modelStateChanged', 1, {});
+    assert(_createView.called);
   });
 
   it('Проверка вызова publish в функции controller.options.update', () => {
     controller.options.update(1);
     assert(publish.called);
-  });
-
-  it('Проверка вызова _initView', () => {
-    controller.transferData('modelStateChanged', 1, options);
-    assert(initView.called);
   });
 });

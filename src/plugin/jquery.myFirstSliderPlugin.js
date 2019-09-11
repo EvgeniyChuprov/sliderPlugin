@@ -1,6 +1,6 @@
-import Controller from './classes/Controller';
-import Model from './classes/Model';
-import View from './classes/View';
+import Controller from './classes/controller';
+import Model from './classes/model';
+import View from './classes/view';
 
 (($) => {
   const methods = {

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for Model.js</title>
+    <title>Code coverage report for model.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="prettify.css" />
     <link rel="stylesheet" href="base.css" />
@@ -16,28 +16,28 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="index.html">All files</a> Model.js
+      <a href="index.html">All files</a> model.js
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">98.89% </span>
+        <span class="strong">98.91% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>89/90</span>
+        <span class='fraction'>91/92</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">90.28% </span>
+        <span class="strong">90.67% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>65/72</span>
+        <span class='fraction'>68/75</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>12/12</span>
+        <span class='fraction'>13/13</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">98.89% </span>
+        <span class="strong">98.91% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>89/90</span>
+        <span class='fraction'>91/92</span>
       </div>
     </div>
     <p class="quiet">
@@ -246,15 +246,17 @@
 <a name='L198'></a><a href='#L198'>198</a>
 <a name='L199'></a><a href='#L199'>199</a>
 <a name='L200'></a><a href='#L200'>200</a>
-<a name='L201'></a><a href='#L201'>201</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L201'></a><a href='#L201'>201</a>
+<a name='L202'></a><a href='#L202'>202</a>
+<a name='L203'></a><a href='#L203'>203</a>
+<a name='L204'></a><a href='#L204'>204</a>
+<a name='L205'></a><a href='#L205'>205</a>
+<a name='L206'></a><a href='#L206'>206</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -424,44 +426,49 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/* eslint no-underscore-dangle: ["error", { "allowAfterThis": true }] */
-import Observer from './Observer';
+import Observer from './observer';
 &nbsp;
 class Model extends Observer {
   processEvent(event, ...arg) {
     switch (event) {
-      case 'receptionData':
+      case 'parametersChanged':
         this._normalizeInputData(arg[0]);
         break;
-      case 'coordinatesChangedByClick':
-        this._calculateMovingCoordinatesByClick(arg[0], arg[1]);
+      case 'coordinatesChanged':
+        this._calculateCoordinates(arg[0], arg[1], arg[2]);
         break;
-      case 'coordinatesChangedByHandleMove':
-        this._calculateMovingCoordinates(arg[0], arg[1], arg[2]);
-        break;
-<span class="branch-3 cbranch-no" title="branch not covered" >      default:</span>
+<span class="branch-2 cbranch-no" title="branch not covered" >      default:</span>
 <span class="cstat-no" title="statement not covered" >        break;</span>
     }
   }
@@ -625,7 +632,7 @@ class Model extends Observer {
 &nbsp;
     if (moveMinorHandle) {
       <span class="missing-if-branch" title="else path not taken" >E</span>if (value &lt;= this.options.max) {
-        <span class="missing-if-branch" title="else path not taken" >E</span>if (value &gt;= this.options.min &amp;&amp; value &lt;= this.options.majorHandleValue) {
+        if (value &gt;= this.options.min &amp;&amp; value &lt;= this.options.majorHandleValue) {
           <span class="missing-if-branch" title="else path not taken" >E</span>if (value !== this.options.minorHandleValue) {
             this.options.minorHandleValue = value;
             this.publish('modelStateChanged', this._calculateSliderParameters(), this.options);
@@ -633,7 +640,7 @@ class Model extends Observer {
         }
       }
     } else <span class="missing-if-branch" title="else path not taken" >E</span>if (!moveMinorHandle) {
-      if (value &gt;= this.options.min) {
+      <span class="missing-if-branch" title="else path not taken" >E</span>if (value &gt;= this.options.min) {
         <span class="missing-if-branch" title="else path not taken" >E</span>if (value &lt;= this.options.max &amp;&amp; value &gt;= this.options.minorHandleValue) {
           <span class="missing-if-branch" title="else path not taken" >E</span>if (value !== this.options.majorHandleValue) {
             this.options.majorHandleValue = value;
@@ -641,6 +648,14 @@ class Model extends Observer {
           }
         }
       }
+    }
+  }
+&nbsp;
+  _calculateCoordinates(newTop, length, moveMinorHandle) {
+    if (typeof moveMinorHandle === 'boolean') {
+      this._calculateMovingCoordinates(newTop, length, moveMinorHandle);
+    } else if (moveMinorHandle === null) {
+      this._calculateMovingCoordinatesByClick(newTop, length);
     }
   }
 }
@@ -652,7 +667,7 @@ export default Model;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Sep 06 2019 15:18:44 GMT+0300 (GMT+03:00)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Wed Sep 11 2019 18:51:25 GMT+0300 (GMT+03:00)
 </div>
 </div>
 <script src="prettify.js"></script>

@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import assert from 'assert';
 import sinon from 'sinon';
-import Model from '../src/plugin/classes/Model';
+import Model from '../src/plugin/classes/model';
 
 describe('Доступ к параметрам класса Model', () => {
   const model = new Model();
@@ -19,8 +19,9 @@ describe('Доступ к параметрам класса Model', () => {
   };
 
   const _normalizeInputData = sinon.spy(model, '_normalizeInputData');
+  const _calculateCoordinates = sinon.spy(model, '_calculateCoordinates');
   const _calculateMovingCoordinatesByClick = sinon.spy(model, '_calculateMovingCoordinatesByClick');
-  const toMove = sinon.spy(model, '_calculateMovingCoordinates');
+  const _calculateMovingCoordinates = sinon.spy(model, '_calculateMovingCoordinates');
   const publish = sinon.spy(model, 'publish');
 
   it('Проверка получения параметров по умолчанию', () => {
@@ -37,25 +38,36 @@ describe('Доступ к параметрам класса Model', () => {
     assert.equal(model.options.tooltip, true);
   });
 
-  it('Проверка вызова __normalizeInputData в методе processEvent', () => {
-    model.processEvent('receptionData', 1);
+  it('Проверка вызова _normalizeInputData в методе processEvent', () => {
+    model.processEvent('parametersChanged', 1);
     assert(_normalizeInputData.called);
   });
 
-  it('Проверка вызова _calculateMovingCoordinatesByClick в методе processEvent', () => {
+  it('Проверка вызова _calculateCoordinates в методе processEvent', () => {
     model.options.onChange = x => x;
-    model.processEvent('coordinatesChangedByClick', 1, 2);
-    assert(_calculateMovingCoordinatesByClick.called);
-  });
-
-  it('Проверка вызова _calculateMovingCoordinates в методе processEvent', () => {
-    model.processEvent('coordinatesChangedByHandleMove', 1);
-    assert(toMove.called);
+    model.processEvent('coordinatesChanged', 1, 2);
+    assert(_calculateCoordinates.called);
   });
 
   it('Проверка вызова publish в методе _normalizeInputData', () => {
     model._normalizeInputData(externalOptions);
     assert(publish.called);
+  });
+
+  it('Проверка вызова _calculateMovingCoordinates в методе _calculateCoordinates', () => {
+    const newTop = 10;
+    const length = 10;
+    const moveMinorHandle = true;
+    model._calculateCoordinates(newTop, length, moveMinorHandle);
+    assert(_calculateMovingCoordinates.called);
+  });
+
+  it('Проверка вызова _calculateMovingCoordinatesByClick в методе _calculateCoordinates', () => {
+    const newTop = 10;
+    const length = 10;
+    const moveMinorHandle = null;
+    model._calculateCoordinates(newTop, length, moveMinorHandle);
+    assert(_calculateMovingCoordinatesByClick.called);
   });
 
   it('Проверка измения минимума', () => {

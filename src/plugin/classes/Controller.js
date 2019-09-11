@@ -1,5 +1,5 @@
 /* eslint no-underscore-dangle: ["error", { "allowAfterThis": true }] */
-import Observer from './Observer';
+import Observer from './observer';
 
 class Controller extends Observer {
   constructor(opt, $this) {
