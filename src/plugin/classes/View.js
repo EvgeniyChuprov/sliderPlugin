@@ -12,11 +12,11 @@ class View extends Observer {
   processEvent(event, options) {
     if (event === 'drawSlider') {
       this.options = options;
-      this._initialCreateSlider();
+      this.drawSlider();
     }
   }
 
-  _initialCreateSlider() {
+  _drawSlider() {
     const orientation = this.options.upright ? 'top' : 'left';
     this.$minorHandleValue.css(orientation, `${this.options.minPoint}%`);
     this.$majorHandleValue.css(orientation, `${this.options.maxPoint}%`);
