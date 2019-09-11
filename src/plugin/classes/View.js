@@ -5,6 +5,7 @@ class View extends Observer {
   constructor($this) {
     super();
     this.$domEl = $this;
+    this.moveMinorHandle = null;
     this._findDOMElements();
     this._addEventListeners();
   }
@@ -12,43 +13,40 @@ class View extends Observer {
   processEvent(event, options) {
     if (event === 'drawSlider') {
       this.options = options;
-      this.drawSlider();
+      this._drawSlider();
     }
   }
 
   _drawSlider() {
-    const orientation = this.options.upright ? 'top' : 'left';
-    this.$minorHandleValue.css(orientation, `${this.options.minPoint}%`);
-    this.$majorHandleValue.css(orientation, `${this.options.maxPoint}%`);
+    const {
+      upright = 'upright', minPoint = 'minPoint', maxPoint = 'maxPoint',
+      severalHandles = 'severalHandles', tool = 'tool', toolMin = 'toolMin',
+      toolMax = 'toolMax',
+    } = this.options;
+    const initialPosition = -10;
+    const orientation = upright ? 'top' : 'left';
+    this.$minorHandleValue.css(orientation, `${minPoint}%`);
+    this.$majorHandleValue.css(orientation, `${maxPoint}%`);
 
-    const visibilityMajorHandle = this.options.severalHandles ? 'block' : 'none';
+    const visibilityMajorHandle = severalHandles ? 'block' : 'none';
     this.$majorHandleValue.css('display', visibilityMajorHandle);
     this.$toolMax.css('display', visibilityMajorHandle);
 
-    const visibility = this.options.tool ? 'visible' : 'hidden';
+    const visibility = tool ? 'visible' : 'hidden';
     this.$toolMin.css('visibility', visibility);
     this.$toolMax.css('visibility', visibility);
-    this.$toolMin.html(this.options.toolMin);
-    this.$toolMax.html(this.options.toolMax);
+    this.$toolMin.html(toolMin);
+    this.$toolMax.html(toolMax);
 
-    const addClass = this.options.upright ? 'vertical' : 'horizon';
-    const delClass = this.options.upright ? 'horizon' : 'vertical';
-    const displacement = this.options.upright ? 'left' : 'top';
-    this.$domEl
-      .addClass(`range-slider_${addClass}`)
-      .removeClass(`range-slider_${delClass}`);
-    this.$minorHandleValue
-      .addClass(`range-slider__value-min_${addClass}`).css(displacement, `${-10}px`)
-      .removeClass(`range-slider__value-min_${delClass}`);
-    this.$majorHandleValue
-      .addClass(`range-slider__value-max_${addClass}`).css(displacement, `${-10}px`)
-      .removeClass(`range-slider__value-max_${delClass}`);
-    this.$toolMin
-      .addClass(`range-slider__tool-min_${addClass}`)
-      .removeClass(`range-slider__tool-min_${delClass}`);
-    this.$toolMax
-      .addClass(`range-slider__tool-max_${addClass}`)
-      .removeClass(`range-slider__tool-max_${delClass}`);
+    const displacement = upright ? 'left' : 'top';
+
+    this.$domEl.toggleClass('range-slider_vertical', upright);
+
+    this.$minorHandleValue.toggleClass('range-slider__value-min_vertical', upright).css(displacement, `${initialPosition}px`);
+    this.$majorHandleValue.toggleClass('range-slider__value-max_vertical', upright).css(displacement, `${initialPosition}px`);
+
+    this.$toolMin.toggleClass('range-slider__tool-min_vertical', upright);
+    this.$toolMax.toggleClass('range-slider__tool-max_vertical', upright);
   }
 
   _findDOMElements() {
@@ -56,17 +54,6 @@ class View extends Observer {
     this.$majorHandleValue = this.$domEl.find('.range-slider__value-max');
     this.$toolMin = this.$domEl.find('.range-slider__tool-min');
     this.$toolMax = this.$domEl.find('.range-slider__tool-max');
-    this.moveMinorHandle = null;
-  }
-
-  _handleSliderMousemove(e) {
-    const sliderCoords = this.options.upright
-      ? this.$domEl.offset().top : this.$domEl.offset().left;
-    const page = this.options.upright ? e.pageY : e.pageX;
-    const length = this.options.upright
-      ? this.$domEl.height() : this.$domEl.width();
-    const newPosition = page - sliderCoords;
-    this.publish('coordinatesChanged', newPosition, length, this.moveMinorHandle);
   }
 
   _addEventListeners() {
@@ -79,6 +66,18 @@ class View extends Observer {
     this.moveMinorHandle = $(e.target).hasClass('range-slider__value-min');
     $(document).on('mousemove', this._handleSliderMousemove.bind(this));
     $(document).on('mouseup', this._handleSliderMouseup.bind(this));
+  }
+
+  _handleSliderMousemove(e) {
+    const { upright = 'upright' } = this.options;
+
+    const sliderCoords = upright
+      ? this.$domEl.offset().top : this.$domEl.offset().left;
+    const page = upright ? e.pageY : e.pageX;
+    const length = upright
+      ? this.$domEl.height() : this.$domEl.width();
+    const newPosition = page - sliderCoords;
+    this.publish('coordinatesChanged', newPosition, length, this.moveMinorHandle);
   }
 
   _handleSliderMouseup() {

@@ -4,15 +4,12 @@
   margin: 0.3rem;
   user-select: none;
   position: relative;
+  width: 100%;
+  height: 0.3rem;
 
   &_vertical {
     width: 0.3rem;
     height: 100%;
-  }
-
-  &_horizon {
-    width: 100%;
-    height: 0.3rem;
   }
 
   &__value-min {
@@ -23,15 +20,12 @@
     background: blue;
     border-radius: 50%;
     cursor: pointer;
+    left: 3.1rem;
+    top: -0.6rem;
 
     &_vertical {
       top: 0.06rem;
       left: -0.6rem;
-    }
-
-    &_horizon {
-      left: 3.1rem;
-      top: 0.6rem;
     }
   }
 
@@ -42,15 +36,12 @@
     background: red;
     position: absolute;
     cursor: pointer;
+    left: 0rem;
+    top: -0.6rem;
 
     &_vertical {
       top: 0.06rem;
-      left: 0.6rem;
-    }
-
-    &_horizon {
-      left: 0rem;
-      top: 0.6rem;
+      left: -0.6rem;
     }
   }
 
@@ -63,15 +54,12 @@
       border-radius: 0.18rem;
       position: absolute;
       border: 0.06rem solid blue;
+      left: -0.125rem;
+      top: -2.18rem;
 
       &_vertical {
         left: 2.18rem;
         top: -0.125rem;
-      }
-
-      &_horizon {
-        left: -0.125rem;
-        top: -1.87rem;
       }
     }
 
@@ -83,15 +71,12 @@
       border-radius: 0.18rem;
       position: relative;
       border: 0.06rem solid red;
+      left: -0.125rem;
+      top: -2.18rem;
 
       &_vertical {
         top: -0.125rem;
         left: 2.18rem;
-      }
-
-      &_horizon {
-        left: -0.125rem;
-        top: -1.8rem;
       }
     }
   }
