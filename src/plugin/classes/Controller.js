@@ -9,7 +9,7 @@ class Controller extends Observer {
   }
 
   init() {
-    this.publish('receptionData', this.options);
+    this.publish('parametersChanged', this.options);
   }
 
   transferData(event, ...arg) {
@@ -36,7 +36,7 @@ class Controller extends Observer {
   _createCallbackFunction(options) {
     this.options = options;
     this.options.update = (value) => {
-      this.publish('receptionData', value);
+      this.publish('parametersChanged', value);
     };
   }
 

@@ -4,7 +4,7 @@ import Observer from './Observer';
 class Model extends Observer {
   processEvent(event, ...arg) {
     switch (event) {
-      case 'receptionData':
+      case 'parametersChanged':
         this._normalizeInputData(arg[0]);
         break;
       case 'coordinatesChanged':
