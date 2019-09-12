@@ -95,7 +95,8 @@ describe('Доступ к параметрам класса View', () => {
   });
 
   it('Проверка вызова _handleSliderMouseup в методе _handleSliderMousedown', () => {
-    view._handleSliderMousedown({});
+    const e = { target: { nodeName: '' } };
+    view._handleSliderMousedown(e);
     $(document).trigger('mouseup');
     assert(_handleSliderMouseup.called);
   });

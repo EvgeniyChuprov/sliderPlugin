@@ -5,8 +5,8 @@ import View from './classes/view';
 (($) => {
   const methods = {
     init(options) {
-      const create = $(`<div class="range-slider__value-min" ><div class = "range-slider__tool-min " ></div></div>
-      <div class="range-slider__value-max" ><div class = "range-slider__tool-max " ></div></div>`);
+      const create = $(`<div class="range-slider__value-min" ><span class = "range-slider__tool-min " ></span></div>
+      <div class="range-slider__value-max" ><span class = "range-slider__tool-max " ></span></div>`);
       this.append(create);
 
       this.model = new Model();

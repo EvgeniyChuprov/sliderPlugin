@@ -17,7 +17,9 @@ class SliderInterface {
     this.tooltip = this.$sliderInterface.find('.slider__tooltip');
     this.severalHandles = this.$sliderInterface.find('.slider__two-slider');
     this.plugin = this.$sliderInterface.find('.js-range-slider');
+    this.sliderText = this.$sliderInterface.find('.slider__text:last');
     this.options = this.plugin.myFirstSliderPlugin('get');
+    this._showSettingMajorHandleValue();
     this._changeOutput();
     this._changeInput();
   }
@@ -61,6 +63,8 @@ class SliderInterface {
     this.severalHandles.change(() => {
       this.options.severalHandles = this.severalHandles.is(':checked');
       this.options.update(this.options);
+
+      this._showSettingMajorHandleValue();
     });
   }
 
@@ -80,6 +84,12 @@ class SliderInterface {
       this.max.val(options.max);
       this.step.val(options.step);
     };
+  }
+
+  _showSettingMajorHandleValue() {
+    const visibilityMajorHandle = this.options.severalHandles ? 'block' : 'none';
+    this.majorHandleValue.css('display', visibilityMajorHandle);
+    this.sliderText.css('display', visibilityMajorHandle);
   }
 }
 
