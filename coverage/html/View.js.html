@@ -20,31 +20,31 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">75.56% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>34/45</span>
+        <span class='fraction'>45/45</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">56.25% </span>
+        <span class="strong">75% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>9/16</span>
+        <span class='fraction'>12/16</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">62.5% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>5/8</span>
+        <span class='fraction'>8/8</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">75.56% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>34/45</span>
+        <span class='fraction'>45/45</span>
       </div>
     </div>
     <p class="quiet">
       Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
     </p>
   </div>
-  <div class='status-line medium'></div>
+  <div class='status-line high'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -194,32 +194,32 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -288,27 +288,27 @@ class View extends Observer {
     this.$majorHandleValue.on('mousedown', this._handleSliderMousedown.bind(this));
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  _h</span>andleSliderMousedown(e) {
-<span class="cstat-no" title="statement not covered" >    this.moveMinorHandle = $(e.target).hasClass('range-slider__value-min');</span>
-<span class="cstat-no" title="statement not covered" >    $(document).on('mousemove', this._handleSliderMousemove.bind(this));</span>
-<span class="cstat-no" title="statement not covered" >    $(document).on('mouseup', this._handleSliderMouseup.bind(this));</span>
+  _handleSliderMousedown(e) {
+    this.moveMinorHandle = $(e.target).hasClass('range-slider__value-min');
+    $(document).on('mousemove', this._handleSliderMousemove.bind(this));
+    $(document).on('mouseup', this._handleSliderMouseup.bind(this));
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  _h</span>andleSliderMousemove(e) {
-    const { upright } = <span class="cstat-no" title="statement not covered" >this.options;</span>
+  _handleSliderMousemove(e) {
+    const { upright } = this.options;
 &nbsp;
-    const sliderCoords = <span class="cstat-no" title="statement not covered" >upright</span>
-      ? this.$domEl.offset().top : this.$domEl.offset().left;
-    const page = <span class="cstat-no" title="statement not covered" >upright ? e.pageY : e.pageX;</span>
-    const length = <span class="cstat-no" title="statement not covered" >upright</span>
-      ? this.$domEl.height() : this.$domEl.width();
-    const newPosition = <span class="cstat-no" title="statement not covered" >page - sliderCoords;</span>
-<span class="cstat-no" title="statement not covered" >    this.publish('coordinatesChanged', newPosition, length, this.moveMinorHandle);</span>
+    const sliderCoords = upright
+      ? <span class="branch-0 cbranch-no" title="branch not covered" >this.$domEl.offset().top </span>: this.$domEl.offset().left;
+    const page = upright ? <span class="branch-0 cbranch-no" title="branch not covered" >e.pageY </span>: e.pageX;
+    const length = upright
+      ? <span class="branch-0 cbranch-no" title="branch not covered" >this.$domEl.height() </span>: this.$domEl.width();
+    const newPosition = page - sliderCoords;
+    this.publish('coordinatesChanged', newPosition, length, this.moveMinorHandle);
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  _h</span>andleSliderMouseup() {
-<span class="cstat-no" title="statement not covered" >    this.moveMinorHandle = null;</span>
-<span class="cstat-no" title="statement not covered" >    $(document).unbind('mousemove');</span>
+  _handleSliderMouseup() {
+    this.moveMinorHandle = null;
+    $(document).unbind('mousemove');
   }
 }
 &nbsp;
@@ -319,7 +319,7 @@ export default View;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Wed Sep 11 2019 18:51:25 GMT+0300 (GMT+03:00)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Sep 12 2019 10:00:20 GMT+0300 (GMT+03:00)
 </div>
 </div>
 <script src="prettify.js"></script>

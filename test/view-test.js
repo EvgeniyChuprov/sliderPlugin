@@ -23,8 +23,12 @@ describe('Доступ к параметрам класса View', () => {
   view.options = options;
 
   const _drawSlider = sinon.spy(view, '_drawSlider');
+  const _handleSliderMousemove = sinon.spy(view, '_handleSliderMousemove');
+  const _handleSliderMousedown = sinon.spy(view, '_handleSliderMousedown');
+  const _handleSliderMouseup = sinon.spy(view, '_handleSliderMouseup');
+  const publish = sinon.spy(view, 'publish');
 
-  it('Присвоение параметру $toolMin css значения', () => {
+  it('Присвоение позункам css значения', () => {
     assert.equal(view.$minorHandleValue.css('top'), 'auto');
     assert.equal(view.$minorHandleValue.css('left'), 'auto');
     view.options.upright = true;
@@ -62,8 +66,43 @@ describe('Доступ к параметрам класса View', () => {
     assert.equal(view.$minorHandleValue.hasClass('range-slider__value-min_vertical'), false);
   });
 
+  it('Проверка вызова publish в методе _handleSliderMousemove', () => {
+    view._handleSliderMousemove({});
+    assert(publish.called);
+  });
+
   it('Проверка вызова _drawSlider в методе processEvent', () => {
     view.processEvent('drawSlider', options);
     assert(_drawSlider.called);
+  });
+
+  it('Проверка вызова _handleSliderMousemove в методе _addEventListeners', () => {
+    view._addEventListeners();
+    view.$domEl.trigger('click');
+    assert(_handleSliderMousemove.called);
+  });
+
+  it('Проверка вызова _handleSliderMousedown в методе _addEventListeners', () => {
+    view._addEventListeners();
+    view.$minorHandleValue.trigger('mousedown');
+    assert(_handleSliderMousedown.called);
+  });
+
+  it('Проверка вызова _handleSliderMousedown в методе _addEventListeners', () => {
+    view._addEventListeners();
+    view.$minorHandleValue.trigger('mousedown');
+    assert(_handleSliderMousedown.called);
+  });
+
+  it('Проверка вызова _handleSliderMouseup в методе _handleSliderMousedown', () => {
+    view._handleSliderMousedown({});
+    $(document).trigger('mouseup');
+    assert(_handleSliderMouseup.called);
+  });
+
+  it('Проверка вызова присвоения null полю moveMinorHandle в методе  _handleSliderMouseup', () => {
+    view.moveMinorHandle = 123;
+    view._handleSliderMouseup();
+    assert(view.moveMinorHandle === null, true);
   });
 });
