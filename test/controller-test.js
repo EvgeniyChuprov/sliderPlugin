@@ -6,19 +6,6 @@ import Controller from '../src/plugin/classes/controller';
 describe('Проверка вызова внутрених методов класса Controller', () => {
   const controller = new Controller();
 
-  const options = {
-    min: 0,
-    max: 100,
-    step: 1,
-    valueMin: 10,
-    valueMax: 90,
-    vertical: false,
-    tooltip: true,
-    twoSliders: true,
-    onChange: null,
-    update: null,
-  };
-
   const _moveSlider = sinon.spy(controller, '_moveSlider');
   const _createView = sinon.spy(controller, '_createView');
   const publish = sinon.spy(controller, 'publish');

@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import assert from 'assert';
 import sinon from 'sinon';
-import View from '../src/plugin/classes/View';
+import View from '../src/plugin/classes/view';
 
 describe('Доступ к параметрам класса View', () => {
   const options = {

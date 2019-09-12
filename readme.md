@@ -7,7 +7,7 @@
 
 папка с результатами тестов: coverage
 
-Клонирование репозитория: git clone https://evgeniychuprov.github.io/sliderPlugin
+Клонирование репозитория: git clone https://github.com/EvgeniyChuprov/sliderPlugin.git
 
 [Github Pages site](https://evgeniychuprov.github.io/sliderPlugin/dist/)  
 [Github Pages test](https://evgeniychuprov.github.io/sliderPlugin/coverage/html/)
