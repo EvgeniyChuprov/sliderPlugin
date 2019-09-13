@@ -189,23 +189,23 @@ class Model extends Observer {
     / this._calculateSliderParameters().step) + this.options.min;
 
     if (moveMinorHandle) {
-      if (value <= this.options.max) {
-        if (value >= this.options.min
-          && value <= this.options.majorHandleValue - this.options.step) {
-          if (value !== this.options.minorHandleValue) {
+      if (value <= this.options.max && value >= this.options.min) {
+        if (this.options.severalHandles) {
+          if (value <= this.options.majorHandleValue - this.options.step) {
             this.options.minorHandleValue = value;
             this.publish('modelStateChanged', this._calculateSliderParameters(), this.options);
           }
+        } else {
+          this.options.minorHandleValue = value;
+          this.publish('modelStateChanged', this._calculateSliderParameters(), this.options);
         }
       }
     } else if (!moveMinorHandle) {
       if (value >= this.options.min) {
         if (value <= this.options.max
           && value >= this.options.minorHandleValue + this.options.step) {
-          if (value !== this.options.majorHandleValue) {
-            this.options.majorHandleValue = value;
-            this.publish('modelStateChanged', this._calculateSliderParameters(), this.options);
-          }
+          this.options.majorHandleValue = value;
+          this.publish('modelStateChanged', this._calculateSliderParameters(), this.options);
         }
       }
     }
