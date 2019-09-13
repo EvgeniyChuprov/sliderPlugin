@@ -103,6 +103,9 @@ class Model extends Observer {
 
   _validateMinorHandleValue() {
     if (this.options.severalHandles) {
+      if (this.options.minorHandleValue + this.options.step > this.options.majorHandleValue) {
+        this.options.minorHandleValue = this.options.majorHandleValue - this.options.step;
+      }
       if (this.options.minorHandleValue >= this.options.majorHandleValue) {
         this.options.minorHandleValue = this.options.majorHandleValue - this.options.step;
       }
@@ -118,6 +121,9 @@ class Model extends Observer {
   }
 
   _validateMajorHandleValue() {
+    if (this.options.minorHandleValue > this.options.majorHandleValue - this.options.step) {
+      this.options.majorHandleValue = this.options.minorHandleValue + this.options.step;
+    }
     if (this.options.majorHandleValue <= this.options.minorHandleValue) {
       this.options.majorHandleValue = this.options.minorHandleValue + this.options.step;
     }

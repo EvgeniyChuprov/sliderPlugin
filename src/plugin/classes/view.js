@@ -18,6 +18,7 @@ class View extends Observer {
   }
 
   _drawSlider() {
+    console.log(this.options.step)
     const {
       upright, minPoint, maxPoint,
       severalHandles, tool, toolMin,
@@ -57,7 +58,6 @@ class View extends Observer {
   }
 
   _addEventListeners() {
-
     this.$domEl.on('click', this._handleSliderMousemove.bind(this));
     this.$minorHandleValue.on('mousedown', this._handleSliderMousedown.bind(this));
     this.$majorHandleValue.on('mousedown', this._handleSliderMousedown.bind(this));
