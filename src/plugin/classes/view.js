@@ -18,7 +18,6 @@ class View extends Observer {
   }
 
   _drawSlider() {
-    console.log(this.options.step)
     const {
       upright, minPoint, maxPoint,
       severalHandles, tool, toolMin,

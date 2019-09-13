@@ -166,9 +166,14 @@ class Model extends Observer {
 
     if (this.options.severalHandles) {
       if (positionSlider - this.options.min < middle) {
-        this.options.minorHandleValue = positionSlider;
+        if (positionSlider - this.options.min < this.options.majorHandleValue) {
+          this.options.minorHandleValue = positionSlider;
+        }
       } else {
-        this.options.majorHandleValue = positionSlider;
+        // eslint-disable-next-line no-lonely-if
+        if (positionSlider - this.options.min > this.options.minorHandleValue) {
+          this.options.majorHandleValue = positionSlider;
+        }
       }
     } else {
       this.options.minorHandleValue = positionSlider;
