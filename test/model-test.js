@@ -111,7 +111,7 @@ describe('Доступ к параметрам класса Model', () => {
     model.options.severalHandles = true;
     model.options.minorHandleValue = model.options.majorHandleValue + 1;
     model._validateMinorHandleValue();
-    assert.equal(model.options.minorHandleValue === model.options.majorHandleValue, true);
+    assert.equal(model.options.minorHandleValue === model.options.majorHandleValue - model.options.step, true);
     model.options.minorHandleValue = model.options.min - 1;
     model._validateMinorHandleValue();
     assert.equal(model.options.minorHandleValue === model.options.min, true);
@@ -126,7 +126,7 @@ describe('Доступ к параметрам класса Model', () => {
     model.options.severalHandles = true;
     model.options.majorHandleValue = model.options.minorHandleValue - 1;
     model._validateMajorHandleValue();
-    assert.equal(model.options.minorHandleValue === model.options.majorHandleValue, true);
+    assert.equal(model.options.minorHandleValue === model.options.majorHandleValue - model.options.step, true);
     model.options.majorHandleValue = model.options.max + 1;
     model._validateMajorHandleValue();
     assert.equal(model.options.majorHandleValue === model.options.max, true);
@@ -178,9 +178,17 @@ describe('Доступ к параметрам класса Model', () => {
     / model._calculateSliderParameters().step) + model.options.min;
     let min = true;
     model._calculateMovingCoordinates(newTop, length, min);
+    if (value >= model.options.min
+      && value <= model.options.majorHandleValue - model.options.step) {
+      assert.equal(model.options.minorHandleValue, value);
+    }
     assert.equal(model.options.minorHandleValue, value);
+
     min = false;
     model._calculateMovingCoordinates(newTop, length, min);
-    assert.equal(model.options.majorHandleValue, value);
+    if (value >= model.options.max
+      && value >= model.options.minorHandleValue + model.options.step) {
+      assert.equal(model.options.majorHandleValue, value);
+    }
   });
 });

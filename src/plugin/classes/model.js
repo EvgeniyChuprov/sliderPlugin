@@ -103,8 +103,8 @@ class Model extends Observer {
 
   _validateMinorHandleValue() {
     if (this.options.severalHandles) {
-      if (this.options.minorHandleValue > this.options.majorHandleValue) {
-        this.options.minorHandleValue = this.options.majorHandleValue;
+      if (this.options.minorHandleValue >= this.options.majorHandleValue) {
+        this.options.minorHandleValue = this.options.majorHandleValue - this.options.step;
       }
     }
 
@@ -118,8 +118,8 @@ class Model extends Observer {
   }
 
   _validateMajorHandleValue() {
-    if (this.options.majorHandleValue < this.options.minorHandleValue) {
-      this.options.majorHandleValue = this.options.minorHandleValue;
+    if (this.options.majorHandleValue <= this.options.minorHandleValue) {
+      this.options.majorHandleValue = this.options.minorHandleValue + this.options.step;
     }
     if (this.options.majorHandleValue > this.options.max) {
       this.options.majorHandleValue = this.options.max;
@@ -177,7 +177,8 @@ class Model extends Observer {
 
     if (moveMinorHandle) {
       if (value <= this.options.max) {
-        if (value >= this.options.min && value <= this.options.majorHandleValue) {
+        if (value >= this.options.min
+          && value <= this.options.majorHandleValue - this.options.step) {
           if (value !== this.options.minorHandleValue) {
             this.options.minorHandleValue = value;
             this.publish('modelStateChanged', this._calculateSliderParameters(), this.options);
@@ -186,7 +187,8 @@ class Model extends Observer {
       }
     } else if (!moveMinorHandle) {
       if (value >= this.options.min) {
-        if (value <= this.options.max && value >= this.options.minorHandleValue) {
+        if (value <= this.options.max
+          && value >= this.options.minorHandleValue + this.options.step) {
           if (value !== this.options.majorHandleValue) {
             this.options.majorHandleValue = value;
             this.publish('modelStateChanged', this._calculateSliderParameters(), this.options);
