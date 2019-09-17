@@ -20,11 +20,11 @@ class SliderInterface {
     this.$sliderText = this.$sliderInterface.find('.js-slider__text');
     this.options = this.$plugin.myFirstSliderPlugin('get');
     this._showSettingMajorHandleValue();
-    this._changeOutput();
-    this._changeInput();
+    this._showData();
+    this._transferSettings();
   }
 
-  _changeInput() {
+  _transferSettings() {
     this.$min.change(() => {
       this.options.min = +this.$min.val();
       this.options.update(this.options);
@@ -68,7 +68,7 @@ class SliderInterface {
     });
   }
 
-  _changeOutput() {
+  _showData() {
     this.$min.val(this.options.min);
     this.$max.val(this.options.max);
     this.$step.val(this.options.step);
@@ -79,7 +79,7 @@ class SliderInterface {
     this.isDouble.prop('checked', this.options.isDouble);
     this.options.onChange = (options) => {
       this.options = options;
-      this._changeOutput();
+      this._showData();
     };
   }
 
