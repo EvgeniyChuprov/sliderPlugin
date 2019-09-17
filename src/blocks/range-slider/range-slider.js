@@ -1,7 +1,7 @@
 /* eslint no-underscore-dangle: ["error", { "allowAfterThis": true }] */
 require('../../plugin/jquery.myFirstSliderPlugin.js');
 
-class sliderCreate {
+class SliderCreate {
   constructor($element) {
     this.$sliderCreate = $element;
     this._createPlugin();
@@ -13,5 +13,5 @@ class sliderCreate {
   }
 }
 $('.js-range-slider').each((index, element) => {
-    new sliderCreate($(element));
+    new SliderCreate($(element));
 });

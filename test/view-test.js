@@ -40,10 +40,10 @@ describe('Доступ к параметрам класса View', () => {
   });
 
   it('Отображение тултипов', () => {
-    view.options.tool = true;
+    view.options.tooltip = true;
     view._drawSlider();
     assert.equal(view.$toolMin.css('visibility'), 'visible');
-    view.options.tool = false;
+    view.options.tooltip = false;
     view._drawSlider();
     assert.equal(view.$toolMin.css('visibility'), 'hidden');
   });
