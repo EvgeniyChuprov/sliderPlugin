@@ -25,9 +25,9 @@
         <span class='fraction'>46/46</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">72.22% </span>
+        <span class="strong">66.67% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>13/18</span>
+        <span class='fraction'>12/18</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -161,31 +161,31 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -249,12 +249,12 @@ class View extends Observer {
 &nbsp;
   _drawSlider() {
     const {
-      upright, minPoint, maxPoint,
-      isDouble, tool, toolMin,
+      vertical, minPoint, maxPoint,
+      isDouble, tooltip, toolMin,
       toolMax,
     } = this.options;
     const initialPosition = '-10px';
-    const orientation = upright ? 'top' : 'left';
+    const orientation = vertical ? 'top' : 'left';
     this.$minorHandleValue.css(orientation, `${minPoint}%`);
     this.$majorHandleValue.css(orientation, `${maxPoint}%`);
 &nbsp;
@@ -262,21 +262,21 @@ class View extends Observer {
     this.$majorHandleValue.css('display', visibilityMajorHandle);
     this.$toolMax.css('display', visibilityMajorHandle);
 &nbsp;
-    const visibility = tool ? 'visible' : 'hidden';
+    const visibility = tooltip ? <span class="branch-0 cbranch-no" title="branch not covered" >'visible' </span>: 'hidden';
     this.$toolMin.css('visibility', visibility);
     this.$toolMax.css('visibility', visibility);
     this.$toolMin.html(toolMin);
     this.$toolMax.html(toolMax);
 &nbsp;
-    const displacement = upright ? 'left' : 'top';
+    const displacement = vertical ? 'left' : 'top';
 &nbsp;
-    this.$domEl.toggleClass('range-slider_vertical', upright);
+    this.$domEl.toggleClass('range-slider_vertical', vertical);
 &nbsp;
-    this.$minorHandleValue.toggleClass('range-slider__value-min_vertical', upright).css(displacement, initialPosition);
-    this.$majorHandleValue.toggleClass('range-slider__value-max_vertical', upright).css(displacement, initialPosition);
+    this.$minorHandleValue.toggleClass('range-slider__value-min_vertical', vertical).css(displacement, initialPosition);
+    this.$majorHandleValue.toggleClass('range-slider__value-max_vertical', vertical).css(displacement, initialPosition);
 &nbsp;
-    this.$toolMin.toggleClass('range-slider__tool-min_vertical', upright);
-    this.$toolMax.toggleClass('range-slider__tool-max_vertical', upright);
+    this.$toolMin.toggleClass('range-slider__tool-min_vertical', vertical);
+    this.$toolMax.toggleClass('range-slider__tool-max_vertical', vertical);
   }
 &nbsp;
   _findDOMElements() {
@@ -301,12 +301,12 @@ class View extends Observer {
   }
 &nbsp;
   _handleSliderMousemove(e) {
-    const { upright } = this.options;
+    const { vertical } = this.options;
 &nbsp;
-    const sliderCoords = upright
+    const sliderCoords = vertical
       ? <span class="branch-0 cbranch-no" title="branch not covered" >this.$domEl.offset().top </span>: this.$domEl.offset().left;
-    const page = upright ? <span class="branch-0 cbranch-no" title="branch not covered" >e.pageY </span>: e.pageX;
-    const length = upright
+    const page = vertical ? <span class="branch-0 cbranch-no" title="branch not covered" >e.pageY </span>: e.pageX;
+    const length = vertical
       ? <span class="branch-0 cbranch-no" title="branch not covered" >this.$domEl.height() </span>: this.$domEl.width();
     const newPosition = page - sliderCoords;
     this.notifySubscribers('coordinatesChanged', newPosition, length, this.moveMinorHandle);
@@ -325,7 +325,7 @@ export default View;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue Sep 17 2019 12:42:51 GMT+0300 (GMT+03:00)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue Sep 17 2019 13:09:10 GMT+0300 (GMT+03:00)
 </div>
 </div>
 <script src="prettify.js"></script>

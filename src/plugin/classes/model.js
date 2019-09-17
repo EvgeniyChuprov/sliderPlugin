@@ -17,11 +17,12 @@ class Model extends Observer {
 
   _normalizeInputData(opt) {
     this._addMissingValues(opt);
+    this._validateMinorHandleValue();
+    this._validateMajorHandleValue();
     this._validateMinimumValue();
     this._validateMaximumValue();
     this._validateStepValue();
-    this._validateMinorHandleValue();
-    this._validateMajorHandleValue();
+
     this.notifySubscribers('modelStateChanged', this._calculateSliderParameters(), this.options);
   }
 
@@ -136,25 +137,29 @@ class Model extends Observer {
   }
 
   _calculateSliderParameters() {
-    const minPoint = ((this.options.minorHandleValue - this.options.min) * 100)
-    / (this.options.max - this.options.min);
-    const maxPoint = ((this.options.majorHandleValue - this.options.min) * 100)
-    / (this.options.max - this.options.min);
-    const step = 100 / ((this.options.max - this.options.min)
+    const {
+      min, max, majorHandleValue,
+      minorHandleValue, vertical,
+      isDouble, tooltip,
+    } = this.options;
+
+    const minPoint = ((minorHandleValue - min) * 100)
+    / (max - this.options.min);
+    const maxPoint = ((majorHandleValue - min) * 100)
+    / (max - this.options.min);
+    const step = 100 / ((max - min)
     / this.options.step);
-    const upright = this.options.vertical;
-    const toolMin = this.options.minorHandleValue;
-    const toolMax = this.options.majorHandleValue;
-    const tool = this.options.tooltip;
+    const toolMin = minorHandleValue;
+    const toolMax = majorHandleValue;
     return {
       minPoint,
       maxPoint,
       step,
-      upright,
+      vertical,
       toolMin,
       toolMax,
-      isDouble: this.options.isDouble,
-      tool,
+      isDouble,
+      tooltip,
     };
   }
 

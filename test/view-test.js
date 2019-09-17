@@ -10,7 +10,7 @@ describe('Доступ к параметрам класса View', () => {
     step: 1,
     toolMin: 5,
     toolMax: 10,
-    upright: true,
+    vertical: true,
     isDouble: true,
     tool: true,
   };
@@ -31,10 +31,10 @@ describe('Доступ к параметрам класса View', () => {
   it('Присвоение позункам css значения', () => {
     assert.equal(view.$minorHandleValue.css('top'), 'auto');
     assert.equal(view.$minorHandleValue.css('left'), 'auto');
-    view.options.upright = true;
+    view.options.vertical = true;
     view._drawSlider();
     assert.equal(view.$minorHandleValue.css('top'), `${view.options.minPoint}%`);
-    view.options.upright = false;
+    view.options.vertical = false;
     view._drawSlider();
     assert.equal(view.$minorHandleValue.css('left'), `${view.options.minPoint}%`);
   });
@@ -58,10 +58,10 @@ describe('Доступ к параметрам класса View', () => {
   });
 
   it('Позиционирование слайдера', () => {
-    view.options.upright = true;
+    view.options.vertical = true;
     view._drawSlider();
     assert.equal(view.$minorHandleValue.hasClass('range-slider__value-min_vertical'), true);
-    view.options.upright = false;
+    view.options.vertical = false;
     view._drawSlider();
     assert.equal(view.$minorHandleValue.hasClass('range-slider__value-min_vertical'), false);
   });
