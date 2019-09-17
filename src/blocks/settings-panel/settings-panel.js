@@ -8,6 +8,14 @@ class SliderInterface {
   }
 
   _initMenu() {
+    this._findDOMElements();
+    this.options = this.$plugin.myFirstSliderPlugin('get');
+    this._showSettingMajorHandleValue();
+    this._showData();
+    this._transferSettings();
+  }
+
+  _findDOMElements() {
     this.$min = this.$sliderInterface.find('.js-slider__min');
     this.$max = this.$sliderInterface.find('.js-slider__max');
     this.$step = this.$sliderInterface.find('.js-slider__step');
@@ -18,10 +26,6 @@ class SliderInterface {
     this.isDouble = this.$sliderInterface.find('.js-slider__is-double');
     this.$plugin = this.$sliderInterface.find('.js-range-slider');
     this.$sliderText = this.$sliderInterface.find('.js-slider__text');
-    this.options = this.$plugin.myFirstSliderPlugin('get');
-    this._showSettingMajorHandleValue();
-    this._showData();
-    this._transferSettings();
   }
 
   _transferSettings() {
