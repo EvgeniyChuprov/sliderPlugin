@@ -78,11 +78,8 @@ class SliderInterface {
     this.$vertical.prop('checked', this.options.vertical);
     this.isDouble.prop('checked', this.options.isDouble);
     this.options.onChange = (options) => {
-      this.$minorHandleValue.val(options.minorHandleValue);
-      this.$majorHandleValue.val(options.majorHandleValue);
-      this.$min.val(options.min);
-      this.$max.val(options.max);
-      this.$step.val(options.step);
+      this.options = options;
+      this._changeOutput();
     };
   }
 
