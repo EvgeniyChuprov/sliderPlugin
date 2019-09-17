@@ -71,7 +71,7 @@ describe('Доступ к параметрам класса Model', () => {
   });
 
   it('Проверка измения минимума', () => {
-    model.options.min = model.options.minorHandleValue + 100;
+    model.options.min = model.options.minorHandleValue + 1;
     model._validateMinimumValue();
     assert.equal(model.options.min <= model.options.minorHandleValue, true);
     model.options.minorHandleValue = model.options.max;
@@ -83,11 +83,11 @@ describe('Доступ к параметрам класса Model', () => {
   it('Проверка изменения максимума', () => {
     model._addMissingValues(externalOptions);
     model.options.isDouble = true;
-    model.options.max = model.options.majorHandleValue - 100;
+    model.options.max = model.options.majorHandleValue - 1;
     model._validateMaximumValue();
     assert.equal(model.options.max >= model.options.majorHandleValue, true);
     model.options.isDouble = false;
-    model.options.max = model.options.minorHandleValue - 100;
+    model.options.max = model.options.minorHandleValue - 1;
     model._validateMaximumValue();
     assert.equal(model.options.max >= model.options.minorHandleValue, true);
     model.options.minorHandleValue = model.options.min;

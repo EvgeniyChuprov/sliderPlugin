@@ -23,6 +23,7 @@ class View extends Observer {
       isDouble, tooltip, toolMin,
       toolMax,
     } = this.options;
+
     const initialPosition = '-10px';
     const orientation = vertical ? 'top' : 'left';
     this.$minorHandleValue.css(orientation, `${minPoint}%`);
