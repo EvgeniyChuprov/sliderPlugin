@@ -13,7 +13,7 @@ describe('Доступ к параметрам класса Model', () => {
     majorHandleValue: 70,
     vertical: false,
     tooltip: true,
-    severalHandles: true,
+    isDouble: true,
     onChange: null,
     update: null,
   };
@@ -82,11 +82,11 @@ describe('Доступ к параметрам класса Model', () => {
 
   it('Проверка изменения максимума', () => {
     model._addMissingValues(externalOptions);
-    model.options.severalHandles = true;
+    model.options.isDouble = true;
     model.options.max = model.options.majorHandleValue - 100;
     model._validateMaximumValue();
     assert.equal(model.options.max >= model.options.majorHandleValue, true);
-    model.options.severalHandles = false;
+    model.options.isDouble = false;
     model.options.max = model.options.minorHandleValue - 100;
     model._validateMaximumValue();
     assert.equal(model.options.max >= model.options.minorHandleValue, true);
@@ -108,14 +108,14 @@ describe('Доступ к параметрам класса Model', () => {
 
   it('Проверка изменения меньшего ползунка', () => {
     model._addMissingValues(externalOptions);
-    model.options.severalHandles = true;
+    model.options.isDouble = true;
     model.options.minorHandleValue = model.options.majorHandleValue + 1;
     model._validateMinorHandleValue();
     assert.equal(model.options.minorHandleValue === model.options.majorHandleValue - model.options.step, true);
     model.options.minorHandleValue = model.options.min - 1;
     model._validateMinorHandleValue();
     assert.equal(model.options.minorHandleValue === model.options.min, true);
-    model.options.severalHandles = false;
+    model.options.isDouble = false;
     model.options.minorHandleValue = model.options.max + 1;
     model._validateMinorHandleValue();
     assert.equal(model.options.minorHandleValue === model.options.max, true);
@@ -123,7 +123,7 @@ describe('Доступ к параметрам класса Model', () => {
 
   it('Проверка изменения большего ползунка', () => {
     model._addMissingValues(externalOptions);
-    model.options.severalHandles = true;
+    model.options.isDouble = true;
     model.options.majorHandleValue = model.options.minorHandleValue - 1;
     model._validateMajorHandleValue();
     assert.equal(model.options.minorHandleValue === model.options.majorHandleValue - model.options.step, true);
@@ -156,14 +156,14 @@ describe('Доступ к параметрам класса Model', () => {
     const positionSlider = model.options.step * Math.round(shiftPercentage
      / model._calculateSliderParameters().step) + model.options.min;
 
-    model.options.severalHandles = true;
+    model.options.isDouble = true;
     model._calculateMovingCoordinatesByClick(newTop, length);
     if (positionSlider - model.options.min < middle) {
       assert.equal(model.options.minorHandleValue, positionSlider);
     } else {
       assert.equal(model.options.majorHandleValue, positionSlider);
     }
-    model.options.severalHandles = false;
+    model.options.isDouble = false;
     model._calculateMovingCoordinatesByClick(newTop, length);
     assert.equal(model.options.minorHandleValue, positionSlider);
   });

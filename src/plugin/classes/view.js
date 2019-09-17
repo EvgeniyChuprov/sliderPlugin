@@ -20,7 +20,7 @@ class View extends Observer {
   _drawSlider() {
     const {
       upright, minPoint, maxPoint,
-      severalHandles, tool, toolMin,
+      isDouble, tool, toolMin,
       toolMax,
     } = this.options;
     const initialPosition = '-10px';
@@ -28,7 +28,7 @@ class View extends Observer {
     this.$minorHandleValue.css(orientation, `${minPoint}%`);
     this.$majorHandleValue.css(orientation, `${maxPoint}%`);
 
-    const visibilityMajorHandle = severalHandles ? 'block' : 'none';
+    const visibilityMajorHandle = isDouble ? 'block' : 'none';
     this.$majorHandleValue.css('display', visibilityMajorHandle);
     this.$toolMax.css('display', visibilityMajorHandle);
 

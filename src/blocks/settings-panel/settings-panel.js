@@ -15,7 +15,7 @@ class SliderInterface {
     this.$majorHandleValue = this.$sliderInterface.find('.slider__input-value-max');
     this.$vertical = this.$sliderInterface.find('.slider__vertically-horizontally');
     this.$tooltip = this.$sliderInterface.find('.slider__tooltip');
-    this.$severalHandles = this.$sliderInterface.find('.slider__two-slider');
+    this.isDouble = this.$sliderInterface.find('.slider__two-slider');
     this.$plugin = this.$sliderInterface.find('.js-range-slider');
     this.$sliderText = this.$sliderInterface.find('.slider__text:last');
     this.options = this.$plugin.myFirstSliderPlugin('get');
@@ -60,8 +60,8 @@ class SliderInterface {
       this.options.update(this.options);
     });
 
-    this.$severalHandles.change(() => {
-      this.options.severalHandles = this.$severalHandles.is(':checked');
+    this.isDouble.change(() => {
+      this.options.isDouble = this.isDouble.is(':checked');
       this.options.update(this.options);
 
       this._showSettingMajorHandleValue();
@@ -76,7 +76,7 @@ class SliderInterface {
     this.$majorHandleValue.val(this.options.majorHandleValue);
     this.$tooltip.prop('checked', this.options.tooltip);
     this.$vertical.prop('checked', this.options.vertical);
-    this.$severalHandles.prop('checked', this.options.severalHandles);
+    this.isDouble.prop('checked', this.options.isDouble);
     this.options.onChange = (options) => {
       this.$minorHandleValue.val(options.minorHandleValue);
       this.$majorHandleValue.val(options.majorHandleValue);
@@ -87,7 +87,7 @@ class SliderInterface {
   }
 
   _showSettingMajorHandleValue() {
-    const visibilityMajorHandle = this.options.severalHandles ? 'block' : 'none';
+    const visibilityMajorHandle = this.options.isDouble ? 'block' : 'none';
     this.$majorHandleValue.css('display', visibilityMajorHandle);
     this.$sliderText.css('display', visibilityMajorHandle);
   }

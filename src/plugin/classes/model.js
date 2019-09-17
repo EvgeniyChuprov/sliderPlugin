@@ -34,7 +34,7 @@ class Model extends Observer {
       majorHandleValue: 90,
       vertical: false,
       tooltip: true,
-      severalHandles: true,
+      isDouble: true,
       onChange: null,
       update: null,
     };
@@ -60,8 +60,8 @@ class Model extends Observer {
     if (typeof opt.tooltip === 'boolean') {
       this.options.tooltip = opt.tooltip;
     }
-    if (typeof opt.severalHandles === 'boolean') {
-      this.options.severalHandles = opt.severalHandles;
+    if (typeof opt.isDouble === 'boolean') {
+      this.options.isDouble = opt.isDouble;
     }
     this.options.onChange = opt.onChange;
     this.options.update = opt.update;
@@ -77,7 +77,7 @@ class Model extends Observer {
   }
 
   _validateMaximumValue() {
-    if (this.options.severalHandles) {
+    if (this.options.isDouble) {
       if (this.options.max < this.options.majorHandleValue) {
         this.options.max = this.options.majorHandleValue;
       }
@@ -102,7 +102,7 @@ class Model extends Observer {
   }
 
   _validateMinorHandleValue() {
-    if (this.options.severalHandles) {
+    if (this.options.isDouble) {
       if (this.options.minorHandleValue + this.options.step > this.options.majorHandleValue) {
         this.options.minorHandleValue = this.options.majorHandleValue - this.options.step;
       }
@@ -130,7 +130,7 @@ class Model extends Observer {
     if (this.options.majorHandleValue > this.options.max) {
       this.options.majorHandleValue = this.options.max;
     }
-    if (!this.options.severalHandles) {
+    if (!this.options.isDouble) {
       this.options.majorHandleValue = this.options.max;
     }
   }
@@ -153,7 +153,7 @@ class Model extends Observer {
       upright,
       toolMin,
       toolMax,
-      severalHandles: this.options.severalHandles,
+      isDouble: this.options.isDouble,
       tool,
     };
   }
@@ -164,7 +164,7 @@ class Model extends Observer {
     const positionSlider = this.options.step * Math.round(shiftPercentage
      / this._calculateSliderParameters().step) + this.options.min;
 
-    if (this.options.severalHandles) {
+    if (this.options.isDouble) {
       if (positionSlider - this.options.min < middle) {
         if (positionSlider < this.options.majorHandleValue) {
           this.options.minorHandleValue = positionSlider;
@@ -190,7 +190,7 @@ class Model extends Observer {
 
     if (moveMinorHandle) {
       if (value <= this.options.max && value >= this.options.min) {
-        if (this.options.severalHandles) {
+        if (this.options.isDouble) {
           if (value <= this.options.majorHandleValue - this.options.step) {
             this.options.minorHandleValue = value;
             this.publish('modelStateChanged', this._calculateSliderParameters(), this.options);

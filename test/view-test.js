@@ -11,7 +11,7 @@ describe('Доступ к параметрам класса View', () => {
     toolMin: 5,
     toolMax: 10,
     upright: true,
-    severalHandles: true,
+    isDouble: true,
     tool: true,
   };
 
@@ -49,10 +49,10 @@ describe('Доступ к параметрам класса View', () => {
   });
 
   it('Отображение двух слайдеров', () => {
-    view.options.severalHandles = true;
+    view.options.isDouble = true;
     view._drawSlider();
     assert.equal(view.$majorHandleValue.css('display'), 'block');
-    view.options.severalHandles = false;
+    view.options.isDouble = false;
     view._drawSlider();
     assert.equal(view.$majorHandleValue.css('display'), 'none');
   });
