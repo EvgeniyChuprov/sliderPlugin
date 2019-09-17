@@ -192,74 +192,58 @@ class Model extends Observer {
     };
   }
 
-  _calculateMovingCoordinatesByClick(newTop, length) {
+  _calculateCoordinates(position, length, moveMinorHandle) {
     const {
       min, max, step, minorHandleValue,
       majorHandleValue, isDouble,
     } = this.options;
 
-    const shiftPercentage = (newTop * 100) / length;
+    const shiftPercentage = (position * 100) / length;
     const middle = (max - min) / 2;
     const positionSlider = step * Math.round(shiftPercentage
      / this._calculateSliderParameters().step) + min;
 
-    if (isDouble) {
-      if (positionSlider - min < middle) {
-        if (positionSlider < majorHandleValue) {
-          this.options.minorHandleValue = positionSlider;
-        }
-      } else {
-        // eslint-disable-next-line no-lonely-if
-        if (positionSlider > minorHandleValue) {
-          if (positionSlider <= max) {
-            this.options.majorHandleValue = positionSlider;
-          }
-        }
-      }
-    } else {
-      this.options.minorHandleValue = positionSlider;
-    }
-    this.notifySubscribers('modelStateChanged', this._calculateSliderParameters(), this.options);
-  }
 
-  _calculateMovingCoordinates(newTop, length, moveMinorHandle) {
-    const {
-      min, max, step, minorHandleValue,
-      majorHandleValue, isDouble,
-    } = this.options;
-
-    const shiftPercentage = (newTop * 100) / length;
-    const value = step * Math.round(shiftPercentage
-    / this._calculateSliderParameters().step) + min;
-
-    if (moveMinorHandle) {
-      if (value <= max && value >= min) {
-        if (isDouble) {
-          if (value <= majorHandleValue - step) {
-            this.options.minorHandleValue = value;
+    if (typeof moveMinorHandle === 'boolean') {
+      if (moveMinorHandle) {
+        if (positionSlider <= max && positionSlider >= min) {
+          if (isDouble) {
+            if (positionSlider <= majorHandleValue - step) {
+              this.options.minorHandleValue = positionSlider;
+              this.notifySubscribers('modelStateChanged', this._calculateSliderParameters(), this.options);
+            }
+          } else {
+            this.options.minorHandleValue = positionSlider;
             this.notifySubscribers('modelStateChanged', this._calculateSliderParameters(), this.options);
           }
-        } else {
-          this.options.minorHandleValue = value;
-          this.notifySubscribers('modelStateChanged', this._calculateSliderParameters(), this.options);
+        }
+      } else if (!moveMinorHandle) {
+        if (positionSlider >= min) {
+          if (positionSlider <= max
+            && positionSlider >= minorHandleValue + step) {
+            this.options.majorHandleValue = positionSlider;
+            this.notifySubscribers('modelStateChanged', this._calculateSliderParameters(), this.options);
+          }
         }
       }
-    } else if (!moveMinorHandle) {
-      if (value >= min) {
-        if (value <= max
-          && value >= minorHandleValue + step) {
-          this.options.majorHandleValue = value;
-          this.notifySubscribers('modelStateChanged', this._calculateSliderParameters(), this.options);
-        }
-      }
-    }
-  }
-
-  _calculateCoordinates(newTop, length, moveMinorHandle) {
-    if (typeof moveMinorHandle === 'boolean') {
-      this._calculateMovingCoordinates(newTop, length, moveMinorHandle);
     } else if (moveMinorHandle === null) {
-      this._calculateMovingCoordinatesByClick(newTop, length);
+      if (isDouble) {
+        if (positionSlider - min < middle) {
+          if (positionSlider < majorHandleValue) {
+            this.options.minorHandleValue = positionSlider;
+          }
+        } else {
+          // eslint-disable-next-line no-lonely-if
+          if (positionSlider > minorHandleValue) {
+            if (positionSlider <= max) {
+              this.options.majorHandleValue = positionSlider;
+            }
+          }
+        }
+      } else {
+        this.options.minorHandleValue = positionSlider;
+      }
+      this.notifySubscribers('modelStateChanged', this._calculateSliderParameters(), this.options);
     }
   }
 }

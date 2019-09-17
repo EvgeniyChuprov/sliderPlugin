@@ -20,8 +20,8 @@ describe('Доступ к параметрам класса Model', () => {
 
   const _normalizeInputData = sinon.spy(model, '_normalizeInputData');
   const _calculateCoordinates = sinon.spy(model, '_calculateCoordinates');
-  const _calculateMovingCoordinatesByClick = sinon.spy(model, '_calculateMovingCoordinatesByClick');
-  const _calculateMovingCoordinates = sinon.spy(model, '_calculateMovingCoordinates');
+  // const _calculateMovingCoordinatesByClick = sinon.spy(model, '_calculateMovingCoordinatesByClick');
+  // const _calculateMovingCoordinates = sinon.spy(model, '_calculateMovingCoordinates');
   const notifySubscribers = sinon.spy(model, 'notifySubscribers');
 
   it('Проверка получения параметров по умолчанию', () => {
@@ -55,19 +55,19 @@ describe('Доступ к параметрам класса Model', () => {
   });
 
   it('Проверка вызова _calculateMovingCoordinates в методе _calculateCoordinates', () => {
-    const newTop = 10;
-    const length = 10;
-    const moveMinorHandle = true;
-    model._calculateCoordinates(newTop, length, moveMinorHandle);
-    assert(_calculateMovingCoordinates.called);
+    // const position = 10;
+    // const length = 10;
+    // const moveMinorHandle = true;
+    // model._calculateCoordinates(position, length, moveMinorHandle);
+    // assert(_calculateMovingCoordinates.called);
   });
 
   it('Проверка вызова _calculateMovingCoordinatesByClick в методе _calculateCoordinates', () => {
-    const newTop = 10;
-    const length = 10;
-    const moveMinorHandle = null;
-    model._calculateCoordinates(newTop, length, moveMinorHandle);
-    assert(_calculateMovingCoordinatesByClick.called);
+    // const position = 10;
+    // const length = 10;
+    // const moveMinorHandle = null;
+    // model._calculateCoordinates(position, length, moveMinorHandle);
+    // assert(_calculateMovingCoordinatesByClick.called);
   });
 
   it('Проверка измения минимума', () => {
@@ -149,43 +149,44 @@ describe('Доступ к параметрам класса Model', () => {
   it('Проверка расчета перемещения по клику', () => {
     model._addMissingValues(externalOptions);
     model.options.onChange = x => x;
-    const newTop = 2;
+    const position = 2;
     const length = 10;
-    const shiftPercentage = (newTop * 100) / length;
+    const shiftPercentage = (position * 100) / length;
     const middle = (model.options.max - model.options.min) / 2;
     const positionSlider = model.options.step * Math.round(shiftPercentage
      / model._calculateSliderParameters().step) + model.options.min;
 
+    const moveMinorHandle = null;
     model.options.isDouble = true;
-    model._calculateMovingCoordinatesByClick(newTop, length);
+    model._calculateCoordinates(position, length, moveMinorHandle);
     if (positionSlider - model.options.min < middle) {
       assert.equal(model.options.minorHandleValue, positionSlider);
     } else {
       assert.equal(model.options.majorHandleValue, positionSlider);
     }
     model.options.isDouble = false;
-    model._calculateMovingCoordinatesByClick(newTop, length);
+    model._calculateCoordinates(position, length, moveMinorHandle);
     assert.equal(model.options.minorHandleValue, positionSlider);
   });
 
   it('Проверка расчета перетаскивания ползунка', () => {
     model._addMissingValues(externalOptions);
     model.options.onChange = x => x;
-    const newTop = 10;
+    const position = 10;
     const length = 20;
-    const shiftPercentage = (newTop * 100) / length;
+    const shiftPercentage = (position * 100) / length;
     const value = model.options.step * Math.round(shiftPercentage
     / model._calculateSliderParameters().step) + model.options.min;
-    let min = true;
-    model._calculateMovingCoordinates(newTop, length, min);
+    let moveMinorHandle = true;
+    model._calculateCoordinates(position, length, moveMinorHandle);
     if (value >= model.options.min
       && value <= model.options.majorHandleValue - model.options.step) {
       assert.equal(model.options.minorHandleValue, value);
     }
     assert.equal(model.options.minorHandleValue, value);
 
-    min = false;
-    model._calculateMovingCoordinates(newTop, length, min);
+    moveMinorHandle = false;
+    model._calculateCoordinates(position, length, moveMinorHandle);
     if (value >= model.options.max
       && value >= model.options.minorHandleValue + model.options.step) {
       assert.equal(model.options.majorHandleValue, value);
