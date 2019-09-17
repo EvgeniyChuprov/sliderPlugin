@@ -22,7 +22,7 @@ describe('Доступ к параметрам класса Model', () => {
   const _calculateCoordinates = sinon.spy(model, '_calculateCoordinates');
   const _calculateMovingCoordinatesByClick = sinon.spy(model, '_calculateMovingCoordinatesByClick');
   const _calculateMovingCoordinates = sinon.spy(model, '_calculateMovingCoordinates');
-  const publish = sinon.spy(model, 'publish');
+  const notifySubscribers = sinon.spy(model, 'notifySubscribers');
 
   it('Проверка получения параметров по умолчанию', () => {
     const emptyObj = {};
@@ -49,9 +49,9 @@ describe('Доступ к параметрам класса Model', () => {
     assert(_calculateCoordinates.called);
   });
 
-  it('Проверка вызова publish в методе _normalizeInputData', () => {
+  it('Проверка вызова notifySubscribers в методе _normalizeInputData', () => {
     model._normalizeInputData(externalOptions);
-    assert(publish.called);
+    assert(notifySubscribers.called);
   });
 
   it('Проверка вызова _calculateMovingCoordinates в методе _calculateCoordinates', () => {

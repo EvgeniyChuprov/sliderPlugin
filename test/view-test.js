@@ -26,7 +26,7 @@ describe('Доступ к параметрам класса View', () => {
   const _handleSliderMousemove = sinon.spy(view, '_handleSliderMousemove');
   const _handleSliderMousedown = sinon.spy(view, '_handleSliderMousedown');
   const _handleSliderMouseup = sinon.spy(view, '_handleSliderMouseup');
-  const publish = sinon.spy(view, 'publish');
+  const notifySubscribers = sinon.spy(view, 'notifySubscribers');
 
   it('Присвоение позункам css значения', () => {
     assert.equal(view.$minorHandleValue.css('top'), 'auto');
@@ -66,9 +66,9 @@ describe('Доступ к параметрам класса View', () => {
     assert.equal(view.$minorHandleValue.hasClass('range-slider__value-min_vertical'), false);
   });
 
-  it('Проверка вызова publish в методе _handleSliderMousemove', () => {
+  it('Проверка вызова notifySubscribers в методе _handleSliderMousemove', () => {
     view._handleSliderMousemove({});
-    assert(publish.called);
+    assert(notifySubscribers.called);
   });
 
   it('Проверка вызова _drawSlider в методе processEvent', () => {

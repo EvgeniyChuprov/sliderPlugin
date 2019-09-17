@@ -13,16 +13,14 @@ import View from './classes/view';
       this.view = new View(this);
       this.controller = new Controller(options, this);
 
-      return this.each(() => {
-        this.controller.subscribe(this.model.processEvent.bind(this.model));
-        this.controller.subscribe(this.view.processEvent.bind(this.view));
-        this.model.subscribe(this.controller.processEvent.bind(this.controller));
-        this.view.subscribe(this.controller.processEvent.bind(this.controller));
+      this.controller.addSubscriber(this.model.processEvent.bind(this.model));
+      this.controller.addSubscriber(this.view.processEvent.bind(this.view));
+      this.model.addSubscriber(this.controller.processEvent.bind(this.controller));
+      this.view.addSubscriber(this.controller.processEvent.bind(this.controller));
 
-        this.controller.init();
+      this.controller.init();
 
-        this.data('setting', this.model.options);
-      });
+      this.data('setting', this.model.options);
     },
     get() {
       return this.data('setting');

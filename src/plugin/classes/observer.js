@@ -4,15 +4,15 @@ class Observer {
     this._subscribers = [];
   }
 
-  subscribe(subscriber) {
+  addSubscriber(subscriber) {
     this._subscribers.push(subscriber);
   }
 
-  unsubscribe(subscriber) {
+  removeSubscriber(subscriber) {
     this._subscribers.splice(this._subscribers.indexOf(subscriber), 1);
   }
 
-  publish(...parameters) {
+  notifySubscribers(...parameters) {
     this._subscribers.forEach((subscriber) => {
       subscriber(...parameters);
     });

@@ -79,7 +79,7 @@ class View extends Observer {
     const length = upright
       ? this.$domEl.height() : this.$domEl.width();
     const newPosition = page - sliderCoords;
-    this.publish('coordinatesChanged', newPosition, length, this.moveMinorHandle);
+    this.notifySubscribers('coordinatesChanged', newPosition, length, this.moveMinorHandle);
   }
 
   _handleSliderMouseup() {

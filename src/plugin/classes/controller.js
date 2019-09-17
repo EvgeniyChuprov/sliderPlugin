@@ -9,7 +9,7 @@ class Controller extends Observer {
   }
 
   init() {
-    this.publish('parametersChanged', this.options);
+    this.notifySubscribers('parametersChanged', this.options);
   }
 
   processEvent(event, ...arg) {
@@ -29,15 +29,15 @@ class Controller extends Observer {
   }
 
   _createView(data, options) {
-    this.publish('drawSlider', data);
+    this.notifySubscribers('drawSlider', data);
     this.options = options;
     this.options.update = (value) => {
-      this.publish('parametersChanged', value);
+      this.notifySubscribers('parametersChanged', value);
     };
   }
 
   _moveSlider(newTop, length, moveMinorHandle) {
-    this.publish('coordinatesChanged', newTop, length, moveMinorHandle);
+    this.notifySubscribers('coordinatesChanged', newTop, length, moveMinorHandle);
   }
 }
 

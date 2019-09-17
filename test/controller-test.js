@@ -8,11 +8,11 @@ describe('Проверка вызова внутрених методов кла
 
   const _moveSlider = sinon.spy(controller, '_moveSlider');
   const _createView = sinon.spy(controller, '_createView');
-  const publish = sinon.spy(controller, 'publish');
+  const notifySubscribers = sinon.spy(controller, 'notifySubscribers');
 
-  it('Проверка вызова publish в функции init', () => {
+  it('Проверка вызова notifySubscribers в функции init', () => {
     controller.init();
-    assert(publish.called);
+    assert(notifySubscribers.called);
   });
 
   it('Проверка вызова _moveSlider в методе processEvent', () => {
@@ -25,8 +25,8 @@ describe('Проверка вызова внутрених методов кла
     assert(_createView.called);
   });
 
-  it('Проверка вызова publish в функции controller.options.update', () => {
+  it('Проверка вызова notifySubscribers в функции controller.options.update', () => {
     controller.options.update(1);
-    assert(publish.called);
+    assert(notifySubscribers.called);
   });
 });

@@ -9,18 +9,18 @@ describe('Проверка вызова внутрених методов кла
   const splice = sinon.spy(observer._subscribers, 'splice');
   const forEach = sinon.spy(observer._subscribers, 'forEach');
 
-  it('Проверка вызова push в функции subscribe', () => {
-    observer.subscribe();
+  it('Проверка вызова push в функции addSubscriber', () => {
+    observer.addSubscriber();
     assert(push.called);
   });
   
-  it('Проверка вызова splice в функции unsubscribe', () => {
-    observer.unsubscribe();
+  it('Проверка вызова splice в функции removeSubscriber', () => {
+    observer.removeSubscriber();
     assert(splice.called);
   });
 
-  it('Проверка вызова forEach в функции publish', () => {
-    observer.publish();
+  it('Проверка вызова forEach в функции notifySubscribers', () => {
+    observer.notifySubscribers();
     assert(forEach.called);
   });
 });

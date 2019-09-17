@@ -22,7 +22,7 @@ class Model extends Observer {
     this._validateStepValue();
     this._validateMinorHandleValue();
     this._validateMajorHandleValue();
-    this.publish('modelStateChanged', this._calculateSliderParameters(), this.options);
+    this.notifySubscribers('modelStateChanged', this._calculateSliderParameters(), this.options);
   }
 
   _addMissingValues(opt) {
@@ -180,7 +180,7 @@ class Model extends Observer {
     } else {
       this.options.minorHandleValue = positionSlider;
     }
-    this.publish('modelStateChanged', this._calculateSliderParameters(), this.options);
+    this.notifySubscribers('modelStateChanged', this._calculateSliderParameters(), this.options);
   }
 
   _calculateMovingCoordinates(newTop, length, moveMinorHandle) {
@@ -193,11 +193,11 @@ class Model extends Observer {
         if (this.options.isDouble) {
           if (value <= this.options.majorHandleValue - this.options.step) {
             this.options.minorHandleValue = value;
-            this.publish('modelStateChanged', this._calculateSliderParameters(), this.options);
+            this.notifySubscribers('modelStateChanged', this._calculateSliderParameters(), this.options);
           }
         } else {
           this.options.minorHandleValue = value;
-          this.publish('modelStateChanged', this._calculateSliderParameters(), this.options);
+          this.notifySubscribers('modelStateChanged', this._calculateSliderParameters(), this.options);
         }
       }
     } else if (!moveMinorHandle) {
@@ -205,7 +205,7 @@ class Model extends Observer {
         if (value <= this.options.max
           && value >= this.options.minorHandleValue + this.options.step) {
           this.options.majorHandleValue = value;
-          this.publish('modelStateChanged', this._calculateSliderParameters(), this.options);
+          this.notifySubscribers('modelStateChanged', this._calculateSliderParameters(), this.options);
         }
       }
     }
