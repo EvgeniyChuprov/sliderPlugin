@@ -12,7 +12,7 @@
     height: 100%;
   }
 
-  &__value-min {
+  &__handle {
     width: 1.6rem;
     height: 1.6rem;
     border-radius: 0.18rem;
@@ -29,7 +29,7 @@
     }
   }
 
-  &__value-max {
+  &__second-handle {
     width: 1.6rem;
     height: 1.6rem;
     border-radius: 50%;
@@ -46,7 +46,7 @@
   }
 
   &__tool {
-    &-min {
+    &-handle {
       text-align: center;
       line-height: 1.6rem;
       width: 1.6rem;
@@ -63,7 +63,7 @@
       }
     }
 
-    &-max {
+    &-second-handle {
       text-align: center;
       line-height: 1.6rem;
       width: 1.6rem;

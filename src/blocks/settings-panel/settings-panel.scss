@@ -33,26 +33,24 @@
     color: white;
   }
 
-  &__input {
-    &-min {
-      @extend %input-setting;
-    }
+  &__min {
+    @extend %input-setting;
+  }
 
-    &-max {
-      @extend %input-setting;
-    }
+  &__max {
+    @extend %input-setting;
+  }
 
-    &-step {
-      @extend %input-setting;
-    }
+  &__step {
+    @extend %input-setting;
+  }
 
-    &-value-min {
-      @extend %input-setting;
-    }
+  &__handle {
+    @extend %input-setting;
+  }
 
-    &-value-max {
-      @extend %input-setting;
-    }
+  &__second-handle {
+    @extend %input-setting;
   }
 
   &__plugin {

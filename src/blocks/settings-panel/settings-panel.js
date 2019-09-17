@@ -8,16 +8,16 @@ class SliderInterface {
   }
 
   _initMenu() {
-    this.$min = this.$sliderInterface.find('.slider__input-min');
-    this.$max = this.$sliderInterface.find('.slider__input-max');
-    this.$step = this.$sliderInterface.find('.slider__input-step');
-    this.$minorHandleValue = this.$sliderInterface.find('.slider__input-value-min');
-    this.$majorHandleValue = this.$sliderInterface.find('.slider__input-value-max');
-    this.$vertical = this.$sliderInterface.find('.slider__vertically-horizontally');
-    this.$tooltip = this.$sliderInterface.find('.slider__tooltip');
-    this.isDouble = this.$sliderInterface.find('.slider__two-slider');
+    this.$min = this.$sliderInterface.find('.js-slider__min');
+    this.$max = this.$sliderInterface.find('.js-slider__max');
+    this.$step = this.$sliderInterface.find('.js-slider__step');
+    this.$minorHandleValue = this.$sliderInterface.find('.js-slider__handle');
+    this.$majorHandleValue = this.$sliderInterface.find('.js-slider__second-handle');
+    this.$vertical = this.$sliderInterface.find('.js-slider__vertical');
+    this.$tooltip = this.$sliderInterface.find('.js-slider__tooltip');
+    this.isDouble = this.$sliderInterface.find('.js-slider__is-double');
     this.$plugin = this.$sliderInterface.find('.js-range-slider');
-    this.$sliderText = this.$sliderInterface.find('.slider__text:last');
+    this.$sliderText = this.$sliderInterface.find('.js-slider__text');
     this.options = this.$plugin.myFirstSliderPlugin('get');
     this._showSettingMajorHandleValue();
     this._changeOutput();

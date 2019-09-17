@@ -15,8 +15,10 @@ describe('Доступ к параметрам класса View', () => {
     tool: true,
   };
 
-  const create = $(`<div class="range-slider js-range-slider"><div class="range-slider__value-min" ><div class = "range-slider__tool-min" ></div></div>
-        <div class="range-slider__value-max" ><div class = "range-slider__tool-max" ></div></div></div>`);
+  const create = $(`<div class="range-slider js-range-slider"><div class="range-slider__handle js-range-slider__handle" >
+  <span class = "range-slider__tool-handle js-range-slider__tool-handle" ></span></div>
+  <div class="range-slider__second-handle js-range-slider__second-handle" >
+  <span class = "range-slider__tool-second-handle js-range-slider__tool-second-handle" ></span></div></div>`);
   const $dom = $('body').append(create);
   const $domEl = $dom.find('.js-range-slider');
   const view = new View($domEl);
@@ -60,10 +62,10 @@ describe('Доступ к параметрам класса View', () => {
   it('Позиционирование слайдера', () => {
     view.options.vertical = true;
     view._drawSlider();
-    assert.equal(view.$minorHandleValue.hasClass('range-slider__value-min_vertical'), true);
+    assert.equal(view.$minorHandleValue.hasClass('range-slider__handle_vertical'), true);
     view.options.vertical = false;
     view._drawSlider();
-    assert.equal(view.$minorHandleValue.hasClass('range-slider__value-min_vertical'), false);
+    assert.equal(view.$minorHandleValue.hasClass('range-slider__handle_vertical'), false);
   });
 
   it('Проверка вызова notifySubscribers в методе _handleSliderMousemove', () => {

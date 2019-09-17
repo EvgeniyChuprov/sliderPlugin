@@ -43,18 +43,18 @@ class View extends Observer {
 
     this.$domEl.toggleClass('range-slider_vertical', vertical);
 
-    this.$minorHandleValue.toggleClass('range-slider__value-min_vertical', vertical).css(displacement, initialPosition);
-    this.$majorHandleValue.toggleClass('range-slider__value-max_vertical', vertical).css(displacement, initialPosition);
+    this.$minorHandleValue.toggleClass('range-slider__handle_vertical', vertical).css(displacement, initialPosition);
+    this.$majorHandleValue.toggleClass('range-slider__second-handle_vertical', vertical).css(displacement, initialPosition);
 
-    this.$toolMin.toggleClass('range-slider__tool-min_vertical', vertical);
-    this.$toolMax.toggleClass('range-slider__tool-max_vertical', vertical);
+    this.$toolMin.toggleClass('range-slider__tool-handle_vertical', vertical);
+    this.$toolMax.toggleClass('range-slider__tool-second-handle_vertical', vertical);
   }
 
   _findDOMElements() {
-    this.$minorHandleValue = this.$domEl.find('.range-slider__value-min');
-    this.$majorHandleValue = this.$domEl.find('.range-slider__value-max');
-    this.$toolMin = this.$domEl.find('.range-slider__tool-min');
-    this.$toolMax = this.$domEl.find('.range-slider__tool-max');
+    this.$minorHandleValue = this.$domEl.find('.js-range-slider__handle');
+    this.$majorHandleValue = this.$domEl.find('.js-range-slider__second-handle');
+    this.$toolMin = this.$domEl.find('.js-range-slider__tool-handle');
+    this.$toolMax = this.$domEl.find('.js-range-slider__tool-second-handle');
   }
 
   _addEventListeners() {
@@ -65,7 +65,7 @@ class View extends Observer {
 
   _handleSliderMousedown(e) {
     if (e.target.nodeName !== 'SPAN') {
-      this.moveMinorHandle = $(e.target).hasClass('range-slider__value-min');
+      this.moveMinorHandle = $(e.target).hasClass('js-range-slider__handle');
       $(document).on('mousemove', this._handleSliderMousemove.bind(this));
     }
     $(document).on('mouseup', this._handleSliderMouseup.bind(this));
