@@ -13,12 +13,7 @@ import View from './classes/view';
 
       this.model = new Model();
       this.view = new View(this);
-      this.controller = new Controller(options, this);
-
-      this.controller.addSubscriber(this.model.processEvent.bind(this.model));
-      this.controller.addSubscriber(this.view.processEvent.bind(this.view));
-      this.model.addSubscriber(this.controller.processEvent.bind(this.controller));
-      this.view.addSubscriber(this.controller.processEvent.bind(this.controller));
+      this.controller = new Controller(options, this, this.model, this.view);
 
       this.controller.init();
 

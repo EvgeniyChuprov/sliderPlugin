@@ -20,8 +20,6 @@ describe('Доступ к параметрам класса Model', () => {
 
   const _normalizeInputData = sinon.spy(model, '_normalizeInputData');
   const _calculateCoordinates = sinon.spy(model, '_calculateCoordinates');
-  // const _calculateMovingCoordinatesByClick = sinon.spy(model, '_calculateMovingCoordinatesByClick');
-  // const _calculateMovingCoordinates = sinon.spy(model, '_calculateMovingCoordinates');
   const notifySubscribers = sinon.spy(model, 'notifySubscribers');
 
   it('Проверка получения параметров по умолчанию', () => {
@@ -52,22 +50,6 @@ describe('Доступ к параметрам класса Model', () => {
   it('Проверка вызова notifySubscribers в методе _normalizeInputData', () => {
     model._normalizeInputData(externalOptions);
     assert(notifySubscribers.called);
-  });
-
-  it('Проверка вызова _calculateMovingCoordinates в методе _calculateCoordinates', () => {
-    // const position = 10;
-    // const length = 10;
-    // const moveMinorHandle = true;
-    // model._calculateCoordinates(position, length, moveMinorHandle);
-    // assert(_calculateMovingCoordinates.called);
-  });
-
-  it('Проверка вызова _calculateMovingCoordinatesByClick в методе _calculateCoordinates', () => {
-    // const position = 10;
-    // const length = 10;
-    // const moveMinorHandle = null;
-    // model._calculateCoordinates(position, length, moveMinorHandle);
-    // assert(_calculateMovingCoordinatesByClick.called);
   });
 
   it('Проверка измения минимума', () => {
@@ -111,7 +93,8 @@ describe('Доступ к параметрам класса Model', () => {
     model.options.isDouble = true;
     model.options.minorHandleValue = model.options.majorHandleValue + 1;
     model._validateMinorHandleValue();
-    assert.equal(model.options.minorHandleValue === model.options.majorHandleValue - model.options.step, true);
+    assert.equal(model.options.minorHandleValue
+      === model.options.majorHandleValue - model.options.step, true);
     model.options.minorHandleValue = model.options.min - 1;
     model._validateMinorHandleValue();
     assert.equal(model.options.minorHandleValue === model.options.min, true);
@@ -126,7 +109,8 @@ describe('Доступ к параметрам класса Model', () => {
     model.options.isDouble = true;
     model.options.majorHandleValue = model.options.minorHandleValue - 1;
     model._validateMajorHandleValue();
-    assert.equal(model.options.minorHandleValue === model.options.majorHandleValue - model.options.step, true);
+    assert.equal(model.options.minorHandleValue
+       === model.options.majorHandleValue - model.options.step, true);
     model.options.majorHandleValue = model.options.max + 1;
     model._validateMajorHandleValue();
     assert.equal(model.options.majorHandleValue === model.options.max, true);

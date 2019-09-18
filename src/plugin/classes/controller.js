@@ -2,10 +2,16 @@
 import Observer from './observer';
 
 class Controller extends Observer {
-  constructor(opt, $this) {
+  constructor(opt, $this, model, view) {
     super();
     this.$domEl = $this;
     this.options = opt;
+    this.view = view;
+    this.model = model;
+    this.addSubscriber(model.processEvent.bind(model));
+    this.addSubscriber(view.processEvent.bind(view));
+    this.model.addSubscriber(this.processEvent.bind(this));
+    this.view.addSubscriber(this.processEvent.bind(this));
   }
 
   init() {

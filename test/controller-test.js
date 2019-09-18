@@ -2,9 +2,16 @@
 import assert from 'assert';
 import sinon from 'sinon';
 import Controller from '../src/plugin/classes/controller';
+import Model from '../src/plugin/classes/model';
+import View from '../src/plugin/classes/view';
 
 describe('Проверка вызова внутрених методов класса Controller', () => {
-  const controller = new Controller();
+  const options = {};
+  const $domEl = $('body');
+  const views = new View($domEl);
+  const model = new Model();
+
+  const controller = new Controller(options, this, model, views);
 
   const _moveSlider = sinon.spy(controller, '_moveSlider');
   const _createView = sinon.spy(controller, '_createView');
