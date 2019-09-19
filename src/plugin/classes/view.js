@@ -6,6 +6,7 @@ class View extends Observer {
     super();
     this.$domEl = $this;
     this.moveMinorHandle = null;
+    this.processEvent = this.processEvent.bind(this);
     this._findDOMElements();
     this._addEventListeners();
   }

@@ -80,7 +80,9 @@ describe('Доступ к параметрам класса View', () => {
 
   it('Проверка вызова _handleSliderMousemove в методе _addEventListeners', () => {
     view._addEventListeners();
+    console.log(view.options.vertical)
     view.$domEl.trigger('click');
+   console.log(view.$domEl)
     assert(_handleSliderMousemove.called);
   });
 

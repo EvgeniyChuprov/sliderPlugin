@@ -2,6 +2,11 @@
 import Observer from './observer';
 
 class Model extends Observer {
+  constructor() {
+    super();
+    this.processEvent = this.processEvent.bind(this);
+  }
+
   processEvent(event, ...arg) {
     switch (event) {
       case 'parametersChanged':
