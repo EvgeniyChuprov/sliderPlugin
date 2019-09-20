@@ -1,17 +1,20 @@
+/* eslint-disable no-unused-vars */
 /* eslint no-underscore-dangle: ["error", { "allowAfterThis": true }] */
-require('../../plugin/jquery.myFirstSliderPlugin.js');
+import myFirstSliderPlugin from '../../plugin/jquery.myFirstSliderPlugin';
+import Observer from '../../plugin/classes/observer';
 
-class SliderCreate {
-  constructor($element) {
-    this.$sliderCreate = $element;
-    this._createPlugin();
-  }
+// class SliderCreate extends Observer {
+//   constructor($element) {
+//     super();
+//     this.$sliderCreate = $element;
+//     this._createPlugin();
+//   }
 
-  _createPlugin() {
-    const options = this.$sliderCreate.data('options');
-    this.$sliderCreate.myFirstSliderPlugin(options);
-  }
-}
-$('.js-range-slider').each((index, element) => {
-    new SliderCreate($(element));
-});
+//   _createPlugin() {
+//     const options = this.$sliderCreate.data('options');
+//     this.$sliderCreate.myFirstSliderPlugin(options);
+//   }
+// }
+// $('.js-range-slider').each((index, element) => {
+//     const ss = new SliderCreate($(element));
+// });

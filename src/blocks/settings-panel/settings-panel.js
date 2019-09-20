@@ -1,6 +1,4 @@
 /* eslint no-underscore-dangle: ["error", { "allowAfterThis": true }] */
-require('../../plugin/jquery.myFirstSliderPlugin.js');
-
 class SliderInterface {
   constructor($element) {
     this.$sliderInterface = $element;
@@ -8,11 +6,15 @@ class SliderInterface {
   }
 
   _initMenu() {
+    //
+    const sliderState = this.$sliderInterface.find('.js-range-slider').data('options');
+    this.options = this.$sliderInterface.find('.js-range-slider').myFirstSliderPlugin(sliderState);
+    console.log(this.options)
+    //
     this._findDOMElements();
-    this.options = this.$plugin.myFirstSliderPlugin('get');
     this._showSettingMajorHandleValue();
     this._showData();
-    this._transferSettings();
+    this._addEventListeners();
   }
 
   _findDOMElements() {
@@ -28,7 +30,7 @@ class SliderInterface {
     this.$sliderText = this.$sliderInterface.find('.js-slider__text');
   }
 
-  _transferSettings() {
+  _addEventListeners() {
     this.$min.change(() => {
       this.options.min = +this.$min.val();
       this.options.update(this.options);
@@ -86,6 +88,8 @@ class SliderInterface {
       this._showData();
     };
   }
+
+  
 
   _showSettingMajorHandleValue() {
     const visibilityMajorHandle = this.options.isDouble ? 'block' : 'none';
