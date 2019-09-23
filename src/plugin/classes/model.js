@@ -1,25 +1,7 @@
 /* eslint no-underscore-dangle: ["error", { "allowAfterThis": true }] */
-import Observer from './observer';
+import EventEmitter from 'event-emitter';
 
-class Model extends Observer {
-  constructor() {
-    super();
-    this.processEvent = this.processEvent.bind(this);
-  }
-
-  processEvent(event, ...arg) {
-    switch (event) {
-      case 'parametersChanged':
-        this._normalizeInputData(arg[0]);
-        break;
-      case 'coordinatesChanged':
-        this._calculateCoordinates(arg[0], arg[1], arg[2]);
-        break;
-      default:
-        break;
-    }
-  }
-
+class Model {
   _normalizeInputData(opt) {
     this._addMissingValues(opt);
     this._validateMinorHandleValue();
@@ -28,7 +10,7 @@ class Model extends Observer {
     this._validateMaximumValue();
     this._validateStepValue();
 
-    this.notifySubscribers('modelStateChanged', this._calculateSliderParameters(), this.options);
+    this.emit('modelStateChanged', this.options);
   }
 
   _addMissingValues(opt) {
@@ -47,8 +29,6 @@ class Model extends Observer {
       vertical: false,
       tooltip: true,
       isDouble: true,
-      onChange: null,
-      update: null,
     };
 
     if (typeof min === 'number') {
@@ -170,44 +150,15 @@ class Model extends Observer {
     }
   }
 
-  _calculateSliderParameters() {
+  _calculateCoordinates(upgrade) {
     const {
-      min, max, majorHandleValue,
-      minorHandleValue, vertical,
-      isDouble, tooltip,
-    } = this.options;
+      positionSlider, middle, moveMinorHandle,
+    } = upgrade;
 
-    const minPoint = ((minorHandleValue - min) * 100)
-    / (max - min);
-    const maxPoint = ((majorHandleValue - min) * 100)
-    / (max - this.options.min);
-    const step = 100 / ((max - min)
-    / this.options.step);
-    const toolMin = minorHandleValue;
-    const toolMax = majorHandleValue;
-    return {
-      minPoint,
-      maxPoint,
-      step,
-      vertical,
-      toolMin,
-      toolMax,
-      isDouble,
-      tooltip,
-    };
-  }
-
-  _calculateCoordinates(position, length, moveMinorHandle) {
     const {
       min, max, step, minorHandleValue,
       majorHandleValue, isDouble,
     } = this.options;
-
-    const shiftPercentage = (position * 100) / length;
-    const middle = (max - min) / 2;
-    const positionSlider = step * Math.round(shiftPercentage
-     / this._calculateSliderParameters().step) + min;
-
 
     if (typeof moveMinorHandle === 'boolean') {
       if (moveMinorHandle) {
@@ -215,11 +166,13 @@ class Model extends Observer {
           if (isDouble) {
             if (positionSlider <= majorHandleValue - step) {
               this.options.minorHandleValue = positionSlider;
-              this.notifySubscribers('modelStateChanged', this._calculateSliderParameters(), this.options);
+
+              this.emit('modelStateChanged', this.options);
             }
           } else {
             this.options.minorHandleValue = positionSlider;
-            this.notifySubscribers('modelStateChanged', this._calculateSliderParameters(), this.options);
+
+            this.emit('modelStateChanged', this.options);
           }
         }
       } else if (!moveMinorHandle) {
@@ -227,7 +180,8 @@ class Model extends Observer {
           if (positionSlider <= max
             && positionSlider >= minorHandleValue + step) {
             this.options.majorHandleValue = positionSlider;
-            this.notifySubscribers('modelStateChanged', this._calculateSliderParameters(), this.options);
+
+            this.emit('modelStateChanged', this.options);
           }
         }
       }
@@ -248,9 +202,10 @@ class Model extends Observer {
       } else {
         this.options.minorHandleValue = positionSlider;
       }
-      this.notifySubscribers('modelStateChanged', this._calculateSliderParameters(), this.options);
+      this.emit('modelStateChanged', this.options);
     }
   }
 }
 
+EventEmitter(Model.prototype);
 export default Model;

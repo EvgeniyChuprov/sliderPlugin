@@ -1,29 +1,53 @@
 /* eslint no-underscore-dangle: ["error", { "allowAfterThis": true }] */
-import Observer from './observer';
+import EventEmitter from 'event-emitter';
 
-class View extends Observer {
+class View {
   constructor($this) {
-    super();
     this.$domEl = $this;
     this.moveMinorHandle = null;
-    this.processEvent = this.processEvent.bind(this);
     this._findDOMElements();
     this._addEventListeners();
   }
 
-  processEvent(event, options) {
-    if (event === 'drawSlider') {
-      this.options = options;
-      this._drawSlider();
-    }
+  processEvent(options) {
+    this.options = options;
+    this._calculateSliderParameters();
+    this._drawSlider();
+  }
+
+  _calculateSliderParameters() {
+    const {
+      min, max, majorHandleValue,
+      minorHandleValue,
+    } = this.options;
+
+    const minPoint = ((minorHandleValue - min) * 100)
+    / (max - min);
+    const maxPoint = ((majorHandleValue - min) * 100)
+    / (max - this.options.min);
+    const step = 100 / ((max - min)
+    / this.options.step);
+
+    this.offsetParameters = {
+      minPoint,
+      maxPoint,
+      step,
+    };
   }
 
   _drawSlider() {
     const {
-      vertical, minPoint, maxPoint,
-      isDouble, tooltip, toolMin,
-      toolMax,
+      minPoint, maxPoint,
+    } = this.offsetParameters;
+
+    const {
+      minorHandleValue,
+      majorHandleValue,
+      vertical,
+      tooltip,
+      isDouble,
     } = this.options;
+
 
     const initialPosition = '-10px';
     const orientation = vertical ? 'top' : 'left';
@@ -37,8 +61,8 @@ class View extends Observer {
     const visibility = tooltip ? 'visible' : 'hidden';
     this.$toolMin.css('visibility', visibility);
     this.$toolMax.css('visibility', visibility);
-    this.$toolMin.html(toolMin);
-    this.$toolMax.html(toolMax);
+    this.$toolMin.html(minorHandleValue);
+    this.$toolMax.html(majorHandleValue);
 
     const displacement = vertical ? 'left' : 'top';
 
@@ -73,7 +97,9 @@ class View extends Observer {
   }
 
   _handleSliderMousemove(e) {
-    const { vertical } = this.options;
+    const {
+      min, max, vertical, step,
+    } = this.options;
 
     const sliderCoords = vertical
       ? this.$domEl.offset().top : this.$domEl.offset().left;
@@ -81,7 +107,19 @@ class View extends Observer {
     const length = vertical
       ? this.$domEl.height() : this.$domEl.width();
     const newPosition = page - sliderCoords;
-    this.notifySubscribers('coordinatesChanged', newPosition, length, this.moveMinorHandle);
+
+
+    const shiftPercentage = (newPosition * 100) / length;
+    const middle = (max - min) / 2;
+    const positionSlider = step * Math.round(shiftPercentage
+     / this.offsetParameters.step) + min;
+    const { moveMinorHandle } = this;
+    this.upgrade = {
+      positionSlider,
+      middle,
+      moveMinorHandle,
+    };
+    this.emit('coordinatesChanged', this.upgrade);
   }
 
   _handleSliderMouseup() {
@@ -90,4 +128,5 @@ class View extends Observer {
   }
 }
 
+EventEmitter(View.prototype);
 export default View;

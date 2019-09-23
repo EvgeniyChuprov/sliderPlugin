@@ -1,4 +1,5 @@
 /* eslint no-underscore-dangle: ["error", { "allowAfterThis": true }] */
+
 class SliderInterface {
   constructor($element) {
     this.$sliderInterface = $element;
@@ -8,12 +9,20 @@ class SliderInterface {
   _initMenu() {
     //
     const sliderState = this.$sliderInterface.find('.js-range-slider').data('options');
-    this.options = this.$sliderInterface.find('.js-range-slider').myFirstSliderPlugin(sliderState);
-    console.log(this.options)
+    // this.options = sliderState;
+    this.sliderSetting = this.$sliderInterface.find('.js-range-slider').myFirstSliderPlugin(sliderState);
     //
+    //this.options = this.sliderSetting.model.options;
+    //
+
+    this.sliderSetting.model.on('modelStateChanged', (data) => {
+      this.options = data;
+      this._showData();
+    });
+
     this._findDOMElements();
-    this._showSettingMajorHandleValue();
-    this._showData();
+    // this._showSettingMajorHandleValue();
+    // this._showData();
     this._addEventListeners();
   }
 
@@ -33,43 +42,42 @@ class SliderInterface {
   _addEventListeners() {
     this.$min.change(() => {
       this.options.min = +this.$min.val();
-      this.options.update(this.options);
+      this.sliderSetting.controller.emit('parametersChanged', this.options);
     });
 
     this.$max.change(() => {
       this.options.max = +this.$max.val();
-      this.options.update(this.options);
+      this.sliderSetting.controller.emit('parametersChanged', this.options);
     });
 
     this.$step.change(() => {
       this.options.step = +this.$step.val();
-      this.options.update(this.options);
+      this.sliderSetting.controller.emit('parametersChanged', this.options);
     });
 
     this.$minorHandleValue.change(() => {
       this.options.minorHandleValue = +this.$minorHandleValue.val();
-      this.options.update(this.options);
+      this.sliderSetting.controller.emit('parametersChanged', this.options);
     });
 
     this.$majorHandleValue.change(() => {
       this.options.majorHandleValue = +this.$majorHandleValue.val();
-      this.options.update(this.options);
+      this.sliderSetting.controller.emit('parametersChanged', this.options);
     });
 
     this.$vertical.change(() => {
       this.options.vertical = this.$vertical.is(':checked');
-      this.options.update(this.options);
+      this.sliderSetting.controller.emit('parametersChanged', this.options);
     });
 
     this.$tooltip.change(() => {
       this.options.tooltip = this.$tooltip.is(':checked');
-      this.options.update(this.options);
+      this.sliderSetting.controller.emit('parametersChanged', this.options);
     });
 
     this.isDouble.change(() => {
       this.options.isDouble = this.isDouble.is(':checked');
-      this.options.update(this.options);
-
+      this.sliderSetting.controller.emit('parametersChanged', this.options);
       this._showSettingMajorHandleValue();
     });
   }
@@ -83,18 +91,17 @@ class SliderInterface {
     this.$tooltip.prop('checked', this.options.tooltip);
     this.$vertical.prop('checked', this.options.vertical);
     this.isDouble.prop('checked', this.options.isDouble);
-    this.options.onChange = (options) => {
-      this.options = options;
-      this._showData();
-    };
+    this._showSettingMajorHandleValue();
   }
-
-  
 
   _showSettingMajorHandleValue() {
     const visibilityMajorHandle = this.options.isDouble ? 'block' : 'none';
     this.$majorHandleValue.css('display', visibilityMajorHandle);
     this.$sliderText.css('display', visibilityMajorHandle);
+  }
+
+  conductEmitterTest() {
+    this.emit('transferSettings', this.options);
   }
 }
 
