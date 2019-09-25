@@ -1,11 +1,12 @@
 /* eslint-disable no-underscore-dangle */
+import EventEmitter from 'event-emitter';
 import Controller from './classes/controller';
 import Model from './classes/model';
 import View from './classes/view';
 
 class Slider {
-  constructor($this, options) {
-    this.$domEl = $this;
+  constructor($domEl, options) {
+    this.$domEl = $domEl;
     this.options = options;
     this._init();
   }
@@ -13,33 +14,36 @@ class Slider {
   _init() {
     this._addDomElements();
     this._addMVC();
-    this._addListener();
+    this._addListeners();
   }
 
   _addMVC() {
     this.model = new Model();
     this.view = new View(this.$domEl);
-    this.controller = new Controller(this.options, this.$domEl);
+    this.controller = new Controller(this.$domEl);
   }
 
-  _addListener() {
+  _addListeners() {
     this.controller.on('parametersChanged', (data) => {
-      this.model._normalizeInputData(data);
+      this.model.normalizeInputData(data);
     });
     this.model.on('modelStateChanged', (data) => {
-      this.controller._createView(data);
+      this.emit('pluginStateChanged', data);
+      this.sliderSetting = data;
+      this.controller.createView(data);
     });
     this.controller.on('modelStateChanged', (data) => {
       this.view.processEvent(data);
     });
     this.view.on('coordinatesChanged', (data) => {
-      this.controller._moveSlider(data);
-    });
-    this.controller.on('coordinatesChanged', (data) => {
-      this.model._calculateCoordinates(data);
+      this.controller.changedParameters(data);
     });
 
-    this.controller.emit('parametersChanged', this.options);
+    this.on('setSettings', (data) => {
+      this.controller.changedParameters(data);
+    });
+
+    this.controller.changedParameters(this.options);
   }
 
   _addDomElements() {
@@ -53,7 +57,20 @@ class Slider {
     `);
     this.$domEl.append(initialSliderElements);
   }
+
+  changePluginSettings(obj) {
+    this.sliderSetting[obj.propertyName] = obj.value;
+    this.emit('setSettings', this.sliderSetting);
+  }
+
+  getPluginSetting(obj) {
+    this.on('pluginStateChanged', (data) => {
+      obj(data);
+    });
+  }
 }
+
+EventEmitter(Slider.prototype);
 
 (($) => {
   // eslint-disable-next-line no-param-reassign

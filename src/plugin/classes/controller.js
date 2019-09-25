@@ -2,17 +2,16 @@
 import EventEmitter from 'event-emitter';
 
 class Controller {
-  constructor(opt, $this) {
+  constructor($this) {
     this.$domEl = $this;
-    this.options = opt;
   }
 
-  _createView(options) {
+  changedParameters(options) {
+    this.emit('parametersChanged', options);
+  }
+
+  createView(options) {
     this.emit('modelStateChanged', options);
-  }
-
-  _moveSlider(upgrade) {
-    this.emit('coordinatesChanged', upgrade);
   }
 }
 

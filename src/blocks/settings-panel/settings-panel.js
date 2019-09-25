@@ -1,4 +1,6 @@
 /* eslint no-underscore-dangle: ["error", { "allowAfterThis": true }] */
+// eslint-disable-next-line no-unused-vars
+import myFirstSliderPlugin from '../../plugin/jquery.myFirstSliderPlugin';
 
 class SliderInterface {
   constructor($element) {
@@ -7,22 +9,14 @@ class SliderInterface {
   }
 
   _initMenu() {
-    //
     const sliderState = this.$sliderInterface.find('.js-range-slider').data('options');
-    // this.options = sliderState;
     this.sliderSetting = this.$sliderInterface.find('.js-range-slider').myFirstSliderPlugin(sliderState);
-    //
-    //this.options = this.sliderSetting.model.options;
-    //
-
-    this.sliderSetting.model.on('modelStateChanged', (data) => {
-      this.options = data;
-      this._showData();
-    });
 
     this._findDOMElements();
-    // this._showSettingMajorHandleValue();
-    // this._showData();
+
+    this.sliderSetting.getPluginSetting(this._showData.bind(this));
+
+    this._showData(this.sliderSetting.sliderSetting);
     this._addEventListeners();
   }
 
@@ -41,67 +35,58 @@ class SliderInterface {
 
   _addEventListeners() {
     this.$min.change(() => {
-      this.options.min = +this.$min.val();
-      this.sliderSetting.controller.emit('parametersChanged', this.options);
+      this.sliderSetting.changePluginSettings({ propertyName: 'min', value: +this.$min.val() });
     });
 
     this.$max.change(() => {
-      this.options.max = +this.$max.val();
-      this.sliderSetting.controller.emit('parametersChanged', this.options);
+      this.sliderSetting.changePluginSettings({ propertyName: 'max', value: +this.$max.val() });
     });
 
     this.$step.change(() => {
-      this.options.step = +this.$step.val();
-      this.sliderSetting.controller.emit('parametersChanged', this.options);
+      this.sliderSetting.changePluginSettings({ propertyName: 'step', value: +this.$step.val() });
     });
 
     this.$minorHandleValue.change(() => {
-      this.options.minorHandleValue = +this.$minorHandleValue.val();
-      this.sliderSetting.controller.emit('parametersChanged', this.options);
+      this.sliderSetting.changePluginSettings({ propertyName: 'minorHandleValue', value: +this.$minorHandleValue.val() });
     });
 
     this.$majorHandleValue.change(() => {
-      this.options.majorHandleValue = +this.$majorHandleValue.val();
-      this.sliderSetting.controller.emit('parametersChanged', this.options);
+      this.sliderSetting.changePluginSettings({ propertyName: 'majorHandleValue', value: +this.$majorHandleValue.val() });
     });
 
     this.$vertical.change(() => {
-      this.options.vertical = this.$vertical.is(':checked');
-      this.sliderSetting.controller.emit('parametersChanged', this.options);
+      this.sliderSetting.changePluginSettings({ propertyName: 'vertical', value: this.$vertical.is(':checked') });
     });
 
     this.$tooltip.change(() => {
-      this.options.tooltip = this.$tooltip.is(':checked');
-      this.sliderSetting.controller.emit('parametersChanged', this.options);
+      this.sliderSetting.changePluginSettings({ propertyName: 'tooltip', value: this.$tooltip.is(':checked') });
     });
 
     this.isDouble.change(() => {
-      this.options.isDouble = this.isDouble.is(':checked');
-      this.sliderSetting.controller.emit('parametersChanged', this.options);
-      this._showSettingMajorHandleValue();
+      this.sliderSetting.changePluginSettings({ propertyName: 'isDouble', value: this.isDouble.is(':checked') });
+
+      this._showSettingMajorHandleValue(this.isDouble.is(':checked'));
     });
   }
 
-  _showData() {
-    this.$min.val(this.options.min);
-    this.$max.val(this.options.max);
-    this.$step.val(this.options.step);
-    this.$minorHandleValue.val(this.options.minorHandleValue);
-    this.$majorHandleValue.val(this.options.majorHandleValue);
-    this.$tooltip.prop('checked', this.options.tooltip);
-    this.$vertical.prop('checked', this.options.vertical);
-    this.isDouble.prop('checked', this.options.isDouble);
-    this._showSettingMajorHandleValue();
+  _showData(options) {
+    this.$min.val(options.min);
+    this.$max.val(options.max);
+    this.$step.val(options.step);
+    this.$minorHandleValue.val(options.minorHandleValue);
+    this.$minorHandleValue.attr('step', options.step);
+    this.$majorHandleValue.val(options.majorHandleValue);
+    this.$majorHandleValue.attr('step', options.step);
+    this.$tooltip.prop('checked', options.tooltip);
+    this.$vertical.prop('checked', options.vertical);
+    this.isDouble.prop('checked', options.isDouble);
+    this._showSettingMajorHandleValue(options.isDouble);
   }
 
-  _showSettingMajorHandleValue() {
-    const visibilityMajorHandle = this.options.isDouble ? 'block' : 'none';
+  _showSettingMajorHandleValue(isDouble) {
+    const visibilityMajorHandle = isDouble ? 'block' : 'none';
     this.$majorHandleValue.css('display', visibilityMajorHandle);
     this.$sliderText.css('display', visibilityMajorHandle);
-  }
-
-  conductEmitterTest() {
-    this.emit('transferSettings', this.options);
   }
 }
 

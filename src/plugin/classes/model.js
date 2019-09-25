@@ -2,7 +2,7 @@
 import EventEmitter from 'event-emitter';
 
 class Model {
-  _normalizeInputData(opt) {
+  normalizeInputData(opt) {
     this._addMissingValues(opt);
     this._validateMinorHandleValue();
     this._validateMajorHandleValue();
@@ -103,107 +103,69 @@ class Model {
       min, max, step,
     } = this.options;
 
-    return step < 0 || step > (max - min);
+    return step <= 0 || step > (max - min);
   }
 
   _validateMinorHandleValue() {
     const {
-      min, max, step, minorHandleValue,
-      majorHandleValue, isDouble,
+      min, max, step, majorHandleValue, isDouble,
     } = this.options;
+
+    let { minorHandleValue } = this.options;
 
     if (isDouble) {
       if (minorHandleValue + step > majorHandleValue) {
-        this.options.minorHandleValue = majorHandleValue - step;
+        this.options.majorHandleValue = minorHandleValue - step;
       }
       if (minorHandleValue >= majorHandleValue) {
-        this.options.minorHandleValue = majorHandleValue - step;
+        minorHandleValue = majorHandleValue - step;
+      }
+      if (minorHandleValue > min && minorHandleValue < majorHandleValue - step) {
+        if ((minorHandleValue - min) % step !== 0) {
+          minorHandleValue = min + (Math.round((minorHandleValue - min) / step) * step);
+        }
       }
     }
-
+    if (minorHandleValue > min && minorHandleValue < max) {
+      if ((minorHandleValue - min) % step !== 0) {
+        minorHandleValue = min + (Math.round((minorHandleValue - min) / step) * step);
+      }
+    }
     if (minorHandleValue > max) {
-      this.options.minorHandleValue = max;
+      minorHandleValue = max;
     }
 
     if (minorHandleValue < min) {
-      this.options.minorHandleValue = min;
+      minorHandleValue = min;
     }
+    this.options.minorHandleValue = minorHandleValue;
   }
 
   _validateMajorHandleValue() {
     const {
-      max, step, minorHandleValue,
-      majorHandleValue, isDouble,
+      min, max, step, minorHandleValue, isDouble,
     } = this.options;
 
+    let { majorHandleValue } = this.options;
+
+    if (majorHandleValue < max && majorHandleValue - step > minorHandleValue) {
+      if ((majorHandleValue - min) % step !== 0) {
+        majorHandleValue = min + (Math.round((majorHandleValue - min) / step) * step);
+      }
+    }
     if (minorHandleValue > majorHandleValue - step) {
-      this.options.majorHandleValue = minorHandleValue + step;
+      majorHandleValue = minorHandleValue + step;
     }
     if (majorHandleValue <= minorHandleValue) {
-      this.options.majorHandleValue = minorHandleValue + step;
+      majorHandleValue = minorHandleValue + step;
     }
     if (majorHandleValue > max) {
-      this.options.majorHandleValue = max;
+      majorHandleValue = max;
     }
     if (!isDouble) {
-      this.options.majorHandleValue = max;
+      majorHandleValue = max;
     }
-  }
-
-  _calculateCoordinates(upgrade) {
-    const {
-      positionSlider, middle, moveMinorHandle,
-    } = upgrade;
-
-    const {
-      min, max, step, minorHandleValue,
-      majorHandleValue, isDouble,
-    } = this.options;
-
-    if (typeof moveMinorHandle === 'boolean') {
-      if (moveMinorHandle) {
-        if (positionSlider <= max && positionSlider >= min) {
-          if (isDouble) {
-            if (positionSlider <= majorHandleValue - step) {
-              this.options.minorHandleValue = positionSlider;
-
-              this.emit('modelStateChanged', this.options);
-            }
-          } else {
-            this.options.minorHandleValue = positionSlider;
-
-            this.emit('modelStateChanged', this.options);
-          }
-        }
-      } else if (!moveMinorHandle) {
-        if (positionSlider >= min) {
-          if (positionSlider <= max
-            && positionSlider >= minorHandleValue + step) {
-            this.options.majorHandleValue = positionSlider;
-
-            this.emit('modelStateChanged', this.options);
-          }
-        }
-      }
-    } else if (moveMinorHandle === null) {
-      if (isDouble) {
-        if (positionSlider - min < middle) {
-          if (positionSlider < majorHandleValue) {
-            this.options.minorHandleValue = positionSlider;
-          }
-        } else {
-          // eslint-disable-next-line no-lonely-if
-          if (positionSlider > minorHandleValue) {
-            if (positionSlider <= max) {
-              this.options.majorHandleValue = positionSlider;
-            }
-          }
-        }
-      } else {
-        this.options.minorHandleValue = positionSlider;
-      }
-      this.emit('modelStateChanged', this.options);
-    }
+    this.options.majorHandleValue = majorHandleValue;
   }
 }
 

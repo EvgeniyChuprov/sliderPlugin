@@ -4,7 +4,6 @@ import EventEmitter from 'event-emitter';
 class View {
   constructor($this) {
     this.$domEl = $this;
-    this.moveMinorHandle = null;
     this._findDOMElements();
     this._addEventListeners();
   }
@@ -83,22 +82,22 @@ class View {
   }
 
   _addEventListeners() {
-    this.$domEl.on('click', this._handleSliderMousemove.bind(this));
-    this.$minorHandleValue.on('mousedown', this._handleSliderMousedown.bind(this));
-    this.$majorHandleValue.on('mousedown', this._handleSliderMousedown.bind(this));
+    this.$domEl.on('click', this._handleSliderMousemove.bind(this, 'slider'));
+    this.$minorHandleValue.on('mousedown', this._handleSliderMousedown.bind(this, 'handle'));
+    this.$majorHandleValue.on('mousedown', this._handleSliderMousedown.bind(this, 'secondHandle'));
   }
 
-  _handleSliderMousedown(e) {
+  _handleSliderMousedown(placePressing, e) {
     if (e.target.nodeName !== 'SPAN') {
-      this.moveMinorHandle = $(e.target).hasClass('js-range-slider__handle');
-      $(document).on('mousemove', this._handleSliderMousemove.bind(this));
+      $(document).on('mousemove', this._handleSliderMousemove.bind(this, placePressing));
     }
     $(document).on('mouseup', this._handleSliderMouseup.bind(this));
   }
 
-  _handleSliderMousemove(e) {
+  _handleSliderMousemove(placePressing, e) {
     const {
-      min, max, vertical, step,
+      min, max, vertical, minorHandleValue,
+      majorHandleValue, isDouble, step,
     } = this.options;
 
     const sliderCoords = vertical
@@ -113,17 +112,40 @@ class View {
     const middle = (max - min) / 2;
     const positionSlider = step * Math.round(shiftPercentage
      / this.offsetParameters.step) + min;
-    const { moveMinorHandle } = this;
-    this.upgrade = {
-      positionSlider,
-      middle,
-      moveMinorHandle,
-    };
-    this.emit('coordinatesChanged', this.upgrade);
+
+    if (placePressing === 'handle') {
+      this.options.minorHandleValue = positionSlider;
+      this.emit('coordinatesChanged', this.options);
+    }
+
+    if (placePressing === 'secondHandle') {
+      this.options.majorHandleValue = positionSlider;
+      this.emit('coordinatesChanged', this.options);
+    }
+
+    if (placePressing === 'slider') {
+      if (isDouble) {
+        if (positionSlider - min < middle) {
+          if (positionSlider < majorHandleValue) {
+            this.options.minorHandleValue = positionSlider;
+          }
+        } else {
+          // eslint-disable-next-line no-lonely-if
+          if (positionSlider > minorHandleValue) {
+            if (positionSlider <= max) {
+              this.options.majorHandleValue = positionSlider;
+            }
+          }
+        }
+      } else {
+        this.options.minorHandleValue = positionSlider;
+      }
+      this.emit('coordinatesChanged', this.options);
+    }
   }
 
+  // eslint-disable-next-line class-methods-use-this
   _handleSliderMouseup() {
-    this.moveMinorHandle = null;
     $(document).unbind('mousemove');
   }
 }
