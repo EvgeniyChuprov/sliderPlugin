@@ -8,11 +8,12 @@ class View {
     this._addEventListeners();
   }
 
-  processEvent(options) {
+  displayView(options) {
     this.options = options;
     this._initCalculateSliderParameters();
     this._drawSlider();
   }
+  // calculateHandlePositions()
 
   _initCalculateSliderParameters() {
     const {
@@ -46,7 +47,6 @@ class View {
       tooltip,
       isDouble,
     } = this.options;
-
 
     const initialPosition = '-10px';
     const orientation = vertical ? 'top' : 'left';
@@ -95,7 +95,7 @@ class View {
   }
 
   _handleMinorHandleMousemove(e) {
-    this.options.minorHandleValue = this._calculateHandelPositions(e);
+    this.options.minorHandleValue = this._calculateHandlePositions(e);
     this.emit('coordinatesChanged', this.options);
   }
 
@@ -107,11 +107,12 @@ class View {
   }
 
   _handleMajorHandleMousemove(e) {
-    this.options.majorHandleValue = this._calculateHandelPositions(e);
+    this.options.majorHandleValue = this._calculateHandlePositions(e);
     this.emit('coordinatesChanged', this.options);
   }
+//calculateHandleShift
 
-  _calculateHandelPositions(e) {
+  _calculateHandlePositions(e) {
     const {
       min, vertical, step,
     } = this.options;
@@ -133,7 +134,7 @@ class View {
       majorHandleValue, isDouble,
     } = this.options;
 
-    const positionSlider = this._calculateHandelPositions(e);
+    const positionSlider = this._calculateHandlePositions(e);
 
     const middle = (max - min) / 2;
 

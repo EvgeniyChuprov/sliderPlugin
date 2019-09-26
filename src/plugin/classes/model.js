@@ -2,7 +2,7 @@
 import EventEmitter from 'event-emitter';
 
 class Model {
-  normalizeInputData(opt) {
+  setOptions(opt) {
     this._addMissingValues(opt);
     this._validateMinorHandleValue();
     this._validateMajorHandleValue();

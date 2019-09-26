@@ -1,8 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import EventEmitter from 'event-emitter';
 import Controller from './classes/controller';
-import Model from './classes/model';
-import View from './classes/view';
 
 class Slider {
   constructor($domEl, options) {
@@ -13,35 +11,12 @@ class Slider {
 
   _init() {
     this._addDomElements();
-    this._addMVC();
-    this._subscribeEntities();
-    this.controller.changeParameters(this.options);
-  }
-
-  _addMVC() {
-    this.model = new Model();
-    this.view = new View(this.$domEl);
     this.controller = new Controller(this.$domEl);
-  }
 
-  _subscribeEntities() {
-    this.controller.on('parametersChanged', (data) => {
-      this.model.normalizeInputData(data);
-    });
-    this.model.on('modelStateChanged', (data) => {
-      this.emit('pluginStateChanged', data);
-      this.sliderSetting = data;
-      this.controller.createView(data);
-    });
-    this.controller.on('modelStateChanged', (data) => {
-      this.view.processEvent(data);
-    });
-    this.view.on('coordinatesChanged', (data) => {
-      this.controller.changeParameters(data);
-    });
+    this.controller.changeParameters(this.options); // контроллер получает опции при инициализации плагина и передает в модель 
 
-    this.on('setSettings', (data) => {
-      this.controller.changeParameters(data);
+    this.controller.on('transferSettings', (data) => {
+      this.emit('pluginStateChanged', data);  // класс слайдер получает настройки после модели и передает в панель настроек
     });
   }
 
@@ -58,8 +33,7 @@ class Slider {
   }
 
   changePluginSettings(obj) {
-    this.sliderSetting[obj.propertyName] = obj.value;
-    this.controller.changeParameters(this.sliderSetting);
+    this.controller.changeParameters(obj);  // объект с параметрами из панели настроек передается через контролер в модель
   }
 }
 

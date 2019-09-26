@@ -2,26 +2,26 @@ include ../range-slider/range-slider
 
 mixin settings-panel(options)
 
-  .slider.js-slider
-    form.slider__form
-      .slider__block.slider__block_top
-        span.slider__text Tooltip:
+  .settings-panel.js-settings-panel
+    form.settings-panel__form
+      .settings-panel__block.settings-panel__block_top
+        span.settings-panel__text Tooltip:
         input.js-slider__tooltip(type="checkbox") 
-        span.slider__text Two handles:
+        span.settings-panel__text Two handles:
         input.js-slider__is-double(type="checkbox")
-        span.slider__text Vertical:
+        span.settings-panel__text Vertical:
         input.js-slider__vertical(type="checkbox")
-      .slider__block.slider__block_bottom 
-        span.slider__text Min:
-        input.slider__min.js-slider__min(type="number" value="")
-        span.slider__text Max:
-        input.slider__max.js-slider__max(type="number" value="")
-        span.slider__text Step:
-        input.slider__step.js-slider__step(type="number" value="")
-        span.slider__text Handle:
-        input.slider__handle.js-slider__handle(type="number" value="")
-        span.slider__text.js-slider__text Second handle:
-        input.slider__second-handle.js-slider__second-handle(type="number" value="")
-      .slider__plugin
+      .settings-panel__block.settings-panel__block_bottom 
+        span.settings-panel__text Min:
+        input.settings-panel__min.js-slider__min(type="number" value="")
+        span.settings-panel__text Max:
+        input.settings-panel__max.js-slider__max(type="number" value="")
+        span.settings-panel__text Step:
+        input.settings-panel__step.js-slider__step(type="number" value="")
+        span.settings-panel__text Handle:
+        input.settings-panel__handle.js-slider__handle(type="number" value="")
+        span.settings-panel__text.js-slider__text Second handle:
+        input.settings-panel__second-handle.js-slider__second-handle(type="number" value="")
+      .settings-panel__plugin
         +range-slider(options)
 

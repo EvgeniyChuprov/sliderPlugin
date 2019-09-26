@@ -18,7 +18,7 @@ class SettingsPanel {
       this.showData(data);
     });
 
-    this.showData(this.slider.sliderSetting);
+    //this.showData(this.slider.sliderSetting);
     this._addEventListeners();
   }
 
@@ -37,35 +37,35 @@ class SettingsPanel {
 
   _addEventListeners() {
     this.$min.change(() => {
-      this.slider.changePluginSettings({ propertyName: 'min', value: +this.$min.val() });
+      this.slider.changePluginSettings({ min: +this.$min.val() });
     });
 
     this.$max.change(() => {
-      this.slider.changePluginSettings({ propertyName: 'max', value: +this.$max.val() });
+      this.slider.changePluginSettings({ max: +this.$max.val() });
     });
 
     this.$step.change(() => {
-      this.slider.changePluginSettings({ propertyName: 'step', value: +this.$step.val() });
+      this.slider.changePluginSettings({ step: +this.$step.val() });
     });
 
     this.$minorHandleValue.change(() => {
-      this.slider.changePluginSettings({ propertyName: 'minorHandleValue', value: +this.$minorHandleValue.val() });
+      this.slider.changePluginSettings({ minorHandleValue: +this.$minorHandleValue.val() });
     });
 
     this.$majorHandleValue.change(() => {
-      this.slider.changePluginSettings({ propertyName: 'majorHandleValue', value: +this.$majorHandleValue.val() });
+      this.slider.changePluginSettings({ majorHandleValue: +this.$majorHandleValue.val() });
     });
 
     this.$vertical.change(() => {
-      this.slider.changePluginSettings({ propertyName: 'vertical', value: this.$vertical.is(':checked') });
+      this.slider.changePluginSettings({ vertical: this.$vertical.is(':checked') });
     });
 
     this.$tooltip.change(() => {
-      this.slider.changePluginSettings({ propertyName: 'tooltip', value: this.$tooltip.is(':checked') });
+      this.slider.changePluginSettings({ tooltip: this.$tooltip.is(':checked') });
     });
 
     this.isDouble.change(() => {
-      this.slider.changePluginSettings({ propertyName: 'isDouble', value: this.isDouble.is(':checked') });
+      this.slider.changePluginSettings({ isDouble: this.isDouble.is(':checked') });
 
       this._showMajorHandelInput(this.isDouble.is(':checked'));
     });
@@ -92,6 +92,6 @@ class SettingsPanel {
   }
 }
 
-$('.js-slider').each((index, element) => {
+$('.js-settings-panel').each((index, element) => {
   new SettingsPanel($(element));
 });
