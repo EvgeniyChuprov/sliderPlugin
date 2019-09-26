@@ -2,21 +2,23 @@
 // eslint-disable-next-line no-unused-vars
 import myFirstSliderPlugin from '../../plugin/jquery.myFirstSliderPlugin';
 
-class SliderInterface {
+class SettingsPanel {
   constructor($element) {
     this.$sliderInterface = $element;
-    this._initMenu();
+    this._initPanel();
   }
 
-  _initMenu() {
+  _initPanel() {
     const sliderState = this.$sliderInterface.find('.js-range-slider').data('options');
-    this.sliderSetting = this.$sliderInterface.find('.js-range-slider').myFirstSliderPlugin(sliderState);
+    this.slider = this.$sliderInterface.find('.js-range-slider').myFirstSliderPlugin(sliderState);
 
     this._findDOMElements();
 
-    this.sliderSetting.getPluginSetting(this._showData.bind(this));
+    this.slider.on('pluginStateChanged', (data) => {
+      this.showData(data);
+    });
 
-    this._showData(this.sliderSetting.sliderSetting);
+    this.showData(this.slider.sliderSetting);
     this._addEventListeners();
   }
 
@@ -35,41 +37,41 @@ class SliderInterface {
 
   _addEventListeners() {
     this.$min.change(() => {
-      this.sliderSetting.changePluginSettings({ propertyName: 'min', value: +this.$min.val() });
+      this.slider.changePluginSettings({ propertyName: 'min', value: +this.$min.val() });
     });
 
     this.$max.change(() => {
-      this.sliderSetting.changePluginSettings({ propertyName: 'max', value: +this.$max.val() });
+      this.slider.changePluginSettings({ propertyName: 'max', value: +this.$max.val() });
     });
 
     this.$step.change(() => {
-      this.sliderSetting.changePluginSettings({ propertyName: 'step', value: +this.$step.val() });
+      this.slider.changePluginSettings({ propertyName: 'step', value: +this.$step.val() });
     });
 
     this.$minorHandleValue.change(() => {
-      this.sliderSetting.changePluginSettings({ propertyName: 'minorHandleValue', value: +this.$minorHandleValue.val() });
+      this.slider.changePluginSettings({ propertyName: 'minorHandleValue', value: +this.$minorHandleValue.val() });
     });
 
     this.$majorHandleValue.change(() => {
-      this.sliderSetting.changePluginSettings({ propertyName: 'majorHandleValue', value: +this.$majorHandleValue.val() });
+      this.slider.changePluginSettings({ propertyName: 'majorHandleValue', value: +this.$majorHandleValue.val() });
     });
 
     this.$vertical.change(() => {
-      this.sliderSetting.changePluginSettings({ propertyName: 'vertical', value: this.$vertical.is(':checked') });
+      this.slider.changePluginSettings({ propertyName: 'vertical', value: this.$vertical.is(':checked') });
     });
 
     this.$tooltip.change(() => {
-      this.sliderSetting.changePluginSettings({ propertyName: 'tooltip', value: this.$tooltip.is(':checked') });
+      this.slider.changePluginSettings({ propertyName: 'tooltip', value: this.$tooltip.is(':checked') });
     });
 
     this.isDouble.change(() => {
-      this.sliderSetting.changePluginSettings({ propertyName: 'isDouble', value: this.isDouble.is(':checked') });
+      this.slider.changePluginSettings({ propertyName: 'isDouble', value: this.isDouble.is(':checked') });
 
-      this._showSettingMajorHandleValue(this.isDouble.is(':checked'));
+      this._showMajorHandelInput(this.isDouble.is(':checked'));
     });
   }
 
-  _showData(options) {
+  showData(options) {
     this.$min.val(options.min);
     this.$max.val(options.max);
     this.$step.val(options.step);
@@ -80,10 +82,10 @@ class SliderInterface {
     this.$tooltip.prop('checked', options.tooltip);
     this.$vertical.prop('checked', options.vertical);
     this.isDouble.prop('checked', options.isDouble);
-    this._showSettingMajorHandleValue(options.isDouble);
+    this._showMajorHandelInput(options.isDouble);
   }
 
-  _showSettingMajorHandleValue(isDouble) {
+  _showMajorHandelInput(isDouble) {
     const visibilityMajorHandle = isDouble ? 'block' : 'none';
     this.$majorHandleValue.css('display', visibilityMajorHandle);
     this.$sliderText.css('display', visibilityMajorHandle);
@@ -91,5 +93,5 @@ class SliderInterface {
 }
 
 $('.js-slider').each((index, element) => {
-  new SliderInterface($(element));
+  new SettingsPanel($(element));
 });

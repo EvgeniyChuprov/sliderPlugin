@@ -17,7 +17,7 @@ class Model {
     const {
       min, max, step, minorHandleValue,
       majorHandleValue, vertical, tooltip,
-      isDouble, onChange, update,
+      isDouble,
     } = opt;
 
     this.options = {
@@ -55,8 +55,6 @@ class Model {
     if (typeof isDouble === 'boolean') {
       this.options.isDouble = isDouble;
     }
-    this.options.onChange = onChange;
-    this.options.update = update;
   }
 
   _validateMinimumValue() {

@@ -10,11 +10,11 @@ class View {
 
   processEvent(options) {
     this.options = options;
-    this._calculateSliderParameters();
+    this._initCalculateSliderParameters();
     this._drawSlider();
   }
 
-  _calculateSliderParameters() {
+  _initCalculateSliderParameters() {
     const {
       min, max, majorHandleValue,
       minorHandleValue,
@@ -82,22 +82,38 @@ class View {
   }
 
   _addEventListeners() {
-    this.$domEl.on('click', this._handleSliderMousemove.bind(this, 'slider'));
-    this.$minorHandleValue.on('mousedown', this._handleSliderMousedown.bind(this, 'handle'));
-    this.$majorHandleValue.on('mousedown', this._handleSliderMousedown.bind(this, 'secondHandle'));
+    this.$domEl.on('click', this._handleSliderClick.bind(this));
+    this.$minorHandleValue.on('mousedown', this._handleMinorHandleMousedown.bind(this));
+    this.$majorHandleValue.on('mousedown', this._handleMajorHandleMousedown.bind(this));
   }
 
-  _handleSliderMousedown(placePressing, e) {
+  _handleMinorHandleMousedown(e) {
     if (e.target.nodeName !== 'SPAN') {
-      $(document).on('mousemove', this._handleSliderMousemove.bind(this, placePressing));
+      $(document).on('mousemove', this._handleMinorHandleMousemove.bind(this));
     }
     $(document).on('mouseup', this._handleSliderMouseup.bind(this));
   }
 
-  _handleSliderMousemove(placePressing, e) {
+  _handleMinorHandleMousemove(e) {
+    this.options.minorHandleValue = this._calculateHandelPositions(e);
+    this.emit('coordinatesChanged', this.options);
+  }
+
+  _handleMajorHandleMousedown(e) {
+    if (e.target.nodeName !== 'SPAN') {
+      $(document).on('mousemove', this._handleMajorHandleMousemove.bind(this));
+    }
+    $(document).on('mouseup', this._handleSliderMouseup.bind(this));
+  }
+
+  _handleMajorHandleMousemove(e) {
+    this.options.majorHandleValue = this._calculateHandelPositions(e);
+    this.emit('coordinatesChanged', this.options);
+  }
+
+  _calculateHandelPositions(e) {
     const {
-      min, max, vertical, minorHandleValue,
-      majorHandleValue, isDouble, step,
+      min, vertical, step,
     } = this.options;
 
     const sliderCoords = vertical
@@ -106,42 +122,38 @@ class View {
     const length = vertical
       ? this.$domEl.height() : this.$domEl.width();
     const newPosition = page - sliderCoords;
-
-
     const shiftPercentage = (newPosition * 100) / length;
+
+    return (step * Math.round(shiftPercentage / this.offsetParameters.step) + min);
+  }
+
+  _handleSliderClick(e) {
+    const {
+      min, max, minorHandleValue,
+      majorHandleValue, isDouble,
+    } = this.options;
+
+    const positionSlider = this._calculateHandelPositions(e);
+
     const middle = (max - min) / 2;
-    const positionSlider = step * Math.round(shiftPercentage
-     / this.offsetParameters.step) + min;
 
-    if (placePressing === 'handle') {
-      this.options.minorHandleValue = positionSlider;
-      this.emit('coordinatesChanged', this.options);
-    }
-
-    if (placePressing === 'secondHandle') {
-      this.options.majorHandleValue = positionSlider;
-      this.emit('coordinatesChanged', this.options);
-    }
-
-    if (placePressing === 'slider') {
-      if (isDouble) {
-        if (positionSlider - min < middle) {
-          if (positionSlider < majorHandleValue) {
-            this.options.minorHandleValue = positionSlider;
-          }
-        } else {
-          // eslint-disable-next-line no-lonely-if
-          if (positionSlider > minorHandleValue) {
-            if (positionSlider <= max) {
-              this.options.majorHandleValue = positionSlider;
-            }
-          }
+    if (isDouble) {
+      if (positionSlider - min < middle) {
+        if (positionSlider < majorHandleValue) {
+          this.options.minorHandleValue = positionSlider;
         }
       } else {
-        this.options.minorHandleValue = positionSlider;
+        // eslint-disable-next-line no-lonely-if
+        if (positionSlider > minorHandleValue) {
+          if (positionSlider <= max) {
+            this.options.majorHandleValue = positionSlider;
+          }
+        }
       }
-      this.emit('coordinatesChanged', this.options);
+    } else {
+      this.options.minorHandleValue = positionSlider;
     }
+    this.emit('coordinatesChanged', this.options);
   }
 
   // eslint-disable-next-line class-methods-use-this

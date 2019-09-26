@@ -14,7 +14,8 @@ class Slider {
   _init() {
     this._addDomElements();
     this._addMVC();
-    this._addListeners();
+    this._subscribeEntities();
+    this.controller.changeParameters(this.options);
   }
 
   _addMVC() {
@@ -23,7 +24,7 @@ class Slider {
     this.controller = new Controller(this.$domEl);
   }
 
-  _addListeners() {
+  _subscribeEntities() {
     this.controller.on('parametersChanged', (data) => {
       this.model.normalizeInputData(data);
     });
@@ -36,14 +37,12 @@ class Slider {
       this.view.processEvent(data);
     });
     this.view.on('coordinatesChanged', (data) => {
-      this.controller.changedParameters(data);
+      this.controller.changeParameters(data);
     });
 
     this.on('setSettings', (data) => {
-      this.controller.changedParameters(data);
+      this.controller.changeParameters(data);
     });
-
-    this.controller.changedParameters(this.options);
   }
 
   _addDomElements() {
@@ -60,21 +59,12 @@ class Slider {
 
   changePluginSettings(obj) {
     this.sliderSetting[obj.propertyName] = obj.value;
-    this.emit('setSettings', this.sliderSetting);
-  }
-
-  getPluginSetting(obj) {
-    this.on('pluginStateChanged', (data) => {
-      obj(data);
-    });
+    this.controller.changeParameters(this.sliderSetting);
   }
 }
 
 EventEmitter(Slider.prototype);
 
-(($) => {
-  // eslint-disable-next-line no-param-reassign
-  $.fn.myFirstSliderPlugin = function initPlugin(options) {
-    return new Slider(this, options);
-  };
-})(jQuery, window);
+$.fn.myFirstSliderPlugin = function initPlugin(options) {
+  return new Slider(this, options);
+};

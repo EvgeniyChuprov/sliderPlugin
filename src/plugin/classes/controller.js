@@ -6,7 +6,7 @@ class Controller {
     this.$domEl = $this;
   }
 
-  changedParameters(options) {
+  changeParameters(options) {
     this.emit('parametersChanged', options);
   }
 
