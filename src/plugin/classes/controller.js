@@ -11,12 +11,11 @@ class Controller {
   }
 
   getOptions() {
-    return this.options;
+    return this.model.getOptions();
   }
 
   changeParameters(options) {
-    this.options = { ...this.options, ...options };
-    this.emit('parametersChanged', this.options);
+    this.emit('parametersChanged', options);
   }
 
   updateView(options) {
@@ -34,6 +33,7 @@ class Controller {
     });
     this.model.on('modelStateChanged', (data) => {
       this.emit('transferSettings', data);
+      this.options = data;
       this.updateView(data);
     });
     this.on('modelStateChanged', (data) => {

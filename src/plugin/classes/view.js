@@ -4,7 +4,7 @@ import EventEmitter from 'event-emitter';
 class View {
   constructor($this) {
     this.$domEl = $this;
-    this._addDomElements();
+    this._drawInitialSliderElements();
     this._findDOMElements();
     this._addEventListeners();
   }
@@ -15,7 +15,7 @@ class View {
     this._drawSlider();
   }
 
-  _addDomElements() {
+  _drawInitialSliderElements() {
     const initialSliderElements = $(`
       <div class="range-slider__handle js-range-slider__handle" >
         <span class = "range-slider__tool-handle js-range-slider__tool-handle" ></span>

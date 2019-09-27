@@ -13,6 +13,10 @@ class Model {
     this.emit('modelStateChanged', this.options);
   }
 
+  getOptions() {
+    return this.options;
+  }
+
   _addMissingValues(opt) {
     const {
       min, max, step, minorHandleValue,
@@ -20,7 +24,7 @@ class Model {
       isDouble,
     } = opt;
 
-    this.options = {
+    const defaultSettings = {
       min: 0,
       max: 100,
       step: 1,
@@ -30,6 +34,10 @@ class Model {
       tooltip: true,
       isDouble: true,
     };
+
+    if (typeof this.options === 'undefined') {
+      this.options = defaultSettings;
+    }
 
     if (typeof min === 'number') {
       this.options.min = min;
