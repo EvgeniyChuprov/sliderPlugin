@@ -9,17 +9,22 @@ class SettingsPanel {
   }
 
   showData(options) {
-    this.$min.val(options.min);
-    this.$max.val(options.max);
-    this.$step.val(options.step);
-    this.$minorHandleValue.val(options.minorHandleValue);
-    this.$minorHandleValue.attr('step', options.step);
-    this.$majorHandleValue.val(options.majorHandleValue);
-    this.$majorHandleValue.attr('step', options.step);
-    this.$tooltip.prop('checked', options.tooltip);
-    this.$vertical.prop('checked', options.vertical);
-    this.$isDouble.prop('checked', options.isDouble);
-    this._showMajorHandelInput(options.isDouble);
+    const {
+      min, max, step, minorHandleValue,
+      majorHandleValue, tooltip, vertical, isDouble,
+    } = options;
+
+    this.$min.val(min);
+    this.$max.val(max);
+    this.$step.val(step);
+    this.$minorHandleValue.val(minorHandleValue);
+    this.$minorHandleValue.attr('step', step);
+    this.$majorHandleValue.val(majorHandleValue);
+    this.$majorHandleValue.attr('step', step);
+    this.$tooltip.prop('checked', tooltip);
+    this.$vertical.prop('checked', vertical);
+    this.$isDouble.prop('checked', isDouble);
+    this._showMajorHandelInput(isDouble);
   }
 
   _initPanel() {
