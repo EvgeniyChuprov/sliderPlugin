@@ -8,7 +8,7 @@ class SettingsPanel {
     this._initPanel();
   }
 
-  showData(options) {
+  writeDataToPanelInputs(options) {
     const {
       min, max, step, minorHandleValue,
       majorHandleValue, tooltip, vertical, isDouble,
@@ -34,10 +34,10 @@ class SettingsPanel {
     this._findDOMElements();
 
     this.slider.on('pluginStateChanged', (data) => {
-      this.showData(data);
+      this.writeDataToPanelInputs(data);
     });
 
-    this.showData(this.slider.getPluginSettings());
+    this.writeDataToPanelInputs(this.slider.getPluginSettings());
     this._addEventListeners();
   }
 
