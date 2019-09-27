@@ -8,6 +8,20 @@ class SettingsPanel {
     this._initPanel();
   }
 
+  showData(options) {
+    this.$min.val(options.min);
+    this.$max.val(options.max);
+    this.$step.val(options.step);
+    this.$minorHandleValue.val(options.minorHandleValue);
+    this.$minorHandleValue.attr('step', options.step);
+    this.$majorHandleValue.val(options.majorHandleValue);
+    this.$majorHandleValue.attr('step', options.step);
+    this.$tooltip.prop('checked', options.tooltip);
+    this.$vertical.prop('checked', options.vertical);
+    this.$isDouble.prop('checked', options.isDouble);
+    this._showMajorHandelInput(options.isDouble);
+  }
+
   _initPanel() {
     const sliderState = this.$sliderInterface.find('.js-range-slider').data('options');
     this.slider = this.$sliderInterface.find('.js-range-slider').myFirstSliderPlugin(sliderState);
@@ -18,7 +32,7 @@ class SettingsPanel {
       this.showData(data);
     });
 
-    //this.showData(this.slider.sliderSetting);
+    this.showData(this.slider.getPluginSettings());
     this._addEventListeners();
   }
 
@@ -30,7 +44,7 @@ class SettingsPanel {
     this.$majorHandleValue = this.$sliderInterface.find('.js-slider__second-handle');
     this.$vertical = this.$sliderInterface.find('.js-slider__vertical');
     this.$tooltip = this.$sliderInterface.find('.js-slider__tooltip');
-    this.isDouble = this.$sliderInterface.find('.js-slider__is-double');
+    this.$isDouble = this.$sliderInterface.find('.js-slider__is-double');
     this.$plugin = this.$sliderInterface.find('.js-range-slider');
     this.$sliderText = this.$sliderInterface.find('.js-slider__text');
   }
@@ -64,25 +78,11 @@ class SettingsPanel {
       this.slider.changePluginSettings({ tooltip: this.$tooltip.is(':checked') });
     });
 
-    this.isDouble.change(() => {
-      this.slider.changePluginSettings({ isDouble: this.isDouble.is(':checked') });
+    this.$isDouble.change(() => {
+      this.slider.changePluginSettings({ isDouble: this.$isDouble.is(':checked') });
 
-      this._showMajorHandelInput(this.isDouble.is(':checked'));
+      this._showMajorHandelInput(this.$isDouble.is(':checked'));
     });
-  }
-
-  showData(options) {
-    this.$min.val(options.min);
-    this.$max.val(options.max);
-    this.$step.val(options.step);
-    this.$minorHandleValue.val(options.minorHandleValue);
-    this.$minorHandleValue.attr('step', options.step);
-    this.$majorHandleValue.val(options.majorHandleValue);
-    this.$majorHandleValue.attr('step', options.step);
-    this.$tooltip.prop('checked', options.tooltip);
-    this.$vertical.prop('checked', options.vertical);
-    this.isDouble.prop('checked', options.isDouble);
-    this._showMajorHandelInput(options.isDouble);
   }
 
   _showMajorHandelInput(isDouble) {

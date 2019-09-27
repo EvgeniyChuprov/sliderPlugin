@@ -10,6 +10,19 @@ class Controller {
     this._subscribeEntities();
   }
 
+  getOptions() {
+    return this.options;
+  }
+
+  changeParameters(options) {
+    this.options = { ...this.options, ...options };
+    this.emit('parametersChanged', this.options);
+  }
+
+  updateView(options) {
+    this.emit('modelStateChanged', options);
+  }
+
   _initMVC() {
     this.model = new Model();
     this.view = new View(this.$domEl);
@@ -20,7 +33,7 @@ class Controller {
       this.model.setOptions(data);
     });
     this.model.on('modelStateChanged', (data) => {
-      this.emit('transferSettings', data);  // передает настройки из модели в класс слайдер
+      this.emit('transferSettings', data);
       this.updateView(data);
     });
     this.on('modelStateChanged', (data) => {
@@ -29,15 +42,6 @@ class Controller {
     this.view.on('coordinatesChanged', (data) => {
       this.changeParameters(data);
     });
-  }
-
-  changeParameters(options) {
-    this.options = { ...this.options, ...options }; // проверяет пришел полный объект опций или только часть передает в модель
-    this.emit('parametersChanged', this.options);
-  }
-
-  updateView(options) {
-    this.emit('modelStateChanged', options);
   }
 }
 

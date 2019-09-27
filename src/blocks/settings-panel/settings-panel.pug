@@ -4,14 +4,14 @@ mixin settings-panel(options)
 
   .settings-panel.js-settings-panel
     form.settings-panel__form
-      .settings-panel__block.settings-panel__block_top
+      .settings-panel__block.settings-panel__block_positions_top
         span.settings-panel__text Tooltip:
         input.js-slider__tooltip(type="checkbox") 
         span.settings-panel__text Two handles:
         input.js-slider__is-double(type="checkbox")
         span.settings-panel__text Vertical:
         input.js-slider__vertical(type="checkbox")
-      .settings-panel__block.settings-panel__block_bottom 
+      .settings-panel__block.settings-panel__block_position_bottom
         span.settings-panel__text Min:
         input.settings-panel__min.js-slider__min(type="number" value="")
         span.settings-panel__text Max:

@@ -4,34 +4,39 @@ import EventEmitter from 'event-emitter';
 class View {
   constructor($this) {
     this.$domEl = $this;
+    this._addDomElements();
     this._findDOMElements();
     this._addEventListeners();
   }
 
   displayView(options) {
     this.options = options;
-    this._initCalculateSliderParameters();
+    this._convertPositionsToPercent();
     this._drawSlider();
   }
-  // calculateHandlePositions()
 
-  _initCalculateSliderParameters() {
+  _addDomElements() {
+    const initialSliderElements = $(`
+      <div class="range-slider__handle js-range-slider__handle" >
+        <span class = "range-slider__tool-handle js-range-slider__tool-handle" ></span>
+      </div>
+      <div class="range-slider__second-handle js-range-slider__second-handle" >
+        <span class = "range-slider__tool-second-handle js-range-slider__tool-second-handle" ></span>
+      </div>
+    `);
+    this.$domEl.append(initialSliderElements);
+  }
+
+  _convertPositionsToPercent() {
     const {
       min, max, majorHandleValue,
       minorHandleValue,
     } = this.options;
 
-    const minPoint = ((minorHandleValue - min) * 100)
-    / (max - min);
-    const maxPoint = ((majorHandleValue - min) * 100)
-    / (max - this.options.min);
-    const step = 100 / ((max - min)
-    / this.options.step);
-
     this.offsetParameters = {
-      minPoint,
-      maxPoint,
-      step,
+      minPoint: ((minorHandleValue - min) * 100) / (max - min),
+      maxPoint: ((majorHandleValue - min) * 100) / (max - this.options.min),
+      step: 100 / ((max - min) / this.options.step),
     };
   }
 
@@ -95,7 +100,7 @@ class View {
   }
 
   _handleMinorHandleMousemove(e) {
-    this.options.minorHandleValue = this._calculateHandlePositions(e);
+    this.options.minorHandleValue = this._calculateHandleShift(e);
     this.emit('coordinatesChanged', this.options);
   }
 
@@ -107,12 +112,11 @@ class View {
   }
 
   _handleMajorHandleMousemove(e) {
-    this.options.majorHandleValue = this._calculateHandlePositions(e);
+    this.options.majorHandleValue = this._calculateHandleShift(e);
     this.emit('coordinatesChanged', this.options);
   }
-//calculateHandleShift
 
-  _calculateHandlePositions(e) {
+  _calculateHandleShift(e) {
     const {
       min, vertical, step,
     } = this.options;
@@ -134,7 +138,7 @@ class View {
       majorHandleValue, isDouble,
     } = this.options;
 
-    const positionSlider = this._calculateHandlePositions(e);
+    const positionSlider = this._calculateHandleShift(e);
 
     const middle = (max - min) / 2;
 
