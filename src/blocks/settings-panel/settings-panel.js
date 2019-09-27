@@ -4,7 +4,7 @@ import myFirstSliderPlugin from '../../plugin/jquery.myFirstSliderPlugin';
 
 class SettingsPanel {
   constructor($element) {
-    this.$sliderInterface = $element;
+    this.$settingsPanel = $element;
     this._initPanel();
   }
 
@@ -28,10 +28,11 @@ class SettingsPanel {
   }
 
   _initPanel() {
-    const sliderState = this.$sliderInterface.find('.js-range-slider').data('options');
-    this.slider = this.$sliderInterface.find('.js-range-slider').myFirstSliderPlugin(sliderState);
-
     this._findDOMElements();
+
+    const sliderState = this.$plugin.data('options');
+
+    this.slider = this.$plugin.myFirstSliderPlugin(sliderState);
 
     this.slider.on('pluginStateChanged', (data) => {
       this.writeDataToPanelInputs(data);
@@ -42,16 +43,16 @@ class SettingsPanel {
   }
 
   _findDOMElements() {
-    this.$min = this.$sliderInterface.find('.js-slider__min');
-    this.$max = this.$sliderInterface.find('.js-slider__max');
-    this.$step = this.$sliderInterface.find('.js-slider__step');
-    this.$minorHandleValue = this.$sliderInterface.find('.js-slider__handle');
-    this.$majorHandleValue = this.$sliderInterface.find('.js-slider__second-handle');
-    this.$vertical = this.$sliderInterface.find('.js-slider__vertical');
-    this.$tooltip = this.$sliderInterface.find('.js-slider__tooltip');
-    this.$isDouble = this.$sliderInterface.find('.js-slider__is-double');
-    this.$plugin = this.$sliderInterface.find('.js-range-slider');
-    this.$sliderText = this.$sliderInterface.find('.js-slider__text');
+    this.$min = this.$settingsPanel.find('.js-slider__min');
+    this.$max = this.$settingsPanel.find('.js-slider__max');
+    this.$step = this.$settingsPanel.find('.js-slider__step');
+    this.$minorHandleValue = this.$settingsPanel.find('.js-slider__handle');
+    this.$majorHandleValue = this.$settingsPanel.find('.js-slider__second-handle');
+    this.$vertical = this.$settingsPanel.find('.js-slider__vertical');
+    this.$tooltip = this.$settingsPanel.find('.js-slider__tooltip');
+    this.$isDouble = this.$settingsPanel.find('.js-slider__is-double');
+    this.$plugin = this.$settingsPanel.find('.js-range-slider');
+    this.$sliderText = this.$settingsPanel.find('.js-slider__text');
   }
 
   _addEventListeners() {
