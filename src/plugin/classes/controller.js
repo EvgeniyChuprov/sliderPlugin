@@ -15,11 +15,11 @@ class Controller {
   }
 
   changeParameters(options) {
-    this.emit('parametersChanged', options);
+    this.model.setOptions(options);
   }
 
   updateView(options) {
-    this.emit('modelStateChanged', options);
+    this.view.displayView(options);
   }
 
   _initMVC() {
