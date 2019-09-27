@@ -28,16 +28,11 @@ class Controller {
   }
 
   _subscribeEntities() {
-    this.on('parametersChanged', (data) => {
-      this.model.setOptions(data);
-    });
     this.model.on('modelStateChanged', (data) => {
       this.emit('transferSettings', data);
       this.updateView(data);
     });
-    this.on('modelStateChanged', (data) => {
-      this.view.displayView(data);
-    });
+
     this.view.on('coordinatesChanged', (data) => {
       this.changeParameters(data);
     });
