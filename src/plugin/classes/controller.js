@@ -33,7 +33,6 @@ class Controller {
     });
     this.model.on('modelStateChanged', (data) => {
       this.emit('transferSettings', data);
-      this.options = data;
       this.updateView(data);
     });
     this.on('modelStateChanged', (data) => {
