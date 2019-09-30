@@ -1,6 +1,5 @@
 /* eslint-disable no-underscore-dangle */
 import assert from 'assert';
-import sinon from 'sinon';
 import Model from '../src/plugin/classes/model';
 
 describe('Доступ к параметрам класса Model', () => {
@@ -18,10 +17,6 @@ describe('Доступ к параметрам класса Model', () => {
     update: null,
   };
 
-  const _normalizeInputData = sinon.spy(model, '_normalizeInputData');
-  const _calculateCoordinates = sinon.spy(model, '_calculateCoordinates');
-  const notifySubscribers = sinon.spy(model, 'notifySubscribers');
-
   it('Проверка получения параметров по умолчанию', () => {
     const emptyObj = {};
     assert.equal(typeof model.options === 'undefined', true);
@@ -34,22 +29,6 @@ describe('Доступ к параметрам класса Model', () => {
     model._addMissingValues(externalOptions);
     assert.equal(model.options.min, 30);
     assert.equal(model.options.tooltip, true);
-  });
-
-  it('Проверка вызова _normalizeInputData в методе processEvent', () => {
-    model.processEvent('parametersChanged', 1);
-    assert(_normalizeInputData.called);
-  });
-
-  it('Проверка вызова _calculateCoordinates в методе processEvent', () => {
-    model.options.onChange = x => x;
-    model.processEvent('coordinatesChanged', 1, 2);
-    assert(_calculateCoordinates.called);
-  });
-
-  it('Проверка вызова notifySubscribers в методе _normalizeInputData', () => {
-    model._normalizeInputData(externalOptions);
-    assert(notifySubscribers.called);
   });
 
   it('Проверка измения минимума', () => {
@@ -90,15 +69,30 @@ describe('Доступ к параметрам класса Model', () => {
 
   it('Проверка изменения меньшего ползунка', () => {
     model._addMissingValues(externalOptions);
+
     model.options.isDouble = true;
-    model.options.minorHandleValue = model.options.majorHandleValue + 1;
+
+    model.options.minorHandleValue = 40;
+    model.options.step = 5;
+    model.options.minorHandleValue += 3;
     model._validateMinorHandleValue();
-    assert.equal(model.options.minorHandleValue
-      === model.options.majorHandleValue - model.options.step, true);
+
+    assert.equal(model.options.minorHandleValue === 45, true);
+
     model.options.minorHandleValue = model.options.min - 1;
     model._validateMinorHandleValue();
+
     assert.equal(model.options.minorHandleValue === model.options.min, true);
+
     model.options.isDouble = false;
+
+    model.options.minorHandleValue = 40;
+    model.options.step = 5;
+    model.options.minorHandleValue += 3;
+    model._validateMinorHandleValue();
+
+    assert.equal(model.options.minorHandleValue === 45, true);
+
     model.options.minorHandleValue = model.options.max + 1;
     model._validateMinorHandleValue();
     assert.equal(model.options.minorHandleValue === model.options.max, true);
@@ -106,74 +100,28 @@ describe('Доступ к параметрам класса Model', () => {
 
   it('Проверка изменения большего ползунка', () => {
     model._addMissingValues(externalOptions);
+
     model.options.isDouble = true;
+
+    model.options.majorHandleValue = 70;
+    model.options.step = 5;
+    model.options.majorHandleValue -= 3;
+    model._validateMajorHandleValue();
+
+    assert.equal(model.options.majorHandleValue === 65, true);
+
     model.options.majorHandleValue = model.options.minorHandleValue - 1;
     model._validateMajorHandleValue();
+
     assert.equal(model.options.minorHandleValue
        === model.options.majorHandleValue - model.options.step, true);
+
     model.options.majorHandleValue = model.options.max + 1;
     model._validateMajorHandleValue();
     assert.equal(model.options.majorHandleValue === model.options.max, true);
-  });
 
-  it('Проверка получения констант', () => {
-    model._addMissingValues(externalOptions);
-    const minPoint = ((model.options.minorHandleValue - model.options.min) * 100)
-    / (model.options.max - model.options.min);
-    const maxPoint = ((model.options.majorHandleValue - model.options.min) * 100)
-    / (model.options.max - model.options.min);
-    const step = 100 / ((model.options.max - model.options.min)
-    / model.options.step);
-    model._calculateSliderParameters();
-    assert.equal(model._calculateSliderParameters().minPoint, minPoint);
-    assert.equal(model._calculateSliderParameters().maxPoint, maxPoint);
-    assert.equal(model._calculateSliderParameters().step, step);
-  });
-
-  it('Проверка расчета перемещения по клику', () => {
-    model._addMissingValues(externalOptions);
-    model.options.onChange = x => x;
-    const position = 2;
-    const length = 10;
-    const shiftPercentage = (position * 100) / length;
-    const middle = (model.options.max - model.options.min) / 2;
-    const positionSlider = model.options.step * Math.round(shiftPercentage
-     / model._calculateSliderParameters().step) + model.options.min;
-
-    const moveMinorHandle = null;
-    model.options.isDouble = true;
-    model._calculateCoordinates(position, length, moveMinorHandle);
-    if (positionSlider - model.options.min < middle) {
-      assert.equal(model.options.minorHandleValue, positionSlider);
-    } else {
-      assert.equal(model.options.majorHandleValue, positionSlider);
-    }
     model.options.isDouble = false;
-    model._calculateCoordinates(position, length, moveMinorHandle);
-    assert.equal(model.options.minorHandleValue, positionSlider);
-  });
-
-  it('Проверка расчета перетаскивания ползунка', () => {
-    model._addMissingValues(externalOptions);
-    model.options.onChange = x => x;
-    const position = 10;
-    const length = 20;
-    const shiftPercentage = (position * 100) / length;
-    const value = model.options.step * Math.round(shiftPercentage
-    / model._calculateSliderParameters().step) + model.options.min;
-    let moveMinorHandle = true;
-    model._calculateCoordinates(position, length, moveMinorHandle);
-    if (value >= model.options.min
-      && value <= model.options.majorHandleValue - model.options.step) {
-      assert.equal(model.options.minorHandleValue, value);
-    }
-    assert.equal(model.options.minorHandleValue, value);
-
-    moveMinorHandle = false;
-    model._calculateCoordinates(position, length, moveMinorHandle);
-    if (value >= model.options.max
-      && value >= model.options.minorHandleValue + model.options.step) {
-      assert.equal(model.options.majorHandleValue, value);
-    }
+    model._validateMajorHandleValue();
+    model.options.majorHandleValue = model.options.max;
   });
 });

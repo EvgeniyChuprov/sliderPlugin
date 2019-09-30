@@ -162,9 +162,7 @@ class Model {
     if (minorHandleValue > majorHandleValue - step) {
       majorHandleValue = minorHandleValue + step;
     }
-    if (majorHandleValue <= minorHandleValue) {
-      majorHandleValue = minorHandleValue + step;
-    }
+
     if (majorHandleValue > max) {
       majorHandleValue = max;
     }
