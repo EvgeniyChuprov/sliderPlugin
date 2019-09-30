@@ -4,17 +4,6 @@ import sinon from 'sinon';
 import View from '../src/plugin/classes/view';
 
 describe('Доступ к параметрам класса View', () => {
-  const options = {
-    min: 0,
-    max: 100,
-    step: 1,
-    minorHandleValue: 10,
-    majorHandleValue: 90,
-    vertical: false,
-    tooltip: true,
-    isDouble: true,
-  };
-
   const create = $(`<div class="range-slider js-range-slider"><div class="range-slider__handle js-range-slider__handle" >
   <span class = "range-slider__tool-handle js-range-slider__tool-handle" ></span></div>
   <div class="range-slider__second-handle js-range-slider__second-handle" >
@@ -23,58 +12,57 @@ describe('Доступ к параметрам класса View', () => {
   const $domEl = $dom.find('.js-range-slider');
   const view = new View($domEl);
 
-  view.options = options;
-
-  const _drawSlider = sinon.spy(view, '_drawSlider');
   const _handleSliderClick = sinon.spy(view, '_handleSliderClick');
   const _handleMinorHandleMousedown = sinon.spy(view, '_handleMinorHandleMousedown');
   const _handleSliderMouseup = sinon.spy(view, '_handleSliderMouseup');
+  const _handleMajorHandleMousedown = sinon.spy(view, '_handleMajorHandleMousedown');
+  const _handleMinorHandleMousemove = sinon.spy(view, '_handleMinorHandleMousemove');
+  const _handleMajorHandleMousemove = sinon.spy(view, '_handleMajorHandleMousemove');
 
-  it('Присвоение позункам css значения', () => {
-    view._convertPositionsToPercent();
-    view.options.vertical = true;
+  it('Значения до вызова displayView', () => {
     assert.equal(view.$minorHandleValue.css('top'), 'auto');
-    view._drawSlider();
-    assert.equal(view.$minorHandleValue.css('top'), `${view.offsetParameters.minPoint}%`);
-
-    view.options.vertical = true;
-    view._drawSlider();
-    assert.equal(view.$minorHandleValue.css('top'), `${view.offsetParameters.minPoint}%`);
-    view.options.vertical = false;
-    view._drawSlider();
-    assert.equal(view.$minorHandleValue.css('left'), `${view.offsetParameters.minPoint}%`);
-  });
-
-  it('Отображение тултипов', () => {
-    view.options.tooltip = true;
-    view._drawSlider();
+    assert.equal(view.$minorHandleValue.css('left'), 'auto');
     assert.equal(view.$toolMin.css('visibility'), 'visible');
-    view.options.tooltip = false;
-    view._drawSlider();
-    assert.equal(view.$toolMin.css('visibility'), 'hidden');
-  });
-
-  it('Отображение двух слайдеров', () => {
-    view.options.isDouble = true;
-    view._drawSlider();
     assert.equal(view.$majorHandleValue.css('display'), 'block');
-    view.options.isDouble = false;
-    view._drawSlider();
-    assert.equal(view.$majorHandleValue.css('display'), 'none');
-  });
-
-  it('Позиционирование слайдера', () => {
-    view.options.vertical = true;
-    view._drawSlider();
-    assert.equal(view.$minorHandleValue.hasClass('range-slider__handle_vertical'), true);
-    view.options.vertical = false;
-    view._drawSlider();
     assert.equal(view.$minorHandleValue.hasClass('range-slider__handle_vertical'), false);
   });
 
-  it('Проверка вызова _drawSlider в методе displayView', () => {
+  it('Значения css добавление классов после вызова displayView', () => {
+    const options = {
+      min: 0,
+      max: 100,
+      step: 1,
+      minorHandleValue: 10,
+      majorHandleValue: 90,
+      vertical: true,
+      tooltip: true,
+      isDouble: true,
+    };
+
     view.displayView(options);
-    assert(_drawSlider.called);
+    assert.equal(view.$minorHandleValue.css('top'), `${view.offsetParameters.minPoint}%`);
+    assert.equal(view.$minorHandleValue.css('left'), `${-10}px`);
+    assert.equal(view.$toolMin.css('visibility'), 'visible');
+    assert.equal(view.$majorHandleValue.css('display'), 'block');
+    assert.equal(view.$minorHandleValue.hasClass('range-slider__handle_vertical'), true);
+
+    const opt = {
+      min: 10,
+      max: 50,
+      step: 10,
+      minorHandleValue: 10,
+      majorHandleValue: 30,
+      vertical: false,
+      tooltip: false,
+      isDouble: false,
+    };
+
+    view.displayView(opt);
+    assert.equal(view.$minorHandleValue.css('left'), `${view.offsetParameters.minPoint}%`);
+    assert.equal(view.$minorHandleValue.css('top'), `${-10}px`);
+    assert.equal(view.$toolMin.css('visibility'), 'hidden');
+    assert.equal(view.$majorHandleValue.css('display'), 'none');
+    assert.equal(view.$minorHandleValue.hasClass('range-slider__handle_vertical'), false);
   });
 
   it('Проверка вызова _handleSliderClick в методе _calculateHandleShift', () => {
@@ -83,10 +71,28 @@ describe('Доступ к параметрам класса View', () => {
     assert(_handleSliderClick.called);
   });
 
-  it('Проверка вызова _handleMinorHandleMousedown в методе _addEventListeners', () => {
+  it('Проверка вызова _handleMinorHandleMousemove в методе _addEventListeners', () => {
     view._addEventListeners();
     view.$minorHandleValue.trigger('mousedown');
     assert(_handleMinorHandleMousedown.called);
+  });
+
+  it('Проверка вызова _handleMinorHandleMousemove в методе _handleMinorHandleMousemove', () => {
+    view._handleMinorHandleMousemove({});
+    $(document).trigger('mousemove');
+    assert(_handleMinorHandleMousemove.called);
+  });
+
+  it('Проверка вызова _handleMajorHandleMousedown в методе _addEventListeners', () => {
+    view._addEventListeners();
+    view.$majorHandleValue.trigger('mousedown');
+    assert(_handleMajorHandleMousedown.called);
+  });
+
+  it('Проверка вызова _handleMajorHandleMousemove в методе _handleMajorHandleMousemove', () => {
+    view._handleMajorHandleMousemove({});
+    $(document).trigger('mousemove');
+    assert(_handleMajorHandleMousemove.called);
   });
 
   it('Проверка вызова _handleSliderMouseup в методе _handleMinorHandleMousedown', () => {

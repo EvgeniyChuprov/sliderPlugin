@@ -1,14 +1,15 @@
 /* eslint no-underscore-dangle: ["error", { "allowAfterThis": true }] */
+/* eslint-disable no-restricted-globals */
 import EventEmitter from 'event-emitter';
 
 class Model {
   setOptions(opt) {
     this._addMissingValues(opt);
-    this._validateMinorHandleValue();
-    this._validateMajorHandleValue();
+    this._validateStepValue();
     this._validateMinimumValue();
     this._validateMaximumValue();
-    this._validateStepValue();
+    this._validateMinorHandleValue();
+    this._validateMajorHandleValue();
 
     this.emit('modelStateChanged', this.options);
   }
@@ -39,19 +40,20 @@ class Model {
       this.options = defaultSettings;
     }
 
-    if (typeof min === 'number') {
+    if (typeof min === 'number' && !isNaN(min)) {
       this.options.min = min;
     }
-    if (typeof max === 'number') {
+    if (typeof max === 'number' && !isNaN(max)) {
       this.options.max = max;
     }
-    if (typeof step === 'number') {
+    if (typeof step === 'number' && !isNaN(step)) {
       this.options.step = step;
     }
-    if (typeof minorHandleValue === 'number') {
+    if (typeof minorHandleValue === 'number' && !isNaN(minorHandleValue)) {
       this.options.minorHandleValue = minorHandleValue;
     }
-    if (typeof majorHandleValue === 'number') {
+
+    if (!isNaN(majorHandleValue) && typeof majorHandleValue === 'number') {
       this.options.majorHandleValue = majorHandleValue;
     }
     if (typeof vertical === 'boolean') {
@@ -71,8 +73,9 @@ class Model {
     } = this.options;
 
     if (min > minorHandleValue) {
-      this.options.min = minorHandleValue;
+      this.options.minorHandleValue = min;
     }
+
     if (min >= max) {
       this.options.min = max - step;
     }
@@ -86,12 +89,12 @@ class Model {
 
     if (isDouble) {
       if (max < majorHandleValue) {
-        this.options.max = majorHandleValue;
+        this.options.majorHandleValue = max;
       }
     }
 
     if (max < minorHandleValue) {
-      this.options.max = minorHandleValue;
+      this.options.minorHandleValue = max;
     }
     if (min >= max) {
       this.options.max = min + step;
@@ -109,7 +112,7 @@ class Model {
       min, max, step,
     } = this.options;
 
-    return step <= 0 || step > (max - min);
+    return step < 1 || step > (max - min);
   }
 
   _validateMinorHandleValue() {
