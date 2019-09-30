@@ -1,4 +1,3 @@
-/* eslint no-underscore-dangle: ["error", { "allowAfterThis": true }] */
 import EventEmitter from 'event-emitter';
 import Model from './model';
 import View from './view';

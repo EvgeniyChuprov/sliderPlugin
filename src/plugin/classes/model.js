@@ -1,5 +1,3 @@
-/* eslint no-underscore-dangle: ["error", { "allowAfterThis": true }] */
-/* eslint-disable no-restricted-globals */
 import EventEmitter from 'event-emitter';
 
 class Model {

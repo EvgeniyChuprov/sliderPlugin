@@ -1,4 +1,3 @@
-/* eslint no-underscore-dangle: ["error", { "allowAfterThis": true }] */
 import EventEmitter from 'event-emitter';
 
 class View {
@@ -161,7 +160,6 @@ class View {
     this.emit('coordinatesChanged', this.options);
   }
 
-  // eslint-disable-next-line class-methods-use-this
   _handleSliderMouseup() {
     $(document).unbind('mousemove');
   }

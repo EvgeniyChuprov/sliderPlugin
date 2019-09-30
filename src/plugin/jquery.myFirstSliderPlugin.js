@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import EventEmitter from 'event-emitter';
 import Controller from './classes/controller';
 

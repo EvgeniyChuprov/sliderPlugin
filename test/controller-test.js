@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import assert from 'assert';
 import sinon from 'sinon';
 import Controller from '../src/plugin/classes/controller';

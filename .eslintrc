@@ -1,5 +1,13 @@
 {
   "extends": "airbnb/base",
+  "rules": {
+    "no-underscore-dangle": "off",
+    "no-new": "off",
+    "no-undef": "off",
+    "no-unused-vars": "off",
+    "class-methods-use-this": "off",
+    "no-restricted-globals": "off"
+  },
   "env": {
     "browser": true,
     "es6": true,

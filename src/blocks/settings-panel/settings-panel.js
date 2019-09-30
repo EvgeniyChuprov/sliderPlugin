@@ -1,5 +1,3 @@
-/* eslint no-underscore-dangle: ["error", { "allowAfterThis": true }] */
-// eslint-disable-next-line no-unused-vars
 import myFirstSliderPlugin from '../../plugin/jquery.myFirstSliderPlugin';
 
 class SettingsPanel {
